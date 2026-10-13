@@ -1,20 +1,28 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
   <title>Book — Court 822</title>
 
   <link rel="icon" href="logo.svg">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 
 <body>
+
   <div class="announcement">
-    COURT 822 • 4 COURTS • UP TO 40 OPEN-PLAY PLAYERS
+    PUBLIC BOOKING · COURT 822
   </div>
 
   <header class="navbar">
+
     <a class="brand" href="index.html">
       <img src="logo.svg" alt="Court 822 logo">
 
@@ -30,128 +38,175 @@
     </nav>
 
     <div class="nav-actions">
-      <a class="btn secondary" href="owner.html">Owner access</a>
+      <a class="btn secondary" href="owner.html">
+        Owner access
+      </a>
     </div>
+
   </header>
 
-  <main class="booking-page container">
-    <section>
-      <div class="section-title">
-        <div>
-          <span class="eyebrow">COURT 822 BOOKING</span>
-          <h1>Choose your schedule.</h1>
-        </div>
+  <main class="container page-space">
 
-        <span id="connectionStatus" class="badge">Loading...</span>
+    <div class="page-heading">
+      <div>
+        <h1>Book a schedule</h1>
+
+        <p>
+          Select a date to see the owner’s latest
+          availability and rates.
+        </p>
       </div>
 
-      <div id="dateList" class="date-list"></div>
+      <span id="connectionStatus" class="badge">
+        Loading…
+      </span>
+    </div>
 
-      <div id="regularBooking" class="booking-section hidden">
-        <h2>Available court schedules</h2>
-        <p>Select your preferred time. A court will be assigned automatically.</p>
+    <div class="booking-layout">
 
-        <div id="slotList" class="slot-list"></div>
-      </div>
+      <section class="card panel">
 
-      <div id="openPlayBox" class="card open-play-box hidden">
-        <span class="eyebrow">OPEN PLAY</span>
-        <h2>Join Open Play</h2>
+        <h2>1. Choose a date</h2>
 
-        <p id="openPlayText"></p>
+        <div id="dateList" class="date-grid"></div>
 
-        <div class="progress-track">
-          <div id="openProgress" class="progress-bar"></div>
+        <div id="regularBooking">
+          <h2>2. Choose a time</h2>
+
+          <div
+            id="slotList"
+            class="slot-grid"
+          ></div>
         </div>
 
-        <p id="openCapacity"></p>
+        <div
+          id="openPlayBox"
+          class="mode-box open hidden"
+        >
+          <h2>Open Play Only</h2>
 
-        <ul>
-          <li>Maximum of 40 players</li>
-          <li>Four available pickleball courts</li>
-          <li>Players are randomized fairly by the owner</li>
-          <li>Everyone rotates so all players can play</li>
-        </ul>
-      </div>
+          <p id="openPlayText"></p>
 
-      <div id="closedBox" class="card closed-box hidden">
-        <h2>Court closed</h2>
-        <p>This date is currently unavailable for booking.</p>
-      </div>
-    </section>
+          <div class="progress">
+            <i id="openProgress"></i>
+          </div>
 
-    <aside class="card panel summary">
-      <div class="venue">
-        <img src="logo.svg" alt="Court 822 logo">
-
-        <div>
-          <h2>Court 822</h2>
-          <small>Public booking</small>
-        </div>
-      </div>
-
-      <dl>
-        <div>
-          <dt>Date</dt>
-          <dd id="summaryDate">—</dd>
+          <strong id="openCapacity"></strong>
         </div>
 
-        <div>
-          <dt>Schedule</dt>
-          <dd id="summaryTime">—</dd>
+        <div
+          id="closedBox"
+          class="mode-box closed hidden"
+        >
+          <h2>Court closed</h2>
+
+          <p>Please choose a different date.</p>
         </div>
 
-        <div>
-          <dt>Booking type</dt>
-          <dd id="summaryType">—</dd>
+      </section>
+
+      <aside class="card panel summary">
+
+        <div class="venue">
+          <img src="logo.svg" alt="Court 822 logo">
+
+          <div>
+            <h2>Court 822</h2>
+            <small>Public booking</small>
+          </div>
         </div>
 
-        <div>
-          <dt>Capacity</dt>
-          <dd id="summaryCapacity">—</dd>
+        <dl>
+          <div>
+            <dt>Date</dt>
+            <dd id="summaryDate">—</dd>
+          </div>
+
+          <div>
+            <dt>Schedule</dt>
+            <dd id="summaryTime">—</dd>
+          </div>
+
+          <div>
+            <dt>Booking type</dt>
+            <dd id="summaryType">—</dd>
+          </div>
+
+          <div>
+            <dt>Capacity</dt>
+            <dd id="summaryCapacity">—</dd>
+          </div>
+        </dl>
+
+        <div class="summary-total">
+          <span>Total</span>
+          <b id="summaryPrice">—</b>
         </div>
-      </dl>
 
-      <div class="summary-total">
-        <span>Total</span>
-        <b id="summaryPrice">—</b>
-      </div>
+        <button
+          id="continueButton"
+          class="btn full"
+          type="button"
+          disabled
+        >
+          Continue
+        </button>
 
-      <button id="continueButton" class="btn full" disabled>
-        Continue
-      </button>
+        <p class="helper">
+          Bookings are initially marked Unpaid.
+          The owner confirms payment from the
+          private dashboard.
+        </p>
 
-      <p class="helper">
-        Bookings are initially marked Unpaid. The owner confirms payment
-        from the private dashboard.
-      </p>
-    </aside>
+      </aside>
+
+    </div>
   </main>
 
-  <div id="bookingModal" class="modal hidden">
-    <div class="modal-card card">
-      <button id="closeModal" class="close-button" type="button">×</button>
+  <div
+    id="bookingModal"
+    class="modal hidden"
+  >
 
-      <span class="eyebrow">COMPLETE BOOKING</span>
-      <h2 id="modalTitle">Complete your booking</h2>
+    <div class="modal-card">
+
+      <button
+        id="closeModal"
+        class="modal-close"
+        type="button"
+        aria-label="Close booking window"
+        onclick="document.getElementById('bookingModal').classList.add('hidden')"
+      >
+        ×
+      </button>
+
+      <h2 id="modalTitle">
+        Complete booking
+      </h2>
+
       <p id="modalSchedule"></p>
 
       <form id="bookingForm">
+
         <label>
           Full name
+
           <input
             id="customerName"
             type="text"
-            placeholder="Enter your full name"
+            maxlength="80"
             required
           >
         </label>
 
         <label>
           Mobile number
+
           <input
             id="customerPhone"
             type="tel"
+            maxlength="20"
+            inputmode="tel"
             placeholder="09XXXXXXXXX"
             required
           >
@@ -159,32 +214,35 @@
 
         <label id="playerCountLabel">
           Number of players
+
           <input
             id="playerCount"
             type="number"
             min="1"
             max="4"
-            value="1"
+            value="4"
+            required
           >
         </label>
 
-        <button class="btn full" type="submit">
+        <button
+          class="btn full"
+          type="submit"
+        >
           Submit booking
         </button>
+
       </form>
     </div>
   </div>
 
-  <div id="toast" class="toast hidden"></div>
-
-  <footer>
-    © 2026 Court 822 Pickleball
-  </footer>
+  <div id="toast" class="toast"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="config.js"></script>
-  <script src="supabase-client.js"></script>
-  <script src="site.js"></script>
-  <script src="booking.js"></script>
+  <script src="config.js?v=3"></script>
+  <script src="supabase-client.js?v=3"></script>
+  <script src="site.js?v=3"></script>
+  <script src="booking.js?v=3"></script>
+
 </body>
 </html>
