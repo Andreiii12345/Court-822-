@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Court 822 Pickleball">
+  <circle cx="100" cy="100" r="94" fill="#fffaf3" stroke="#19352b" stroke-width="7"/>
+  <circle cx="100" cy="100" r="84" fill="none" stroke="#b9915e" stroke-width="3"/>
+  <path d="M48 51h104v54H48zM100 51v54M48 78h104" fill="none" stroke="#19352b" stroke-width="4"/>
+  <circle cx="123" cy="59" r="11" fill="#b9915e"/>
+  <text x="100" y="132" text-anchor="middle" font-family="Georgia,serif" font-size="20" letter-spacing="6" fill="#19352b">COURT</text>
+  <text x="100" y="163" text-anchor="middle" font-family="Georgia,serif" font-size="34" letter-spacing="8" fill="#b9915e">822</text>
+  <text x="100" y="180" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" letter-spacing="4" fill="#19352b">PICKLEBALL</text>
+</svg>
