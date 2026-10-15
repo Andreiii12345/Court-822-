@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1254" height="1254" viewBox="0 0 1254 1254" role="img" aria-labelledby="title desc">
+  <title id="title">Court 822 Pickleball</title>
+  <desc id="desc">Round cream, black, and warm gold pickleball club logo, established 2026.</desc>
+  <rect width="1254" height="1254" fill="#faf7f2"/>
+  <circle cx="627" cy="610" r="565" fill="none" stroke="#17231e" stroke-width="10"/>
+  <circle cx="627" cy="610" r="535" fill="none" stroke="#a98a61" stroke-width="4"/>
+  <!-- Court -->
+  <g fill="none" stroke="#17231e" stroke-width="5" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M299 269 H519 M686 269 H954 V559 H299 V269"/>
+    <path d="M480 269 V559 M779 269 V559 M299 409 H480 M779 409 H954"/>
+    <path d="M627 408 V559"/>
+  </g>
+  <!-- Paddle -->
+  <g transform="rotate(-18 581 290)" fill="#faf7f2" stroke="#17231e" stroke-width="5" stroke-linejoin="round">
+    <path d="M548 193 C548 168 563 150 586 150 H608 C632 150 647 168 647 193 V245 C647 268 634 286 612 294 L601 299 V319 H575 V299 L562 293 C553 286 548 272 548 256 Z"/>
+    <path d="M575 319 H601 V367 Q601 374 594 374 H582 Q575 374 575 367 Z"/>
+    <path d="M575 331 H601 M575 345 H601 M575 359 H601"/>
+  </g>
+  <!-- Ball -->
+  <circle cx="697" cy="309" r="41" fill="#a98a61"/>
+  <g fill="#faf7f2">
+    <circle cx="697" cy="279" r="6.3"/><circle cx="720" cy="292" r="6.3"/>
+    <circle cx="720" cy="319" r="6.3"/><circle cx="697" cy="337" r="6.3"/>
+    <circle cx="674" cy="319" r="6.3"/><circle cx="674" cy="292" r="6.3"/>
+    <circle cx="697" cy="307" r="6.3"/>
+  </g>
+  <!-- Brand name -->
+  <text x="627" y="724" text-anchor="middle" fill="#17231e" font-family="Bodoni 72, Didot, 'Times New Roman', serif" font-size="132" font-weight="400" letter-spacing="15">COURT</text>
+  <g fill="none" stroke="#a98a61" stroke-width="5">
+    <path d="M262 829 H411 M843 829 H992"/>
+  </g>
+  <text x="627" y="891" text-anchor="middle" fill="#a98a61" font-family="Bodoni 72, Didot, 'Times New Roman', serif" font-size="147" font-weight="400" letter-spacing="36">822</text>
+  <text x="627" y="972" text-anchor="middle" fill="#17231e" font-family="Arial, Helvetica, sans-serif" font-size="49" font-weight="400" letter-spacing="20">PICKLEBALL</text>
+  <g fill="none" stroke="#a98a61" stroke-width="4">
+    <path d="M442 1058 H486 M768 1058 H812"/>
+  </g>
+  <text x="627" y="1070" text-anchor="middle" fill="#17231e" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="600" letter-spacing="8">EST. 2026</text>
+</svg>
