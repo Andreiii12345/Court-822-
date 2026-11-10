@@ -1,0 +1,430 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Court 822 | Tournament Manager</title>
+<link rel="icon" href="logo.svg">
+<link rel="stylesheet" href="style.css">
+<style>
+*{box-sizing:border-box}
+body{background:#f5f0e8;color:#19352b}
+.tm-wrap{max-width:1100px;margin:30px auto;padding:0 16px 80px}
+.tm-head{background:#19352b;color:white;padding:26px;border-radius:18px;margin-bottom:22px}
+.tm-head h1{font:clamp(30px,5vw,44px) Georgia,serif;margin:8px 0}
+.tm-head p{color:#d9e4dc}
+.tm-card{background:#fffdf9;border:1px solid #e2d9ca;border-radius:16px;padding:24px;margin-bottom:18px}
+.tm-card h2{font:26px Georgia,serif;margin:0 0 16px}
+.tm-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.tm-field{display:block;font-weight:600;font-size:13px;margin:12px 0}
+.tm-field input,.tm-field select,.tm-field textarea{
+display:block;width:100%;margin-top:7px;padding:12px;
+border:1px solid #d5cbbd;border-radius:9px;
+background:white;color:#19352b;font:16px Arial,sans-serif
+}
+.tm-field textarea{min-height:90px;resize:vertical}
+.tm-btn{background:#19352b;color:white;border:0;border-radius:9px;padding:13px 19px;cursor:pointer;font-weight:bold}
+.tm-btn:disabled{opacity:.5;cursor:not-allowed}
+.tm-gold{background:#c4a06b;color:#19352b}
+.tm-light{background:#e6ece7;color:#19352b}
+.tm-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
+.tm-category{border:1px solid #ddd3c4;padding:18px;border-radius:12px;margin:14px 0;background:#faf8f3}
+.tm-category h3{margin:0}
+.tm-message{padding:13px;background:#e6ece7;border-radius:9px;margin:15px 0;white-space:pre-wrap}
+.tm-hidden{display:none!important}
+.tm-muted{font-size:13px;color:#68766e;line-height:1.6}
+.tm-check{display:flex;align-items:center;gap:9px;margin:15px 0}
+@media(max-width:700px){
+.tm-grid{grid-template-columns:1fr}
+.tm-card{padding:18px}
+.tm-head{padding:22px}
+.tm-btn{min-height:45px}
+}
+</style>
+</head>
+<body>
+<div class="announcement">COURT 822 • TOURNAMENT MANAGEMENT</div>
+
+<header class="navbar">
+<a class="brand" href="index.html">
+<img src="logo.svg" alt="Court 822">
+<span><b>COURT 822</b><small>OWNER PANEL</small></span>
+</a>
+<div class="nav-actions">
+<a class="btn secondary" href="index.html">Website</a>
+<button id="logout" class="btn secondary tm-hidden">Log out</button>
+</div>
+</header>
+
+<main class="tm-wrap">
+<section class="tm-head">
+<small style="color:#c4a06b">COURT 822 V3</small>
+<h1>Tournament Manager</h1>
+<p>Create, edit, and publish tournaments from one dashboard.</p>
+</section>
+
+<section id="loginPanel" class="tm-card">
+<h2>Owner Sign In</h2>
+<form id="loginForm">
+<label class="tm-field">Email
+<input id="email" type="email" required autocomplete="username">
+</label>
+<label class="tm-field">Password
+<input id="password" type="password" required autocomplete="current-password">
+</label>
+<button class="tm-btn">Sign In</button>
+</form>
+<p id="loginMessage" role="status"></p>
+</section>
+
+<div id="manager" class="tm-hidden">
+
+<section class="tm-card">
+<h2>Manage Tournaments</h2>
+<label class="tm-field">Select an existing tournament
+<select id="existing">
+<option value="">Create new tournament</option>
+</select>
+</label>
+<button id="newTournament" class="tm-btn tm-light" type="button">
++ New Tournament
+</button>
+</section>
+
+<form id="tournamentForm">
+<section class="tm-card">
+<h2>Tournament Details</h2>
+
+<label class="tm-field">Tournament Name
+<input id="title" required maxlength="150"
+placeholder="Battle for Novice • Leg 1">
+</label>
+
+<label class="tm-field">Description
+<textarea id="description"
+placeholder="Tournament details and rules"></textarea>
+</label>
+
+<div class="tm-grid">
+<label class="tm-field">Start Date
+<input id="startDate" type="date" required>
+</label>
+<label class="tm-field">End Date
+<input id="endDate" type="date" required>
+</label>
+</div>
+
+<label class="tm-field">Registration Deadline
+<input id="deadline" type="datetime-local">
+</label>
+
+<label class="tm-field">Venue
+<input id="venue" value="Court 822" required>
+</label>
+
+<label class="tm-field">Tournament Status
+<select id="status">
+<option value="draft">Draft (Private)</option>
+<option value="published">Published</option>
+<option value="ongoing">Ongoing</option>
+<option value="completed">Completed</option>
+<option value="archived">Archived</option>
+</select>
+</label>
+</section>
+
+<section class="tm-card">
+<h2>Tournament Categories</h2>
+<p class="tm-muted">
+Add categories with separate entry fees, prizes, and team limits.
+Keep registration closed until the registration and payment
+system is ready.
+</p>
+<div id="categories"></div>
+<button id="addCategory" type="button" class="tm-btn tm-light">
++ Add Category
+</button>
+</section>
+
+<section class="tm-card">
+<div class="tm-row">
+<button id="save" class="tm-btn" type="submit">
+Save Tournament
+</button>
+<button id="publish" class="tm-btn tm-gold" type="button">
+Save & Publish
+</button>
+</div>
+<p id="message" class="tm-message" role="status">
+Ready to create a tournament.
+</p>
+</section>
+</form>
+</div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="supabase-client.js"></script>
+
+<script>
+const $=id=>document.getElementById(id);
+let currentId=null;
+let savedCategories=[];
+let ownerId=null;
+
+function message(text){
+ $('message').textContent=text;
+}
+
+function categoryCard(c={}){
+ const box=document.createElement('div');
+ box.className='tm-category';
+ box.dataset.id=c.id||'';
+ box.innerHTML=`
+ <h3>Category</h3>
+ <label class="tm-field">Category Name
+ <input data-key="name" required maxlength="100"
+ placeholder="Novice Men's Doubles"></label>
+ <div class="tm-grid">
+ <label class="tm-field">Entry Fee (PHP)
+ <input data-key="entry_fee" type="number" min="0" step=".01" required></label>
+ <label class="tm-field">Double Entry Fee (PHP)
+ <input data-key="double_entry_fee" type="number" min="0" step=".01"></label>
+ <label class="tm-field">Maximum Teams
+ <input data-key="max_teams" type="number" min="1" required></label>
+ <label class="tm-field">Champion Prize (PHP)
+ <input data-key="first_prize" type="number" min="0" step=".01" required></label>
+ <label class="tm-field">Second Prize (PHP)
+ <input data-key="second_prize" type="number" min="0" step=".01" required></label>
+ <label class="tm-field">Third Prize (PHP)
+ <input data-key="third_prize" type="number" min="0" step=".01" required></label>
+ </div>
+ <label class="tm-check">
+ <input type="checkbox" data-key="registration_open" disabled>
+ Registration open (available after Phase 1 security setup)
+ </label>
+ <button type="button" class="tm-btn tm-light remove">
+ Remove category
+ </button>`;
+
+ for(const key of [
+  'name','entry_fee','double_entry_fee','max_teams',
+  'first_prize','second_prize','third_prize'
+ ]){
+  const input=box.querySelector(`[data-key="${key}"]`);
+  input.value=c[key]??(key==='max_teams'?32:
+   key==='name'?'':0);
+ }
+ box.querySelector('.remove').onclick=()=>{
+  if(box.dataset.id){
+   alert('Saved categories cannot be deleted in this version. Edit their values instead.');
+   return;
+  }
+  box.remove();
+ };
+ $('categories').append(box);
+}
+
+function resetForm(){
+ currentId=null;
+ $('tournamentForm').reset();
+ $('venue').value='Court 822';
+ $('status').value='draft';
+ $('categories').replaceChildren();
+ categoryCard();
+ $('existing').value='';
+ message('Creating a new tournament.');
+}
+
+function readCategories(){
+ return [...document.querySelectorAll('.tm-category')].map(box=>{
+  const value=k=>box.querySelector(`[data-key="${k}"]`).value;
+  const num=k=>Number(value(k));
+  return {
+   id:box.dataset.id||null,
+   name:value('name').trim(),
+   entry_fee:num('entry_fee'),
+   double_entry_fee:value('double_entry_fee')===''?null:num('double_entry_fee'),
+   max_teams:num('max_teams'),
+   first_prize:num('first_prize'),
+   second_prize:num('second_prize'),
+   third_prize:num('third_prize'),
+   registration_open:false
+  };
+ });
+}
+
+async function loadTournaments(){
+ const {data,error}=await courtDb.from('tournaments')
+  .select('id,title,status')
+  .order('created_at',{ascending:false});
+ if(error)throw error;
+ $('existing').replaceChildren(new Option('Create new tournament',''));
+ (data||[]).forEach(t=>
+  $('existing').add(new Option(`${t.title} (${t.status})`,t.id))
+ );
+ if(currentId)$('existing').value=currentId;
+}
+
+async function loadOne(id){
+ if(!id)return resetForm();
+ try{
+  const {data:t,error}=await courtDb.from('tournaments')
+   .select('*').eq('id',id).single();
+  if(error)throw error;
+
+  const {data:cats,error:ce}=await courtDb
+   .from('tournament_categories')
+   .select('*').eq('tournament_id',id)
+   .order('created_at');
+  if(ce)throw ce;
+
+  currentId=id;
+  $('title').value=t.title;
+  $('description').value=t.description||'';
+  $('venue').value=t.venue||'Court 822';
+  $('startDate').value=t.start_date;
+  $('endDate').value=t.end_date;
+  $('deadline').value=t.registration_deadline
+   ?t.registration_deadline.slice(0,16):'';
+  $('status').value=t.status;
+  $('categories').replaceChildren();
+  (cats||[]).forEach(categoryCard);
+  savedCategories=cats||[];
+  message('Tournament loaded. You can edit its details.');
+ }catch(e){message('Load failed: '+e.message)}
+}
+
+async function saveTournament(publish=false){
+ if(!$('tournamentForm').reportValidity())return;
+ const cats=readCategories();
+ if(!cats.length)return message('Add at least one category.');
+ if($('endDate').value<$('startDate').value)
+  return message('End date cannot be before start date.');
+
+ const status=publish?'published':$('status').value;
+ const payload={
+  title:$('title').value.trim(),
+  description:$('description').value.trim(),
+  venue:$('venue').value.trim(),
+  start_date:$('startDate').value,
+  end_date:$('endDate').value,
+  registration_deadline:$('deadline').value
+   ?new Date($('deadline').value).toISOString():null,
+  status
+ };
+
+ $('save').disabled=true;
+ $('publish').disabled=true;
+ message('Saving tournament...');
+
+ try{
+  let id=currentId;
+  if(id){
+   const {error}=await courtDb.from('tournaments')
+    .update(payload).eq('id',id);
+   if(error)throw error;
+  }else{
+   const {data,error}=await courtDb.from('tournaments')
+    .insert({...payload,created_by:ownerId})
+    .select('id').single();
+   if(error)throw error;
+   id=data.id;
+   currentId=id;
+  }
+
+  for(const c of cats){
+   const {id:categoryId,...fields}=c;
+   if(categoryId){
+    const {error}=await courtDb
+     .from('tournament_categories')
+     .update(fields)
+     .eq('id',categoryId)
+     .eq('tournament_id',id);
+    if(error)throw error;
+   }else{
+    const {error}=await courtDb
+     .from('tournament_categories')
+     .insert({...fields,tournament_id:id});
+    if(error)throw error;
+   }
+  }
+
+  await loadTournaments();
+  await loadOne(id);
+  message('Tournament saved successfully! Status: '+status+
+   '. Registration remains closed.');
+ }catch(e){
+  message('Save failed: '+e.message+
+   '. Some changes may have been saved. Reload before retrying.');
+ }finally{
+  $('save').disabled=false;
+  $('publish').disabled=false;
+ }
+}
+
+async function start(){
+ if(!window.courtDb){
+  $('loginMessage').textContent='Supabase connection unavailable.';
+  return;
+ }
+ const {data:{session}}=await courtDb.auth.getSession();
+ if(!session)return;
+
+ const {data,error}=await courtDb
+  .from('profiles').select('role')
+  .eq('id',session.user.id).single();
+
+ if(error||data?.role!=='owner'){
+  $('loginMessage').textContent='Owner access required.';
+  return;
+ }
+
+ ownerId=session.user.id;
+ $('loginPanel').classList.add('tm-hidden');
+ $('manager').classList.remove('tm-hidden');
+ $('logout').classList.remove('tm-hidden');
+
+ try{
+  await loadTournaments();
+  resetForm();
+ }catch(e){message('Could not load tournaments: '+e.message)}
+}
+
+$('loginForm').onsubmit=async e=>{
+ e.preventDefault();
+ $('loginMessage').textContent='Signing in...';
+ const {error}=await courtDb.auth.signInWithPassword({
+  email:$('email').value,
+  password:$('password').value
+ });
+ if(error){
+  $('loginMessage').textContent=error.message;
+  return;
+ }
+ await start();
+};
+
+$('logout').onclick=async()=>{
+ await courtDb.auth.signOut();
+ location.reload();
+};
+
+$('newTournament').onclick=resetForm;
+$('addCategory').onclick=()=>categoryCard();
+
+$('existing').onchange=e=>loadOne(e.target.value);
+
+$('tournamentForm').onsubmit=async e=>{
+ e.preventDefault();
+ await saveTournament(false);
+};
+
+$('publish').onclick=()=>saveTournament(true);
+
+start();
+</script>
+</body>
+</html>
