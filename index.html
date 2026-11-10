@@ -1,1 +1,438 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Book Court 822 pickleball courts, Open Play, or the whole facility."><title>Court 822 Pickleball</title><link rel="icon" href="logo.svg"><link rel="stylesheet" href="style.css"></head><body><div class="announcement">COURT 822 · 4 COURTS · UP TO 40 PLAYERS</div><header class="navbar"><a class="brand" href="index.html"><img src="logo.svg" alt="Court 822"><span><b>COURT 822</b><small>PICKLEBALL</small></span></a><nav><a class="active" href="index.html">Home</a><a href="booking.html">Book</a></nav><div class="nav-actions"><a class="btn secondary" href="owner.html">Owner access</a><a class="btn" href="booking.html">Book now</a></div></header><main><section class="hero container"><div class="hero-copy"><span class="eyebrow">SIMPLE BOOKING · FAIR OPEN PLAY</span><h1>Four courts.<br><em>Everyone gets a turn.</em></h1><p>Reserve by the hour, join skill-balanced Open Play, or rent the whole facility for your club.</p><div class="actions"><a class="btn" href="booking.html">Check schedules</a></div></div><div class="court-art"><div class="court-lines"><i></i></div><div class="floating-card"><div><small>Booking calendar</small><strong>Automatically updated</strong></div><span class="badge success">Live</span></div></div></section><section class="stats container"><article><b>4</b><span>Pickleball courts</span></article><article><b>40</b><span>Open Play maximum</span></article><article><b>60</b><span>Days of rolling availability</span></article></section><section class="container section"><div class="section-title"><h2>Choose how you play.</h2></div><div class="feature-grid"><article class="card"><div class="feature-icon">▦</div><h3>Court booking</h3><p>Choose your start time and how many hours you need.</p></article><article class="card"><div class="feature-icon">◎</div><h3>Fair Open Play</h3><p>Players are ranked by games and waiting time, then skill-balanced.</p></article><article class="card"><div class="feature-icon">★</div><h3>Club booking</h3><p>Rent all four courts and submit a roster of up to 40 players.</p></article></div></section></main><footer>© 2026 Court 822 Pickleball</footer></body></html>
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Court 822 pickleball tournaments, team registration and live events.">
+<title>Court 822 | Tournaments</title>
+<link rel="icon" href="logo.svg">
+<link rel="stylesheet" href="style.css">
+
+<style>
+.t-hero{
+  background:#19352b;
+  color:#fffdf9;
+  border-radius:24px;
+  padding:clamp(28px,6vw,76px);
+  margin-top:26px;
+  position:relative;
+  overflow:hidden;
+}
+.t-hero:after{
+  content:'822';
+  position:absolute;
+  right:-15px;
+  bottom:-65px;
+  font:bold clamp(130px,23vw,310px) Georgia,serif;
+  color:rgba(255,255,255,.045);
+  pointer-events:none;
+}
+.t-hero>*{position:relative;z-index:1}
+.t-kicker{
+  color:#caa56e;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:2px;
+}
+.t-hero h1{
+  font:clamp(40px,6vw,76px)/1.05 Georgia,serif;
+  margin:16px 0;
+  max-width:720px;
+}
+.t-hero h1 em{color:#caa56e}
+.t-hero p{
+  line-height:1.7;
+  max-width:550px;
+  color:#e3e9e4;
+}
+.t-hero .btn{
+  background:#b9915e;
+  color:#19352b;
+  font-size:14px;
+  margin-top:14px;
+}
+.t-section{padding:55px 0}
+.t-head{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:22px;
+}
+.t-head h2{
+  font:clamp(29px,4vw,40px) Georgia,serif;
+  color:#19352b;
+  margin:0;
+}
+.t-head p{color:#727b74}
+.t-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px;
+}
+.t-card{
+  background:#fffdf9;
+  border:1px solid #e3dbcf;
+  border-radius:18px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+.t-card-top{
+  background:#2e5b49;
+  padding:24px;
+  color:white;
+  min-height:155px;
+}
+.t-card-top small{
+  color:#e5c38d;
+  text-transform:uppercase;
+  letter-spacing:1.3px;
+  font-weight:700;
+}
+.t-card-top h3{
+  font:29px Georgia,serif;
+  margin:12px 0 7px;
+}
+.t-card-body{
+  padding:23px;
+  display:flex;
+  flex-direction:column;
+  gap:13px;
+  flex:1;
+}
+.t-card-body p{
+  color:#727b74;
+  line-height:1.6;
+  margin:0;
+}
+.t-chip{
+  display:inline-block;
+  border-radius:30px;
+  background:#e5ede7;
+  color:#19352b;
+  padding:7px 10px;
+  font-size:12px;
+  font-weight:700;
+}
+.t-card-body .btn{
+  font-size:13px;
+  margin-top:auto;
+  padding:14px;
+}
+.t-quick{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+.t-quick article{
+  background:#fffdf9;
+  border:1px solid #e3dbcf;
+  border-radius:15px;
+  padding:23px;
+}
+.t-quick h3{
+  font:22px Georgia,serif;
+  color:#19352b;
+}
+.t-quick p{
+  line-height:1.6;
+  color:#727b74;
+}
+.t-note{
+  background:#e5ede7;
+  border-radius:14px;
+  padding:18px;
+  line-height:1.6;
+  color:#19352b;
+}
+.t-error{color:#9a5048}
+.t-nav{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.t-nav a{
+  font-size:13px;
+  padding:10px 12px;
+  border-radius:9px;
+}
+.t-nav a:hover{background:#fffdf9}
+.t-mobile-bar{display:none}
+
+@media(max-width:700px){
+  .navbar{gap:10px;padding:10px 14px}
+  .navbar .brand span{display:block}
+  .navbar .brand b{
+    font-size:13px;
+    letter-spacing:1px;
+  }
+  .navbar .brand img{
+    width:38px;
+    height:38px;
+  }
+  .t-nav{display:none}
+  .nav-actions .btn{
+    padding:10px;
+    font-size:11px;
+  }
+  .t-grid,.t-quick{grid-template-columns:1fr}
+  .t-head{display:block}
+  .t-hero{
+    margin-top:12px;
+    padding:35px 22px;
+  }
+  .t-section{padding:36px 0}
+  .t-mobile-bar{
+    display:flex;
+    position:sticky;
+    bottom:0;
+    z-index:15;
+    background:#fffdf9;
+    border-top:1px solid #e3dbcf;
+    justify-content:space-around;
+    padding:10px 6px;
+  }
+  .t-mobile-bar a{
+    font-size:12px;
+    color:#19352b;
+    text-align:center;
+    padding:8px;
+  }
+  .t-card-top{min-height:125px}
+}
+</style>
+</head>
+
+<body>
+<div class="announcement">
+  COURT 822 · TOURNAMENT CENTRAL
+</div>
+
+<header class="navbar">
+  <a class="brand" href="index.html">
+    <img src="logo.svg" alt="Court 822 logo">
+    <span>
+      <b>COURT 822</b>
+      <small>PICKLEBALL</small>
+    </span>
+  </a>
+
+  <nav class="t-nav" aria-label="Main navigation">
+    <a href="index.html" aria-current="page">Home</a>
+    <a href="#tournaments">Tournaments</a>
+    <a href="#how-it-works">How it works</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <div class="nav-actions">
+    <a class="btn secondary" href="owner.html">Owner</a>
+    <a class="btn" href="#tournaments">View Events</a>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="t-hero">
+    <div class="t-kicker">
+      COURT 822 · PICKLEBALL TOURNAMENTS
+    </div>
+
+    <h1>Compete. Connect. <em>Win.</em></h1>
+
+    <p>
+      Discover upcoming tournaments, register your
+      doubles team, and follow the action at Court 822.
+    </p>
+
+    <a class="btn" href="#tournaments">
+      Explore tournaments
+    </a>
+  </section>
+
+  <section class="t-section" id="tournaments">
+    <div class="t-head">
+      <div>
+        <h2>Upcoming tournaments</h2>
+        <p>
+          Official events and categories published
+          by Court 822.
+        </p>
+      </div>
+    </div>
+
+    <div
+      id="tournament-list"
+      class="t-grid"
+      aria-live="polite"
+    >
+      <p>Loading tournaments...</p>
+    </div>
+  </section>
+
+  <section class="t-section" id="how-it-works">
+    <div class="t-head">
+      <h2>How registration works</h2>
+    </div>
+
+    <div class="t-quick">
+      <article>
+        <h3>01 · Register</h3>
+        <p>
+          Choose an open tournament and register
+          both teammates together.
+        </p>
+      </article>
+
+      <article>
+        <h3>02 · Verify payment</h3>
+        <p>
+          Submit payment proof. Court 822 staff
+          will review your registration.
+        </p>
+      </article>
+
+      <article>
+        <h3>03 · Check in</h3>
+        <p>
+          After approval, receive one team QR pass
+          for tournament-day check-in.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="t-section" id="contact">
+    <div class="t-note">
+      <strong>Need help?</strong>
+      Contact Court 822 through its official
+      Facebook Messenger page for tournament
+      inquiries. The direct Messenger link will
+      be added once the official page URL
+      is confirmed.
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 Court 822 Pickleball · Tournament Central
+</footer>
+
+<nav class="t-mobile-bar" aria-label="Mobile navigation">
+  <a href="index.html">Home</a>
+  <a href="#tournaments">Events</a>
+  <a href="#how-it-works">How it works</a>
+  <a href="#contact">Help</a>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="supabase-client.js"></script>
+
+<script>
+(async function(){
+  const root = document.getElementById('tournament-list');
+
+  const esc = s => String(s ?? '').replace(
+    /[&<>"']/g,
+    c => ({
+      '&':'&amp;',
+      '<':'&lt;',
+      '>':'&gt;',
+      '"':'&quot;',
+      "'":'&#39;'
+    }[c])
+  );
+
+  const date = s => {
+    if (!s) return 'Date to be announced';
+
+    const d = new Date(s + 'T00:00:00');
+
+    return Number.isNaN(d.getTime())
+      ? 'Date to be announced'
+      : d.toLocaleDateString('en-PH', {
+          month:'long',
+          day:'numeric',
+          year:'numeric'
+        });
+  };
+
+  if (!window.courtDb) {
+    root.innerHTML =
+      '<p class="t-error">Tournament listings are temporarily unavailable. Please try again later.</p>';
+    return;
+  }
+
+  try {
+    const {data,error} = await window.courtDb
+      .from('tournaments')
+      .select('id,title,description,start_date,end_date,status')
+      .in('status',['published','ongoing'])
+      .order('start_date',{ascending:true});
+
+    if (error) throw error;
+
+    if (!data.length) {
+      root.innerHTML =
+        '<div class="t-note">No tournaments have been published yet. Check back soon for Court 822 events!</div>';
+      return;
+    }
+
+    root.innerHTML = data.map(t => `
+      <article class="t-card">
+        <div class="t-card-top">
+          <small>
+            ${esc(t.status === 'ongoing'
+              ? 'Ongoing tournament'
+              : 'Upcoming tournament')}
+          </small>
+
+          <h3>${esc(t.title)}</h3>
+
+          <span>
+            ${esc(date(t.start_date))}
+            ${t.end_date && t.end_date !== t.start_date
+              ? ' – ' + esc(date(t.end_date))
+              : ''}
+          </span>
+        </div>
+
+        <div class="t-card-body">
+          <p>
+            ${esc(t.description ||
+              'Join the next Court 822 pickleball tournament.')}
+          </p>
+
+          <div>
+            <span class="t-chip">
+              ${esc(t.status === 'ongoing'
+                ? 'In progress'
+                : 'Event details')}
+            </span>
+          </div>
+
+          <a
+            class="btn"
+            href="tournament.html?id=${encodeURIComponent(t.id)}"
+          >
+            View tournament
+          </a>
+        </div>
+      </article>
+    `).join('');
+
+  } catch (e) {
+    console.error('Tournament load failed:',e);
+
+    root.innerHTML =
+      '<p class="t-error">Unable to load tournaments right now. Please try again later.</p>';
+  }
+})();
+</script>
+
+</body>
+</html>
