@@ -3,38 +3,84 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Court 822 | Tournament Registration</title>
 <link rel="icon" href="logo.svg">
 <link rel="stylesheet" href="style.css">
 
 <style>
+*{box-sizing:border-box}
+body{background:#f5f0e8;color:#19352b}
 .t-wrap{max-width:1050px;margin:35px auto 80px;padding:0 16px}
-.t-banner{background:#19352b;color:white;border-radius:22px;padding:32px;margin-bottom:22px}
+.t-banner{
+ background:#19352b;color:white;border-radius:22px;
+ padding:32px;margin-bottom:22px
+}
 .t-banner small{color:#d4ac70;letter-spacing:2px;font-weight:bold}
-.t-banner h1{font:clamp(32px,5vw,52px) Georgia,serif;margin:14px 0}
+.t-banner h1{
+ font:clamp(32px,5vw,52px) Georgia,serif;
+ margin:14px 0
+}
 .t-banner p{color:#e0e8e1;line-height:1.7}
 .t-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.t-panel{background:#fffdf9;border:1px solid #e3dbcf;border-radius:16px;padding:24px;margin-bottom:18px}
-.t-panel h2{font:26px Georgia,serif;color:#19352b;margin:0 0 16px}
+.t-panel{
+ background:#fffdf9;border:1px solid #e3dbcf;
+ border-radius:16px;padding:24px;margin-bottom:18px
+}
+.t-panel h2{
+ font:26px Georgia,serif;color:#19352b;margin:0 0 16px
+}
 .t-panel h3{font:20px Georgia,serif;color:#19352b}
 .t-muted{color:#727b74;font-size:13px;line-height:1.6}
-.t-field{display:block;font-size:13px;font-weight:bold;color:#19352b;margin:14px 0}
-.t-field input,.t-field select{display:block;width:100%;padding:13px;border:1px solid #d7d0c4;border-radius:9px;background:white;margin-top:7px;font-size:16px}
-.t-field input:focus,.t-field select:focus{outline:2px solid #b9915e;outline-offset:1px}
-.t-players{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.t-info{background:#e5ede7;padding:15px;border-radius:11px;margin:14px 0;color:#19352b;font-size:13px;line-height:1.6}
-.t-prize{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #e3dbcf}
+.t-field{
+ display:block;font-size:13px;font-weight:bold;
+ color:#19352b;margin:14px 0
+}
+.t-field input,.t-field select{
+ display:block;width:100%;padding:13px;
+ border:1px solid #d7d0c4;border-radius:9px;
+ background:white;margin-top:7px;font-size:16px
+}
+.t-field input:focus,.t-field select:focus{
+ outline:2px solid #b9915e;outline-offset:1px
+}
+.t-info{
+ background:#e5ede7;padding:15px;border-radius:11px;
+ margin:14px 0;color:#19352b;font-size:13px;line-height:1.7
+}
+.t-prize{
+ display:flex;justify-content:space-between;gap:12px;
+ padding:12px 0;border-bottom:1px solid #e3dbcf
+}
 .t-prize strong{color:#19352b}
-.t-submit{width:100%;padding:16px;background:#19352b;color:white;border:0;border-radius:10px;font-weight:bold;font-size:15px}
+.t-submit{
+ width:100%;padding:16px;background:#19352b;
+ color:white;border:0;border-radius:10px;
+ font-weight:bold;font-size:15px
+}
 .t-submit:disabled{background:#a9ada7;cursor:not-allowed}
-.t-status{padding:12px;border-radius:9px;background:#e5ede7;margin-top:12px;font-size:13px}
-.t-hidden{display:none}
+.t-status{
+ padding:12px;border-radius:9px;
+ background:#e5ede7;margin-top:12px;font-size:13px
+}
 .t-link{color:#19352b;text-decoration:underline}
+.t-fees{
+ background:#e5ede7;border-radius:12px;
+ padding:17px;margin-top:15px
+}
+.t-fee-row{
+ display:flex;justify-content:space-between;
+ gap:12px;margin:10px 0;font-size:14px
+}
+.t-fee-total{
+ border-top:1px solid #bfcfc3;
+ padding-top:13px;margin-top:13px;
+ font-weight:bold;font-size:17px
+}
 @media(max-width:700px){
  .t-wrap{margin-top:15px}
  .t-banner{padding:24px 20px}
- .t-grid,.t-players{grid-template-columns:1fr}
+ .t-grid{grid-template-columns:1fr}
  .t-panel{padding:18px}
  .t-panel h2{font-size:23px}
 }
@@ -42,149 +88,172 @@
 </head>
 
 <body>
-<div class="announcement">COURT 822 • TOURNAMENT CENTRAL</div>
+<div class="announcement">
+ COURT 822 • TOURNAMENT CENTRAL
+</div>
 
 <header class="navbar">
-  <a class="brand" href="index.html">
-    <img src="logo.svg" alt="Court 822">
-    <span><b>COURT 822</b><small>PICKLEBALL</small></span>
-  </a>
-  <div class="nav-actions">
-    <a class="btn secondary" href="index.html">Home</a>
-    <a class="btn" href="index.html#tournaments">Events</a>
-  </div>
+<a class="brand" href="index.html">
+ <img src="logo.svg" alt="Court 822">
+ <span>
+  <b>COURT 822</b>
+  <small>PICKLEBALL</small>
+ </span>
+</a>
+<div class="nav-actions">
+ <a class="btn secondary" href="index.html">Home</a>
+ <a class="btn" href="index.html#tournaments">Events</a>
+</div>
 </header>
 
 <main class="t-wrap">
-  <a class="t-link" href="index.html#tournaments">
-    ← Back to tournaments
-  </a>
+<a class="t-link" href="index.html#tournaments">
+ ← Back to tournaments
+</a>
 
-  <section class="t-banner" style="margin-top:18px">
-    <small>COURT 822 PRESENTS</small>
-    <h1 id="t-name">Loading tournament...</h1>
-    <p id="t-description"></p>
-    <p id="t-date"></p>
-  </section>
+<section class="t-banner" style="margin-top:18px">
+ <small>COURT 822 PRESENTS</small>
+ <h1 id="t-name">Loading tournament...</h1>
+ <p id="t-description"></p>
+ <p id="t-date"></p>
+</section>
 
-  <div class="t-grid">
-    <div>
-      <section class="t-panel">
-        <h2>Tournament Categories</h2>
-        <div id="category-list" class="t-muted">
-          Loading categories...
-        </div>
-      </section>
+<div class="t-grid">
+<div>
 
-      <section class="t-panel">
-        <h2>Prizes</h2>
-        <div id="prizes" class="t-muted">
-          Select a category to see prizes.
-        </div>
-      </section>
+<section class="t-panel">
+ <h2>Tournament Categories</h2>
+ <div id="category-list" class="t-muted">
+  Loading categories...
+ </div>
+</section>
 
-      <section class="t-panel">
-        <h2>Registration Rules</h2>
-        <p class="t-muted">
-          Register both players under one team.
-          Payment verification is required before
-          a team is confirmed.
-        </p>
-        <div class="t-info">
-          Once confirmed, your team will receive
-          one QR code covering both players.
-          Either teammate may claim both shirts
-          during tournament check-in.
-        </div>
-      </section>
-    </div>
+<section class="t-panel">
+ <h2>Prizes</h2>
+ <div id="prizes" class="t-muted">
+  Select a category to see prizes.
+ </div>
+</section>
 
-    <div>
-      <section class="t-panel">
-        <h2>Register Your Team</h2>
-        <p class="t-muted">
-          Complete both players' information.
-        </p>
+<section class="t-panel">
+ <h2>Registration Rules</h2>
+ <p class="t-muted">
+  Register both players under one team.
+  Payment verification is required before
+  the registration is confirmed.
+ </p>
 
-        <form id="team-form">
-          <label class="t-field">
-            Tournament Category
-            <select id="category" required disabled>
-              <option value="">Loading categories...</option>
-            </select>
-          </label>
+ <div class="t-info">
+  Once confirmed, your team will receive
+  one QR code covering both players.
+  Either teammate may claim both shirts
+  during tournament check-in.
+ </div>
+</section>
 
-          <h3>Player 1</h3>
-          <label class="t-field">
-            Full Name
-            <input id="player1" required maxlength="100"
-                   autocomplete="name" placeholder="Player 1 full name">
-          </label>
+</div>
 
-          <label class="t-field">
-            Shirt Size
-            <select id="shirt1" required>
-              <option value="">Select size</option>
-              <option>XS</option><option>S</option>
-              <option>M</option><option>L</option>
-              <option>XL</option><option>2XL</option>
-              <option>3XL</option>
-            </select>
-          </label>
+<div>
+<section class="t-panel">
+ <h2>Register Your Team</h2>
+ <p class="t-muted">
+  Registration fees are charged per player.
+  A doubles team consists of two players.
+ </p>
 
-          <h3>Player 2</h3>
-          <label class="t-field">
-            Full Name
-            <input id="player2" required maxlength="100"
-                   placeholder="Player 2 full name">
-          </label>
+ <form id="team-form">
 
-          <label class="t-field">
-            Shirt Size
-            <select id="shirt2" required>
-              <option value="">Select size</option>
-              <option>XS</option><option>S</option>
-              <option>M</option><option>L</option>
-              <option>XL</option><option>2XL</option>
-              <option>3XL</option>
-            </select>
-          </label>
+ <label class="t-field">
+  Tournament Category
+  <select id="category" required disabled>
+   <option value="">Loading categories...</option>
+  </select>
+ </label>
 
-          <h3>Contact Details</h3>
-          <label class="t-field">
-            Contact Number
-            <input id="phone" type="tel" required
-                   maxlength="20" placeholder="09XXXXXXXXX">
-          </label>
+ <h3>Player 1</h3>
+ <label class="t-field">Full Name
+  <input id="player1" required maxlength="100"
+   autocomplete="name" placeholder="Player 1 full name">
+ </label>
 
-          <label class="t-field">
-            Email Address
-            <input id="email" type="email" required
-                   autocomplete="email" placeholder="name@example.com">
-          </label>
+ <label class="t-field">Shirt Size
+  <select id="shirt1" required>
+   <option value="">Select size</option>
+   <option>XS</option><option>S</option>
+   <option>M</option><option>L</option>
+   <option>XL</option><option>2XL</option>
+   <option>3XL</option>
+  </select>
+ </label>
 
-          <div class="t-info">
-            <strong>Registration Fee:</strong>
-            <span id="fee">Select a category</span>
-          </div>
+ <h3>Player 2</h3>
+ <label class="t-field">Full Name
+  <input id="player2" required maxlength="100"
+   placeholder="Player 2 full name">
+ </label>
 
-          <button class="t-submit" type="submit" disabled
-                  id="submit-btn">
-            Registration Coming Soon
-          </button>
+ <label class="t-field">Shirt Size
+  <select id="shirt2" required>
+   <option value="">Select size</option>
+   <option>XS</option><option>S</option>
+   <option>M</option><option>L</option>
+   <option>XL</option><option>2XL</option>
+   <option>3XL</option>
+  </select>
+ </label>
 
-          <p class="t-muted" id="form-message">
-            Registration submissions will be enabled
-            after secure payment and database setup.
-          </p>
-        </form>
-      </section>
-    </div>
+ <h3>Contact Details</h3>
+ <label class="t-field">Contact Number
+  <input id="phone" type="tel" required
+   maxlength="20" placeholder="09XXXXXXXXX">
+ </label>
+
+ <label class="t-field">Email Address
+  <input id="email" type="email" required
+   autocomplete="email" placeholder="name@example.com">
+ </label>
+
+ <div class="t-fees">
+  <strong>Registration Fee Breakdown</strong>
+
+  <div class="t-fee-row">
+   <span>Player 1</span>
+   <strong id="player1-fee">₱0</strong>
   </div>
 
-  <div id="page-status" class="t-status" role="status">
-    Loading tournament information...
+  <div class="t-fee-row">
+   <span>Player 2</span>
+   <strong id="player2-fee">₱0</strong>
   </div>
+
+  <div class="t-fee-row t-fee-total">
+   <span>Total Team Fee</span>
+   <strong id="team-fee">₱0</strong>
+  </div>
+
+  <p class="t-muted" id="double-fee">
+   Select a category to view fees.
+  </p>
+ </div>
+
+ <button class="t-submit" type="submit"
+         disabled id="submit-btn">
+  Registration Coming Soon
+ </button>
+
+ <p class="t-muted" id="form-message">
+  Registration submissions will be enabled
+  after secure payment and database setup.
+ </p>
+
+ </form>
+</section>
+</div>
+</div>
+
+<div id="page-status" class="t-status" role="status">
+ Loading tournament information...
+</div>
 </main>
 
 <footer>© 2026 Court 822 Pickleball</footer>
@@ -195,127 +264,181 @@
 
 <script>
 const $ = id => document.getElementById(id);
+
 const peso = n => new Intl.NumberFormat('en-PH',{
-  style:'currency',currency:'PHP',maximumFractionDigits:0
+ style:'currency',
+ currency:'PHP',
+ minimumFractionDigits:0,
+ maximumFractionDigits:2
 }).format(Number(n || 0));
 
 const formatDate = s => {
-  if(!s) return 'To be announced';
-  return new Date(s+'T00:00:00').toLocaleDateString('en-PH',{
-    month:'long',day:'numeric',year:'numeric'
+ if(!s) return 'To be announced';
+
+ return new Date(s+'T00:00:00')
+  .toLocaleDateString('en-PH',{
+   month:'long',
+   day:'numeric',
+   year:'numeric'
   });
 };
 
 let categories = [];
 
 function showCategory(){
-  const c = categories.find(x => x.id === $('category').value);
-  if(!c){
-    $('fee').textContent='Select a category';
-    $('prizes').textContent='Select a category to see prizes.';
-    return;
-  }
-  $('fee').textContent=peso(c.entry_fee);
-  $('prizes').replaceChildren();
+ const c = categories.find(
+  x => x.id === $('category').value
+ );
 
-  [
-    ['Champion',c.first_prize],
-    ['Second Place',c.second_prize],
-    ['Third Place',c.third_prize]
-  ].forEach(([name,amount])=>{
-    const row=document.createElement('div');
-    row.className='t-prize';
-    const label=document.createElement('span');
-    label.textContent=name;
-    const value=document.createElement('strong');
-    value.textContent=peso(amount);
-    row.append(label,value);
-    $('prizes').append(row);
-  });
+ if(!c){
+  $('player1-fee').textContent = '₱0';
+  $('player2-fee').textContent = '₱0';
+  $('team-fee').textContent = '₱0';
+  $('double-fee').textContent =
+   'Select a category to view fees.';
+  $('prizes').textContent =
+   'Select a category to see prizes.';
+  return;
+ }
+
+ const fee = Number(c.entry_fee || 0);
+
+ $('player1-fee').textContent = peso(fee);
+ $('player2-fee').textContent = peso(fee);
+ $('team-fee').textContent = peso(fee * 2);
+
+ if(c.double_entry_fee !== null){
+  $('double-fee').textContent =
+   'Double-entry rate: '+
+   peso(c.double_entry_fee)+
+   ' per player ('+
+   peso(c.double_entry_fee * 2)+
+   ' per team). Eligibility will be verified.';
+ }else{
+  $('double-fee').textContent =
+   'No double-entry rate configured.';
+ }
+
+ $('prizes').replaceChildren();
+
+ [
+  ['Champion',c.first_prize],
+  ['Second Place',c.second_prize],
+  ['Third Place',c.third_prize]
+ ].forEach(([name,amount])=>{
+  const row = document.createElement('div');
+  row.className = 't-prize';
+
+  const label = document.createElement('span');
+  label.textContent = name;
+
+  const value = document.createElement('strong');
+  value.textContent = peso(amount);
+
+  row.append(label,value);
+  $('prizes').append(row);
+ });
 }
 
 async function loadTournament(){
-  const id=new URLSearchParams(location.search).get('id');
+ const id = new URLSearchParams(location.search).get('id');
 
-  if(!id || !/^[0-9a-f]{8}-[0-9a-f-]{27,}$/i.test(id)){
-    $('t-name').textContent='Tournament not found';
-    $('page-status').textContent='Please select a tournament from the homepage.';
-    return;
+ if(!id || !/^[0-9a-f]{8}-[0-9a-f-]{27,}$/i.test(id)){
+  $('t-name').textContent = 'Tournament not found';
+  $('page-status').textContent =
+   'Please select a tournament from the homepage.';
+  return;
+ }
+
+ if(!window.courtDb){
+  $('page-status').textContent =
+   'Database connection unavailable.';
+  return;
+ }
+
+ try{
+  const {data:t,error:e} = await courtDb
+   .from('tournaments')
+   .select('id,title,description,start_date,end_date,status')
+   .eq('id',id)
+   .in('status',['published','ongoing','completed'])
+   .single();
+
+  if(e || !t) throw new Error('Tournament unavailable');
+
+  $('t-name').textContent = t.title;
+  $('t-description').textContent = t.description || '';
+
+  $('t-date').textContent =
+   formatDate(t.start_date)+
+   (t.end_date !== t.start_date
+    ? ' – '+formatDate(t.end_date)
+    : '');
+
+  const {data:list,error:ce} = await courtDb
+   .from('tournament_categories')
+   .select(
+    'id,name,entry_fee,double_entry_fee,max_teams,'+
+    'first_prize,second_prize,third_prize,registration_open'
+   )
+   .eq('tournament_id',id)
+   .order('name');
+
+  if(ce) throw ce;
+
+  categories = list || [];
+
+  const select = $('category');
+  select.replaceChildren(
+   new Option('Select category','')
+  );
+
+  categories.forEach(c=>{
+   select.add(new Option(c.name,c.id));
+  });
+
+  select.disabled = categories.length === 0;
+
+  const box = $('category-list');
+  box.replaceChildren();
+
+  if(!categories.length){
+   box.textContent = 'No categories have been added yet.';
+  }else{
+   categories.forEach(c=>{
+    const div = document.createElement('div');
+    div.className = 't-prize';
+
+    const name = document.createElement('span');
+    name.textContent = c.name;
+
+    const fee = document.createElement('strong');
+    fee.textContent =
+     peso(c.entry_fee)+' / player'+
+     (c.registration_open?' · Open':' · Closed');
+
+    div.append(name,fee);
+    box.append(div);
+   });
   }
 
-  if(!window.courtDb){
-    $('page-status').textContent='Database connection unavailable.';
-    return;
-  }
+  $('page-status').textContent =
+   'Tournament information loaded successfully.';
 
-  try{
-    const {data:t,error:e}=await courtDb
-      .from('tournaments')
-      .select('id,title,description,start_date,end_date,status')
-      .eq('id',id)
-      .in('status',['published','ongoing','completed'])
-      .single();
-
-    if(e || !t) throw new Error('Tournament unavailable');
-
-    $('t-name').textContent=t.title;
-    $('t-description').textContent=t.description || '';
-    $('t-date').textContent=formatDate(t.start_date)+
-      (t.end_date!==t.start_date?' – '+formatDate(t.end_date):'');
-
-    const {data:list,error:ce}=await courtDb
-      .from('tournament_categories')
-      .select('id,name,entry_fee,double_entry_fee,max_teams,first_prize,second_prize,third_prize,registration_open')
-      .eq('tournament_id',id)
-      .order('name');
-
-    if(ce) throw ce;
-    categories=list || [];
-
-    const select=$('category');
-    select.replaceChildren(new Option('Select category',''));
-
-    categories.forEach(c=>{
-      select.add(new Option(c.name,c.id));
-    });
-    select.disabled=categories.length===0;
-
-    const box=$('category-list');
-    box.replaceChildren();
-
-    if(!categories.length){
-      box.textContent='No categories have been added yet.';
-    }else{
-      categories.forEach(c=>{
-        const div=document.createElement('div');
-        div.className='t-prize';
-        const name=document.createElement('span');
-        name.textContent=c.name;
-        const fee=document.createElement('strong');
-        fee.textContent=peso(c.entry_fee)+
-          (c.registration_open?' · Open':' · Closed');
-        div.append(name,fee);
-        box.append(div);
-      });
-    }
-
-    $('page-status').textContent=
-      'Tournament information loaded successfully.';
-
-  }catch(error){
-    console.error(error);
-    $('t-name').textContent='Tournament unavailable';
-    $('page-status').textContent=
-      'Could not load this tournament. Please try again later.';
-  }
+ }catch(error){
+  console.error(error);
+  $('t-name').textContent = 'Tournament unavailable';
+  $('page-status').textContent =
+   'Could not load this tournament. Please try again later.';
+ }
 }
 
 $('category').addEventListener('change',showCategory);
 
 $('team-form').addEventListener('submit',event=>{
-  event.preventDefault();
-  $('form-message').textContent=
-    'Online registration is not enabled yet.';
+ event.preventDefault();
+ $('form-message').textContent =
+  'Online registration is not enabled yet.';
 });
 
 loadTournament();
