@@ -1,159 +1,160 @@
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Court 822 | Tournament Registration</title>
 <link rel="icon" href="logo.svg">
 <link rel="stylesheet" href="style.css">
+
 <style>
 *{box-sizing:border-box}
 body{background:#f5f0e8;color:#19352b}
-.wrap{max-width:1050px;margin:30px auto 80px;padding:0 16px}
-.hero{background:#19352b;color:white;border-radius:22px;padding:30px;margin:18px 0}
-.hero small{color:#d4ac70;letter-spacing:2px}
-.hero h1{font:clamp(32px,5vw,52px) Georgia,serif;margin:14px 0}
-.hero p{color:#e0e8e1}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.panel{background:#fffdf9;border:1px solid #e3dbcf;border-radius:16px;padding:24px;margin-bottom:18px}
-.panel h2{font:26px Georgia,serif;margin:0 0 16px}
-.panel h3{font:20px Georgia,serif}
-.muted{color:#727b74;font-size:13px;line-height:1.6}
-.field{display:block;font-size:13px;font-weight:bold;margin:14px 0}
-.field input,.field select{display:block;width:100%;padding:13px;border:1px solid #d7d0c4;border-radius:9px;background:white;margin-top:7px;font-size:16px}
-.info{background:#e5ede7;padding:15px;border-radius:11px;margin:14px 0;font-size:13px;line-height:1.7}
-.line{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #e3dbcf}
-.fees{background:#e5ede7;border-radius:12px;padding:17px;margin-top:15px}
-.total{font-size:17px;font-weight:bold}
-.submit{width:100%;padding:16px;border:0;border-radius:10px;background:#a9ada7;color:white;font-weight:bold;font-size:15px}
-.status{padding:12px;border-radius:9px;background:#e5ede7;margin-top:12px;font-size:13px}
+.wrap{max-width:1100px;margin:25px auto 90px;padding:0 16px}
+.hero{background:#19352b;color:white;padding:30px;border-radius:20px;margin:20px 0}
+.hero h1{font:clamp(30px,5vw,50px) Georgia,serif;margin:12px 0}
+.hero p{color:#e3e9e4;line-height:1.6}
+.hero small{color:#d4ac70;letter-spacing:2px;font-weight:bold}
+.panel{background:#fffdf9;border:1px solid #e2d9ca;border-radius:16px;padding:24px;margin:18px 0}
+.panel h2{font:26px Georgia,serif;margin:0 0 15px}
+.panel h3{font:21px Georgia,serif;margin:0 0 12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.field{display:block;font-weight:600;font-size:13px;margin:12px 0}
+.field input,.field select{
+ display:block;width:100%;margin-top:7px;padding:12px;
+ border:1px solid #d5cbbd;border-radius:9px;
+ background:white;color:#19352b;font:16px Arial,sans-serif
+}
+.button{
+ background:#19352b;color:white;border:0;border-radius:9px;
+ padding:13px 18px;cursor:pointer;font-weight:bold
+}
+.button:disabled{opacity:.5;cursor:not-allowed}
+.gold{background:#c4a06b;color:#19352b}
+.light{background:#e6ece7;color:#19352b}
+.danger{background:#f5e3e0;color:#963f35}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.item{border:1px solid #ddd3c4;border-radius:12px;padding:18px;margin:14px 0;background:#faf8f3}
+.item-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.muted{font-size:13px;color:#68766e;line-height:1.6}
+.notice{background:#e6ece7;border-radius:10px;padding:15px;line-height:1.7}
+.error{color:#9b4035}
+.summary{background:#19352b;color:white;padding:22px;border-radius:15px}
+.summary h2{color:white}
+.summary .line{border-bottom:1px solid #426154}
+.line{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #e0d8ca}
+.total{font-size:22px;font-weight:bold;color:#e4bc7e}
+.status{padding:12px;border-radius:9px;background:#e6ece7;margin:16px 0;font-size:13px}
 @media(max-width:700px){
-.grid{grid-template-columns:1fr}
-.panel{padding:18px}
-.hero{padding:24px 20px}
+ .grid{grid-template-columns:1fr}
+ .panel{padding:18px}
+ .hero{padding:24px 20px}
+ .button{min-height:45px}
+ .actions .button{flex:1}
+ .line{font-size:13px}
 }
 </style>
 </head>
+
 <body>
-<div class="announcement">COURT 822 • TOURNAMENT CENTRAL</div>
+<div class="announcement">
+ COURT 822 • TOURNAMENT CENTRAL
+</div>
+
 <header class="navbar">
 <a class="brand" href="index.html">
-<img src="logo.svg" alt="Court 822">
-<span><b>COURT 822</b><small>PICKLEBALL</small></span>
+ <img src="logo.svg" alt="Court 822">
+ <span>
+  <b>COURT 822</b>
+  <small>PICKLEBALL</small>
+ </span>
 </a>
 <div class="nav-actions">
-<a class="btn secondary" href="index.html">Home</a>
-<a class="btn" href="index.html#tournaments">Events</a>
+ <a class="btn secondary" href="index.html">Home</a>
+ <a class="btn" href="index.html#tournaments">Events</a>
 </div>
 </header>
 
 <main class="wrap">
 <a href="index.html#tournaments">← Back to tournaments</a>
+
 <section class="hero">
-<small>COURT 822 PRESENTS</small>
-<h1 id="name">Loading tournament...</h1>
-<p id="description"></p>
-<p id="dates"></p>
-<p id="registrationStatus"></p>
-</section>
-
-<div class="grid">
-<div>
-<section class="panel">
-<h2>Tournament Categories</h2>
-<div id="categoryList" class="muted">Loading categories...</div>
+ <small>COURT 822 PRESENTS</small>
+ <h1 id="tournamentName">Loading tournament...</h1>
+ <p id="tournamentDescription"></p>
+ <p id="tournamentDates"></p>
+ <p id="registrationStatus"></p>
 </section>
 
 <section class="panel">
-<h2>Prizes</h2>
-<div id="prizes" class="muted">Select a category to see prizes.</div>
+ <h2>Smart Team Registration</h2>
+ <p class="muted">
+  Register multiple doubles teams in one checkout.
+  Add each player once, then reuse their details
+  when joining another category.
+ </p>
+ <div class="notice">
+  <strong>Registration fees:</strong>
+  The first category uses the regular per-player fee.
+  A second eligible category uses the double-entry fee.
+  Each unique player receives only one set of tournament
+  freebies, even when playing in multiple categories.
+ </div>
 </section>
 
 <section class="panel">
-<h2>Registration Rules</h2>
-<p class="muted">
-Register two players under one team.
-Payment must be verified before confirmation.
-</p>
-<div class="info">
-Confirmed teams will receive one QR pass covering both players.
-Either teammate may claim both shirts during check-in.
-</div>
+ <h2>Step 1 — Add Players</h2>
+ <p class="muted">
+  Add every person who will participate in this checkout.
+  Players joining two categories should only be added once.
+ </p>
+ <div id="players"></div>
+ <button id="addPlayer" class="button light" type="button">
+  + Add Player
+ </button>
 </section>
-</div>
 
-<div>
 <section class="panel">
-<h2>Register Your Team</h2>
-<p class="muted">
-Registration fees are per player.
-Online submission will be enabled after secure registration
-and payment verification are implemented.
-</p>
-
-<form id="teamForm">
-<label class="field">Tournament Category
-<select id="category" required disabled>
-<option>Loading...</option>
-</select>
-</label>
-
-<h3>Player 1</h3>
-<label class="field">Full Name
-<input id="player1" maxlength="100" required placeholder="Player 1 full name">
-</label>
-<label class="field">Shirt Size
-<select id="shirt1" required>
-<option value="">Select size</option>
-<option>XS</option><option>S</option><option>M</option>
-<option>L</option><option>XL</option><option>2XL</option><option>3XL</option>
-</select>
-</label>
-
-<h3>Player 2</h3>
-<label class="field">Full Name
-<input id="player2" maxlength="100" required placeholder="Player 2 full name">
-</label>
-<label class="field">Shirt Size
-<select id="shirt2" required>
-<option value="">Select size</option>
-<option>XS</option><option>S</option><option>M</option>
-<option>L</option><option>XL</option><option>2XL</option><option>3XL</option>
-</select>
-</label>
-
-<h3>Contact Details</h3>
-<label class="field">Phone
-<input id="phone" type="tel" maxlength="20" required placeholder="09XXXXXXXXX">
-</label>
-<label class="field">Email
-<input id="email" type="email" required placeholder="name@example.com">
-</label>
-
-<div class="fees">
-<strong>Registration Fee Breakdown</strong>
-<div class="line">
-<span>Player 1</span><strong id="fee1">₱0</strong>
-</div>
-<div class="line">
-<span>Player 2</span><strong id="fee2">₱0</strong>
-</div>
-<div class="line total">
-<span>Total Team Fee</span><strong id="feeTotal">₱0</strong>
-</div>
-<p id="doubleFee" class="muted">Select a category.</p>
-</div>
-
-<button class="submit" disabled type="submit">
-Registration Coming Soon
-</button>
-</form>
+ <h2>Step 2 — Build Your Teams</h2>
+ <p class="muted">
+  Select a tournament category and two players for each team.
+  Click Add Another Team to register additional entries.
+ </p>
+ <div id="teams"></div>
+ <button id="addTeam" class="button light" type="button">
+  + Add Another Team
+ </button>
 </section>
-</div>
-</div>
+
+<section class="panel">
+ <h2>Step 3 — Review Registration</h2>
+ <div id="validation" class="notice">
+  Add your players and teams to see the registration summary.
+ </div>
+ <div id="checkoutSummary" class="summary" style="margin-top:16px">
+  <h2>Payment Summary</h2>
+  <div id="summaryLines"></div>
+  <div class="line">
+   <strong>Total Amount Due</strong>
+   <strong id="grandTotal" class="total">₱0</strong>
+  </div>
+  <p id="freebieCount" style="color:#d9e4dc;font-size:13px"></p>
+ </div>
+ <div class="actions">
+  <button id="checkout" class="button gold" disabled type="button">
+   Payment Setup Coming Soon
+  </button>
+ </div>
+ <p class="muted">
+  Online payment submission is not enabled yet.
+  The final amount will be verified securely by Supabase
+  before payment is accepted.
+ </p>
+</section>
+
 <div id="pageStatus" class="status" role="status">
-Loading tournament information...
+ Loading tournament information...
 </div>
 </main>
 
@@ -162,12 +163,16 @@ Loading tournament information...
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="config.js"></script>
 <script src="supabase-client.js"></script>
+
 <script>
 'use strict';
 
 const $ = id => document.getElementById(id);
+
 const peso = n => new Intl.NumberFormat('en-PH',{
- style:'currency',currency:'PHP',maximumFractionDigits:2
+ style:'currency',
+ currency:'PHP',
+ maximumFractionDigits:2
 }).format(Number(n||0));
 
 const fmt = s => s
@@ -176,76 +181,413 @@ const fmt = s => s
    })
  : 'To be announced';
 
-const fmtTime = s => s
- ? new Date(s).toLocaleString('en-PH',{
-    dateStyle:'medium',timeStyle:'short'
-   })
- : 'Not specified';
-
 let categories = [];
+let tournament = null;
+let playerCounter = 0;
+let teamCounter = 0;
 
-function statusText(t){
- const now = Date.now();
- const open = t.registration_opens_at
-  ? Date.parse(t.registration_opens_at) : null;
- const close = t.registration_deadline
-  ? Date.parse(t.registration_deadline) : null;
+const players = [];
+const teams = [];
 
- if(t.status==='completed'||t.status==='archived')
-  return 'Tournament completed';
- if(t.status==='ongoing')
-  return 'Tournament ongoing';
- if(open!==null && now<open)
-  return 'Registration coming soon — opens '+fmtTime(t.registration_opens_at);
- if(close!==null && now>close)
-  return 'Registration closed';
- return 'Registration period active (online submissions not yet enabled)';
+function newId(prefix){
+ return prefix+'-'+Date.now()+'-'+Math.random()
+  .toString(36).slice(2,9);
 }
 
-function showCategory(){
- const c = categories.find(x=>x.id===$('category').value);
- $('prizes').replaceChildren();
+function addPlayer(data={}){
+ const p = {
+  id:newId('player'),
+  name:data.name||'',
+  gender:data.gender||'',
+  email:data.email||'',
+  phone:data.phone||'',
+  shirt:data.shirt||''
+ };
 
- if(!c){
-  $('fee1').textContent='₱0';
-  $('fee2').textContent='₱0';
-  $('feeTotal').textContent='₱0';
-  $('doubleFee').textContent='Select a category.';
-  $('prizes').textContent='Select a category to see prizes.';
+ players.push(p);
+ renderPlayers();
+ renderTeams();
+ calculate();
+}
+
+function removePlayer(id){
+ const used = teams.some(t=>t.p1===id||t.p2===id);
+
+ if(used){
+  alert('Remove this player from their teams first.');
   return;
  }
 
- const fee = Number(c.entry_fee||0);
- $('fee1').textContent=peso(fee);
- $('fee2').textContent=peso(fee);
- $('feeTotal').textContent=peso(fee*2);
+ const index=players.findIndex(p=>p.id===id);
+ if(index>=0)players.splice(index,1);
 
- $('doubleFee').textContent=c.double_entry_fee==null
-  ? 'No double-entry rate configured.'
-  : `Double-entry rate: ${peso(c.double_entry_fee)} per player (${peso(c.double_entry_fee*2)} per team), subject to eligibility.`;
-
- for(const [label,value] of [
-  ['Champion',c.first_prize],
-  ['Second Place',c.second_prize],
-  ['Third Place',c.third_prize]
- ]){
-  const row=document.createElement('div');
-  const a=document.createElement('span');
-  const b=document.createElement('strong');
-  row.className='line';
-  a.textContent=label;
-  b.textContent=peso(value);
-  row.append(a,b);
-  $('prizes').append(row);
- }
+ renderPlayers();
+ renderTeams();
+ calculate();
 }
 
-async function load(){
+function renderPlayers(){
+ const root=$('players');
+ root.replaceChildren();
+
+ players.forEach((p,i)=>{
+  const box=document.createElement('div');
+  box.className='item';
+
+  box.innerHTML=`
+   <div class="item-head">
+    <h3>Player ${i+1}</h3>
+    <button type="button" class="button danger remove">
+     Remove
+    </button>
+   </div>
+
+   <div class="grid">
+    <label class="field">Full Name
+     <input data-key="name" maxlength="100"
+      placeholder="Full name" required>
+    </label>
+
+    <label class="field">Category Eligibility
+     <select data-key="gender" required>
+      <option value="">Select</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+     </select>
+    </label>
+
+    <label class="field">Email Address
+     <input data-key="email" type="email"
+      placeholder="name@example.com">
+    </label>
+
+    <label class="field">Contact Number
+     <input data-key="phone" type="tel"
+      placeholder="09XXXXXXXXX">
+    </label>
+
+    <label class="field">Shirt Size
+     <select data-key="shirt">
+      <option value="">Select size</option>
+      <option>XS</option>
+      <option>S</option>
+      <option>M</option>
+      <option>L</option>
+      <option>XL</option>
+      <option>2XL</option>
+      <option>3XL</option>
+     </select>
+    </label>
+   </div>
+  `;
+
+  for(const key of ['name','gender','email','phone','shirt']){
+   const input=box.querySelector(`[data-key="${key}"]`);
+   input.value=p[key];
+
+   input.addEventListener('input',()=>{
+    p[key]=input.value;
+
+    if(key==='name'){
+     updateTeamPlayerLabels();
+    }
+
+    calculate();
+   });
+  }
+
+  box.querySelector('.remove').onclick=()=>removePlayer(p.id);
+  root.append(box);
+ });
+}
+
+function playerOptions(selected){
+ return [
+  '<option value="">Select player</option>',
+  ...players.map(p=>
+   `<option value="${p.id}" ${p.id===selected?'selected':''}>${
+    escapeHtml(p.name||'Unnamed player')
+   }</option>`
+  )
+ ].join('');
+}
+
+function escapeHtml(text){
+ return String(text).replace(/[&<>"']/g,c=>({
+  '&':'&amp;',
+  '<':'&lt;',
+  '>':'&gt;',
+  '"':'&quot;',
+  "'":'&#39;'
+ }[c]));
+}
+
+function addTeam(){
+ teams.push({
+  id:newId('team'),
+  category:'',
+  p1:'',
+  p2:''
+ });
+
+ renderTeams();
+ calculate();
+}
+
+function removeTeam(id){
+ const i=teams.findIndex(t=>t.id===id);
+ if(i>=0)teams.splice(i,1);
+
+ renderTeams();
+ calculate();
+}
+
+function renderTeams(){
+ const root=$('teams');
+ root.replaceChildren();
+
+ teams.forEach((t,i)=>{
+  const box=document.createElement('div');
+  box.className='item';
+  box.dataset.teamId=t.id;
+
+  box.innerHTML=`
+   <div class="item-head">
+    <h3>Team ${i+1}</h3>
+    <button type="button" class="button danger remove">
+     Remove
+    </button>
+   </div>
+
+   <label class="field">Tournament Category
+    <select data-key="category">
+     <option value="">Select category</option>
+     ${categories.map(c=>
+      `<option value="${c.id}" ${c.id===t.category?'selected':''}>
+       ${escapeHtml(c.name)}
+       </option>`
+     ).join('')}
+    </select>
+   </label>
+
+   <div class="grid">
+    <label class="field">Player 1
+     <select data-key="p1">
+      ${playerOptions(t.p1)}
+     </select>
+    </label>
+
+    <label class="field">Player 2
+     <select data-key="p2">
+      ${playerOptions(t.p2)}
+     </select>
+    </label>
+   </div>
+
+   <div class="notice teamFee">
+    Select a category and both players.
+   </div>
+  `;
+
+  for(const key of ['category','p1','p2']){
+   box.querySelector(`[data-key="${key}"]`)
+    .addEventListener('change',e=>{
+     t[key]=e.target.value;
+     calculate();
+    });
+  }
+
+  box.querySelector('.remove').onclick=()=>removeTeam(t.id);
+  root.append(box);
+ });
+}
+
+function updateTeamPlayerLabels(){
+ document.querySelectorAll('[data-team-id]').forEach(box=>{
+  const t=teams.find(x=>x.id===box.dataset.teamId);
+  if(!t)return;
+
+  for(const key of ['p1','p2']){
+   const select=box.querySelector(`[data-key="${key}"]`);
+   select.innerHTML=playerOptions(t[key]);
+  }
+ });
+}
+
+function categoryType(c){
+ const name=c.name.toLowerCase();
+
+ if(name.includes('mixed')||name.includes('mix'))
+  return 'mixed';
+
+ if(name.includes("women")||name.includes("ladies"))
+  return 'womens';
+
+ if(name.includes("men"))
+  return 'mens';
+
+ return 'other';
+}
+
+function validateTeam(t){
+ const c=categories.find(x=>x.id===t.category);
+ const a=players.find(x=>x.id===t.p1);
+ const b=players.find(x=>x.id===t.p2);
+
+ if(!c||!a||!b)return 'Incomplete team information.';
+ if(a.id===b.id)return 'A player cannot partner with themselves.';
+
+ const type=categoryType(c);
+
+ if(type==='mens' &&
+    (a.gender!=='male'||b.gender!=='male'))
+  return "Men's Doubles requires two male players.";
+
+ if(type==='womens' &&
+    (a.gender!=='female'||b.gender!=='female'))
+  return "Women's Doubles requires two female players.";
+
+ if(type==='mixed' &&
+    !(
+     (a.gender==='male'&&b.gender==='female')||
+     (a.gender==='female'&&b.gender==='male')
+    ))
+  return 'Mixed Doubles requires one male and one female player.';
+
+ return null;
+}
+
+function calculate(){
+ const errors=[];
+ const entries=new Map();
+ const teamResults=[];
+
+ const orderedTeams=[...teams];
+
+ for(const t of orderedTeams){
+  const c=categories.find(x=>x.id===t.category);
+  const a=players.find(x=>x.id===t.p1);
+  const b=players.find(x=>x.id===t.p2);
+
+  const error=validateTeam(t);
+
+  if(error){
+   errors.push(`Team ${teams.indexOf(t)+1}: ${error}`);
+   continue;
+  }
+
+  if(!c.registration_open){
+   errors.push(`${c.name}: Registration is currently closed.`);
+  }
+
+  for(const p of [a,b]){
+   const key=p.id;
+
+   if(!entries.has(key)){
+    entries.set(key,[]);
+   }
+
+   if(entries.get(key).includes(c.id)){
+    errors.push(
+     `${p.name||'Player'} is already entered in ${c.name}.`
+    );
+   }else{
+    entries.get(key).push(c.id);
+   }
+  }
+ }
+
+ const appearances=new Map();
+ let total=0;
+
+ for(const t of orderedTeams){
+  const c=categories.find(x=>x.id===t.category);
+  const a=players.find(x=>x.id===t.p1);
+  const b=players.find(x=>x.id===t.p2);
+
+  if(!c||!a||!b||a.id===b.id)continue;
+
+  let teamTotal=0;
+
+  for(const p of [a,b]){
+   const count=appearances.get(p.id)||0;
+
+   const fee=count===0
+    ?Number(c.entry_fee||0)
+    :Number(c.double_entry_fee??c.entry_fee??0);
+
+   teamTotal+=fee;
+   appearances.set(p.id,count+1);
+  }
+
+  total+=teamTotal;
+
+  teamResults.push({
+   id:t.id,
+   category:c.name,
+   players:`${a.name||'Player 1'} / ${b.name||'Player 2'}`,
+   amount:teamTotal
+  });
+ }
+
+ for(const p of players){
+  if(!p.name.trim())errors.push('All players need full names.');
+  if(!p.gender)errors.push(`${p.name||'A player'} needs an eligibility selection.`);
+ }
+
+ if(teams.length===0)errors.push('Add at least one team.');
+
+ document.querySelectorAll('[data-team-id]').forEach(box=>{
+  const result=teamResults.find(x=>x.id===box.dataset.teamId);
+  const feeBox=box.querySelector('.teamFee');
+
+  feeBox.textContent=result
+   ?`Estimated team fee: ${peso(result.amount)}`
+   :'Complete the team details to see pricing.';
+ });
+
+ const summary=$('summaryLines');
+ summary.replaceChildren();
+
+ for(const r of teamResults){
+  const row=document.createElement('div');
+  row.className='line';
+
+  const name=document.createElement('span');
+  name.textContent=`${r.category}: ${r.players}`;
+
+  const amount=document.createElement('strong');
+  amount.textContent=peso(r.amount);
+
+  row.append(name,amount);
+  summary.append(row);
+ }
+
+ $('grandTotal').textContent=peso(total);
+
+ const uniquePlayers=new Set(
+  teams.flatMap(t=>[t.p1,t.p2]).filter(Boolean)
+ );
+
+ $('freebieCount').textContent=
+  `${uniquePlayers.size} unique participating players. `+
+  `Freebies are counted once per player per tournament.`;
+
+ const valid=errors.length===0;
+
+ $('validation').textContent=valid
+  ?'Registration details look valid. Payment setup is not enabled yet.'
+  :errors.slice(0,8).join('\n');
+
+ $('validation').classList.toggle('error',!valid);
+}
+
+async function loadTournament(){
  const id=new URLSearchParams(location.search).get('id');
 
- if(!id || !/^[0-9a-f]{8}-[0-9a-f-]{27,}$/i.test(id)){
-  $('name').textContent='Tournament not found';
-  $('pageStatus').textContent='Choose a tournament from the homepage.';
+ if(!id){
+  $('tournamentName').textContent='Tournament not found';
+  $('pageStatus').textContent='Select a tournament from the homepage.';
   return;
  }
 
@@ -255,68 +597,64 @@ async function load(){
  }
 
  try{
-  const {data:t,error}=await courtDb.from('tournaments')
+  const {data:t,error}=await courtDb
+   .from('tournaments')
    .select('id,title,description,start_date,end_date,status,registration_opens_at,registration_deadline')
    .eq('id',id)
-   .in('status',['published','ongoing','completed'])
+   .in('status',['published','ongoing'])
    .single();
 
   if(error||!t)throw error||new Error('Tournament unavailable');
 
-  $('name').textContent=t.title;
-  $('description').textContent=t.description||'';
-  $('dates').textContent=fmt(t.start_date)+
+  tournament=t;
+  $('tournamentName').textContent=t.title;
+  $('tournamentDescription').textContent=t.description||'';
+  $('tournamentDates').textContent=fmt(t.start_date)+
    (t.end_date!==t.start_date?' – '+fmt(t.end_date):'');
-  $('registrationStatus').textContent=statusText(t);
+
+  const now=Date.now();
+  const opens=t.registration_opens_at
+   ?Date.parse(t.registration_opens_at):null;
+  const closes=t.registration_deadline
+   ?Date.parse(t.registration_deadline):null;
+
+  $('registrationStatus').textContent=
+   opens!==null&&now<opens
+   ?'Registration coming soon'
+   :closes!==null&&now>closes
+   ?'Registration closed'
+   :'Tournament registration preview';
 
   const {data:list,error:ce}=await courtDb
    .from('tournament_categories')
-   .select('id,name,category_date,entry_fee,double_entry_fee,max_teams,first_prize,second_prize,third_prize,registration_open')
+   .select('id,name,category_date,entry_fee,double_entry_fee,max_teams,registration_open')
    .eq('tournament_id',id)
    .order('category_date',{ascending:true});
 
   if(ce)throw ce;
 
   categories=list||[];
-  $('category').replaceChildren(new Option('Select category',''));
-  $('category').disabled=!categories.length;
 
-  const box=$('categoryList');
-  box.replaceChildren();
-
-  if(!categories.length){
-   box.textContent='No categories added yet.';
-  }
-
-  for(const c of categories){
-   $('category').add(new Option(
-    `${c.name} — ${fmt(c.category_date)}`,c.id
-   ));
-
-   const row=document.createElement('div');
-   const name=document.createElement('span');
-   const fee=document.createElement('strong');
-
-   row.className='line';
-   name.textContent=`${c.name} • ${fmt(c.category_date)}`;
-   fee.textContent=`${peso(c.entry_fee)} / player · ${c.registration_open?'Open':'Closed'}`;
-
-   row.append(name,fee);
-   box.append(row);
-  }
+  renderTeams();
+  calculate();
 
   $('pageStatus').textContent=
-   'Tournament information loaded. Online registration is not enabled yet.';
+   'Tournament loaded. Registration submissions remain disabled.';
+
  }catch(e){
   console.error(e);
-  $('name').textContent='Tournament unavailable';
-  $('pageStatus').textContent='Unable to load tournament details.';
+  $('tournamentName').textContent='Tournament unavailable';
+  $('pageStatus').textContent='Unable to load tournament information.';
  }
 }
 
-$('category').addEventListener('change',showCategory);
-$('teamForm').addEventListener('submit',e=>e.preventDefault());
-load();
+$('addPlayer').onclick=()=>addPlayer();
+$('addTeam').onclick=addTeam;
+
+addPlayer();
+addPlayer();
+addTeam();
+loadTournament();
 </script>
 </body>
 </html>
