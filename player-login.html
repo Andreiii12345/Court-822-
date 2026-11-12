@@ -3,221 +3,86 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#19352b">
-
 <title>Court 822 | Player Login</title>
-
 <link rel="icon" href="logo.svg">
 <link rel="stylesheet" href="style.css">
 
 <style>
 *{box-sizing:border-box}
-
 body{
- margin:0;
- background:#f5f0e8;
- color:#19352b;
- font-family:Arial,sans-serif;
- min-height:100vh;
+ margin:0;background:#f5f0e8;color:#19352b;
+ font-family:Arial,sans-serif;min-height:100vh
 }
-
 .topbar{
- background:#19352b;
- color:#d4ac70;
- text-align:center;
- padding:11px;
- font-size:11px;
- letter-spacing:2px;
+ background:#19352b;color:#d4ac70;text-align:center;
+ padding:11px;font-size:11px;letter-spacing:2px
 }
-
-.nav822{
- background:#fffdf9;
- border-bottom:1px solid #e2d9ca;
- padding:14px 5%;
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:12px;
+.nav{
+ background:#fffdf9;border-bottom:1px solid #e2d9ca;
+ padding:14px 5%;display:flex;
+ justify-content:space-between;align-items:center;gap:12px
 }
-
-.brand822{
- display:flex;
- align-items:center;
- gap:10px;
- color:#19352b;
- text-decoration:none;
+.brand{
+ display:flex;align-items:center;gap:10px;
+ color:#19352b;text-decoration:none
 }
-
-.brand822 img{
- width:45px;
- height:45px;
- object-fit:contain;
-}
-
-.brand822 b{
- display:block;
- letter-spacing:2px;
-}
-
-.brand822 small{
- display:block;
- color:#b78e55;
- font-size:10px;
-}
-
+.brand img{width:45px;height:45px;object-fit:contain}
+.brand b{display:block;letter-spacing:2px}
+.brand small{display:block;color:#b78e55;font-size:10px}
 .home-link{
- color:#19352b;
- background:#e6ece7;
- padding:11px 16px;
- border-radius:9px;
- text-decoration:none;
- font-size:13px;
- font-weight:bold;
+ color:#19352b;background:#e6ece7;padding:11px 16px;
+ border-radius:9px;text-decoration:none;font-size:13px;font-weight:bold
 }
-
-.login-wrap{
- max-width:460px;
- margin:45px auto 70px;
- padding:0 16px;
-}
-
+.login-wrap{max-width:460px;margin:45px auto 70px;padding:0 16px}
 .login-card{
- background:#fffdf9;
- border:1px solid #e2d9ca;
- border-radius:20px;
- overflow:hidden;
- box-shadow:0 12px 35px rgba(0,0,0,.06);
+ background:#fffdf9;border:1px solid #e2d9ca;
+ border-radius:20px;overflow:hidden;
+ box-shadow:0 12px 35px rgba(0,0,0,.06)
 }
-
 .login-head{
- background:#19352b;
- color:white;
- padding:35px 25px;
- text-align:center;
+ background:#19352b;color:white;
+ padding:35px 25px;text-align:center
 }
-
 .login-head img{
- width:72px;
- height:72px;
- object-fit:contain;
- background:white;
- border-radius:50%;
- padding:8px;
- margin-bottom:14px;
+ width:72px;height:72px;object-fit:contain;
+ background:white;border-radius:50%;
+ padding:8px;margin-bottom:14px
 }
-
-.login-head small{
- color:#d4ac70;
- letter-spacing:2px;
- font-weight:bold;
-}
-
-.login-head h1{
- font:36px Georgia,serif;
- margin:12px 0;
-}
-
-.login-head p{
- color:#d9e4dc;
- font-size:14px;
- line-height:1.7;
-}
-
+.login-head small{color:#d4ac70;letter-spacing:2px;font-weight:bold}
+.login-head h1{font:36px Georgia,serif;margin:12px 0}
+.login-head p{color:#d9e4dc;font-size:14px;line-height:1.7}
 .login-body{padding:28px}
-
-.login-body h2{
- font:26px Georgia,serif;
- margin:0 0 12px;
-}
-
-.muted{
- color:#68766e;
- font-size:13px;
- line-height:1.7;
-}
-
-.field{
- display:block;
- margin:20px 0;
- font-size:13px;
- font-weight:bold;
-}
-
+.login-body h2{font:26px Georgia,serif;margin:0 0 12px}
+.muted{color:#68766e;font-size:13px;line-height:1.7}
+.field{display:block;margin:20px 0;font-size:13px;font-weight:bold}
 .field input{
- display:block;
- width:100%;
- padding:15px;
- margin-top:9px;
- border:1px solid #d5cbbd;
- border-radius:10px;
- font-size:16px;
- background:white;
- color:#19352b;
+ display:block;width:100%;padding:15px;margin-top:9px;
+ border:1px solid #d5cbbd;border-radius:10px;
+ font-size:16px;background:white;color:#19352b
 }
-
-.field input:focus{
- outline:2px solid #c4a06b;
- outline-offset:1px;
-}
-
+.field input:focus{outline:2px solid #c4a06b;outline-offset:1px}
 .otp-input{
- text-align:center;
- font-size:26px!important;
- font-weight:bold;
- letter-spacing:5px;
+ text-align:center;font-size:26px!important;
+ font-weight:bold;letter-spacing:5px
 }
-
-.btn822{
- display:block;
- width:100%;
- padding:15px;
- border:0;
- border-radius:10px;
- background:#19352b;
- color:white;
- font-weight:bold;
- font-size:15px;
- cursor:pointer;
- margin-top:12px;
+.btn{
+ display:block;width:100%;padding:15px;border:0;
+ border-radius:10px;background:#19352b;color:white;
+ font-weight:bold;font-size:15px;cursor:pointer;margin-top:12px
 }
-
-.btn822:disabled{
- opacity:.55;
- cursor:not-allowed;
-}
-
-.btn822.light{
- background:#e6ece7;
- color:#19352b;
-}
-
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn.light{background:#e6ece7;color:#19352b}
 .message{
- margin-top:18px;
- padding:14px;
- background:#e6ece7;
- border-radius:10px;
- font-size:13px;
- line-height:1.6;
- overflow-wrap:anywhere;
+ margin-top:18px;padding:14px;background:#e6ece7;
+ border-radius:10px;font-size:13px;line-height:1.6;
+ overflow-wrap:anywhere
 }
-
-.message.error{
- background:#f8e4e1;
- color:#913c32;
-}
-
+.message.error{background:#f8e4e1;color:#913c32}
 .hidden{display:none!important}
-
-.footer822{
- text-align:center;
- padding:20px;
- font-size:13px;
-}
-
-.footer822 a{color:#19352b}
-
+.footer{text-align:center;padding:20px;font-size:13px}
+.footer a{color:#19352b}
 @media(max-width:600px){
  .login-wrap{margin:20px auto 50px}
  .login-body{padding:22px}
@@ -229,177 +94,96 @@ body{
 
 <body>
 
-<div class="topbar">
- COURT 822 • PLAYER ACCESS
-</div>
+<div class="topbar">COURT 822 • PLAYER ACCESS</div>
 
-<header class="nav822">
- <a class="brand822" href="index.html">
+<header class="nav">
+ <a class="brand" href="index.html">
   <img src="logo.svg" alt="Court 822">
-  <span>
-   <b>COURT 822</b>
-   <small>PICKLEBALL</small>
-  </span>
+  <span><b>COURT 822</b><small>PICKLEBALL</small></span>
  </a>
-
- <a class="home-link" href="index.html">
-  Home
- </a>
+ <a class="home-link" href="index.html">Home</a>
 </header>
 
 <main class="login-wrap">
-
 <section class="login-card">
 
  <div class="login-head">
   <img src="logo.svg" alt="Court 822">
-
   <small>COURT 822 V3</small>
-
   <h1>Player Login</h1>
-
-  <p>
-   Register once and access your
-   tournament account anytime.
-  </p>
+  <p>Register once and access your tournament account anytime.</p>
  </div>
 
  <div class="login-body">
 
-  <!-- EMAIL FORM -->
-
   <form id="emailForm">
-
    <h2>Welcome, Player!</h2>
-
    <p class="muted">
     Enter your email address.
-    We'll send you an 8-digit
-    verification code.
+    We'll send you an 8-digit verification code.
    </p>
 
    <label class="field">
     Email Address
-
-    <input
-     id="email"
-     type="email"
-     autocomplete="email"
-     placeholder="yourname@email.com"
-     maxlength="254"
-     required>
+    <input id="email" type="email" autocomplete="email"
+     placeholder="yourname@email.com" maxlength="254" required>
    </label>
 
-   <button
-    id="sendButton"
-    class="btn822"
-    type="submit">
+   <button id="sendButton" class="btn" type="submit">
     Send Verification Code
    </button>
-
   </form>
 
-  <!-- OTP FORM -->
-
   <form id="otpForm" class="hidden">
-
    <h2>Verify Your Email</h2>
-
    <p class="muted">
-    Check your email on your phone
-    or another device, then enter
-    the code below.
+    Check your email on your phone or another device,
+    then enter the code below.
    </p>
-
    <p class="muted">
-    Code sent to:
-    <strong id="sentEmail"></strong>
+    Code sent to: <strong id="sentEmail"></strong>
    </p>
 
    <label class="field">
     Verification Code
-
-    <input
-     id="otp"
-     class="otp-input"
-     type="text"
-     inputmode="numeric"
-     autocomplete="one-time-code"
-     pattern="[0-9]{8}"
-     minlength="8"
-     maxlength="8"
-     placeholder="00000000"
-     required>
+    <input id="otp" class="otp-input" type="text"
+     inputmode="numeric" autocomplete="one-time-code"
+     pattern="[0-9]{8}" minlength="8" maxlength="8"
+     placeholder="00000000" required>
    </label>
 
-   <button
-    id="verifyButton"
-    class="btn822"
-    type="submit">
+   <button id="verifyButton" class="btn" type="submit">
     Verify & Continue
    </button>
 
-   <button
-    id="resendButton"
-    class="btn822 light"
-    type="button"
-    disabled>
+   <button id="resendButton" class="btn light"
+    type="button" disabled>
     Resend Code (60s)
    </button>
 
-   <button
-    id="changeEmail"
-    class="btn822 light"
-    type="button">
+   <button id="changeEmail" class="btn light" type="button">
     Change Email
    </button>
-
   </form>
 
-  <!-- SUCCESS PANEL -->
-
   <div id="successPanel" class="hidden">
-
    <h2>Welcome to Court 822!</h2>
-
    <div class="message">
     Your account is verified.
-    You're signed in successfully.
+    Redirecting to tournaments...
    </div>
-
    <p id="accountEmail" class="muted"></p>
-
-   <button
-    id="continueButton"
-    class="btn822"
-    type="button">
-    Continue to Tournaments
-   </button>
-
-   <button
-    id="logoutButton"
-    class="btn822 light"
-    type="button">
-    Sign Out
-   </button>
-
   </div>
 
-  <p
-   id="statusMessage"
-   class="message hidden"
-   role="status"
-   aria-live="polite">
-  </p>
+  <p id="statusMessage" class="message hidden"
+   role="status" aria-live="polite"></p>
 
  </div>
-
 </section>
 
-<div class="footer822">
+<div class="footer">
  <a href="index.html">Back to Court 822</a>
 </div>
-
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
@@ -415,17 +199,16 @@ let pendingEmail='';
 let busy=false;
 let resendAllowedAt=0;
 let resendTimer=null;
+let redirecting=false;
 
 function showPanel(name){
- ['emailForm','otpForm','successPanel']
- .forEach(id=>{
+ ['emailForm','otpForm','successPanel'].forEach(id=>{
   $(id).classList.toggle('hidden',id!==name);
  });
 }
 
 function showStatus(text,error=false){
  const el=$('statusMessage');
-
  el.textContent=text;
  el.classList.remove('hidden');
  el.classList.toggle('error',error);
@@ -435,27 +218,14 @@ function clearStatus(){
  $('statusMessage').classList.add('hidden');
 }
 
-function showSuccess(user){
- showPanel('successPanel');
-
- $('accountEmail').textContent=
-  'Signed in as: '+(user.email||'');
-
- clearStatus();
-}
-
 function safeNext(){
  const fallback=new URL(
-  'index.html#tournaments',
-  location.href
+  'index.html#tournaments',location.href
  ).href;
 
- const raw=new URLSearchParams(
-  location.search
- ).get('next');
+ const raw=new URLSearchParams(location.search).get('next');
 
- if(!raw || raw.startsWith('/') ||
-    raw.includes('\\')){
+ if(!raw || raw.startsWith('/') || raw.includes('\\')){
   return fallback;
  }
 
@@ -474,17 +244,27 @@ function safeNext(){
  }
 }
 
+function showSuccess(user){
+ if(redirecting)return;
+ redirecting=true;
+
+ showPanel('successPanel');
+
+ $('accountEmail').textContent=
+  'Signed in as: '+(user.email||'');
+
+ clearStatus();
+
+ location.replace(safeNext());
+}
+
 function updateResend(){
  const seconds=Math.max(
-  0,
-  Math.ceil((resendAllowedAt-Date.now())/1000)
+  0,Math.ceil((resendAllowedAt-Date.now())/1000)
  );
 
- $('resendButton').disabled=
-  seconds>0 || busy;
-
- $('resendButton').textContent=
-  seconds>0
+ $('resendButton').disabled=seconds>0 || busy;
+ $('resendButton').textContent=seconds>0
   ?'Resend Code ('+seconds+'s)'
   :'Resend Code';
 }
@@ -492,9 +272,7 @@ function updateResend(){
 function startCooldown(){
  resendAllowedAt=Date.now()+60000;
 
- if(resendTimer){
-  clearInterval(resendTimer);
- }
+ if(resendTimer)clearInterval(resendTimer);
 
  updateResend();
 
@@ -515,28 +293,21 @@ async function sendCode(email){
 
  const {error}=await courtDb.auth.signInWithOtp({
   email,
-  options:{
-   shouldCreateUser:true
-  }
+  options:{shouldCreateUser:true}
  });
 
  if(error)throw error;
 }
 
-// REQUEST CODE
-
 $('emailForm').addEventListener('submit',async e=>{
  e.preventDefault();
-
  if(busy)return;
 
  const email=$('email').value.trim().toLowerCase();
-
  if(!email)return;
 
  busy=true;
  $('sendButton').disabled=true;
-
  showStatus('Sending verification code...');
 
  try{
@@ -549,19 +320,14 @@ $('emailForm').addEventListener('submit',async e=>{
   showPanel('otpForm');
   startCooldown();
 
-  showStatus(
-   'Check your email for the verification code.'
-  );
+  showStatus('Check your email for the verification code.');
 
  }catch(error){
   console.error('Email request:',error);
-
   showStatus(
-   'Unable to send the code right now. '+
-   'Please wait and try again.',
+   'Unable to send the code right now. Please try later.',
    true
   );
-
  }finally{
   busy=false;
   $('sendButton').disabled=false;
@@ -569,11 +335,8 @@ $('emailForm').addEventListener('submit',async e=>{
  }
 });
 
-// VERIFY CODE
-
 $('otpForm').addEventListener('submit',async e=>{
  e.preventDefault();
-
  if(busy)return;
 
  const token=$('otp').value.trim();
@@ -585,7 +348,6 @@ $('otpForm').addEventListener('submit',async e=>{
 
  busy=true;
  $('verifyButton').disabled=true;
-
  showStatus('Verifying your code...');
 
  try{
@@ -605,21 +367,16 @@ $('otpForm').addEventListener('submit',async e=>{
 
  }catch(error){
   console.error('Verification:',error);
-
   showStatus(
-   'Invalid or expired code. '+
-   'Check your email or request a new one.',
+   'Invalid or expired code. Check your email or request a new one.',
    true
   );
-
  }finally{
   busy=false;
   $('verifyButton').disabled=false;
   updateResend();
  }
 });
-
-// RESEND CODE
 
 $('resendButton').addEventListener('click',async()=>{
  if(busy || Date.now()<resendAllowedAt)return;
@@ -630,20 +387,11 @@ $('resendButton').addEventListener('click',async()=>{
  try{
   await sendCode(pendingEmail);
   startCooldown();
-
-  showStatus(
-   'A new verification code has been requested.'
-  );
-
+  showStatus('A new verification code has been requested.');
  }catch(error){
   console.error('Resend:',error);
   startCooldown();
-
-  showStatus(
-   'Unable to resend right now. Try later.',
-   true
-  );
-
+  showStatus('Unable to resend right now.',true);
  }finally{
   busy=false;
   updateResend();
@@ -655,26 +403,6 @@ $('changeEmail').addEventListener('click',()=>{
  showPanel('emailForm');
  clearStatus();
 });
-
-$('continueButton').addEventListener('click',()=>{
- location.assign(safeNext());
-});
-
-$('logoutButton').addEventListener('click',async()=>{
- if(!window.courtDb)return;
-
- const {error}=await courtDb.auth.signOut();
-
- if(error){
-  showStatus('Unable to sign out.',true);
-  return;
- }
-
- showPanel('emailForm');
- clearStatus();
-});
-
-// INITIALIZE
 
 async function initialize(){
  if(!window.courtDb){
@@ -689,7 +417,6 @@ async function initialize(){
   if(data?.user){
    showSuccess(data.user);
   }
-
  }catch(error){
   console.error('Initialization:',error);
  }
