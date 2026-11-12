@@ -1,438 +1,407 @@
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Court 822 pickleball tournaments, team registration and live events.">
-<title>Court 822 | Tournaments</title>
+<meta name="theme-color" content="#19352b">
+<title>Court 822 | Tournament Central</title>
+<meta name="description"
+ content="Court 822 Pickleball tournaments, registration, schedules and results.">
 <link rel="icon" href="logo.svg">
 <link rel="stylesheet" href="style.css">
 
 <style>
-.t-hero{
-  background:#19352b;
-  color:#fffdf9;
-  border-radius:24px;
-  padding:clamp(28px,6vw,76px);
-  margin-top:26px;
-  position:relative;
-  overflow:hidden;
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+ margin:0;background:#f5f0e8;color:#19352b;
+ font-family:Arial,sans-serif
 }
-.t-hero:after{
-  content:'822';
-  position:absolute;
-  right:-15px;
-  bottom:-65px;
-  font:bold clamp(130px,23vw,310px) Georgia,serif;
-  color:rgba(255,255,255,.045);
-  pointer-events:none;
+a{text-decoration:none}
+.top{
+ background:#19352b;color:#d4ac70;
+ text-align:center;padding:10px;
+ font-size:11px;letter-spacing:2px
 }
-.t-hero>*{position:relative;z-index:1}
-.t-kicker{
-  color:#caa56e;
-  font-size:12px;
-  font-weight:700;
-  letter-spacing:2px;
+.nav{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:15px;padding:14px 5%;
+ background:#fffdf9;border-bottom:1px solid #e2d9ca
 }
-.t-hero h1{
-  font:clamp(40px,6vw,76px)/1.05 Georgia,serif;
-  margin:16px 0;
-  max-width:720px;
+.brand2{
+ display:flex;align-items:center;gap:10px;
+ color:#19352b
 }
-.t-hero h1 em{color:#caa56e}
-.t-hero p{
-  line-height:1.7;
-  max-width:550px;
-  color:#e3e9e4;
+.brand2 img{width:48px;height:48px;object-fit:contain}
+.brand2 b{display:block;letter-spacing:2px}
+.brand2 small{color:#a8895d;font-size:10px}
+.links{display:flex;gap:12px;align-items:center}
+.links a{color:#19352b;font-size:13px;font-weight:bold}
+.btn822{
+ display:inline-block;background:#19352b;color:white!important;
+ border:0;border-radius:9px;padding:13px 18px;
+ font-size:13px;font-weight:bold;cursor:pointer
 }
-.t-hero .btn{
-  background:#b9915e;
-  color:#19352b;
-  font-size:14px;
-  margin-top:14px;
+.btn822.gold{background:#c4a06b;color:#19352b!important}
+.btn822.light{background:#e6ece7;color:#19352b!important}
+.wrap{max-width:1100px;margin:auto;padding:0 18px}
+.hero822{
+ background:#19352b;color:white;
+ padding:65px 25px;text-align:center
 }
-.t-section{padding:55px 0}
-.t-head{
-  display:flex;
-  align-items:end;
-  justify-content:space-between;
-  gap:14px;
-  margin-bottom:22px;
+.hero822 small{color:#d4ac70;letter-spacing:2px}
+.hero822 h1{
+ font:clamp(37px,6vw,68px) Georgia,serif;
+ margin:18px auto;max-width:850px
 }
-.t-head h2{
-  font:clamp(29px,4vw,40px) Georgia,serif;
-  color:#19352b;
-  margin:0;
+.hero822 p{
+ color:#dce5df;line-height:1.7;
+ max-width:570px;margin:0 auto 25px
 }
-.t-head p{color:#727b74}
-.t-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:18px;
+.hero-actions{
+ display:flex;justify-content:center;gap:12px;flex-wrap:wrap
 }
-.t-card{
-  background:#fffdf9;
-  border:1px solid #e3dbcf;
-  border-radius:18px;
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
+.section822{padding:55px 0}
+.section822 h2{
+ font:clamp(27px,4vw,38px) Georgia,serif;
+ margin:0 0 12px
 }
-.t-card-top{
-  background:#2e5b49;
-  padding:24px;
-  color:white;
-  min-height:155px;
+.muted822{color:#68766e;font-size:14px;line-height:1.7}
+.cards822{
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:18px;margin-top:25px
 }
-.t-card-top small{
-  color:#e5c38d;
-  text-transform:uppercase;
-  letter-spacing:1.3px;
-  font-weight:700;
+.card822{
+ background:#fffdf9;border:1px solid #e2d9ca;
+ border-radius:16px;padding:24px
 }
-.t-card-top h3{
-  font:29px Georgia,serif;
-  margin:12px 0 7px;
+.card822 h3{font:24px Georgia,serif;margin:12px 0}
+.card822 p{font-size:13px;color:#68766e;line-height:1.7}
+.tag822{
+ display:inline-block;background:#e6ece7;
+ padding:7px 10px;border-radius:7px;
+ font-size:11px;font-weight:bold
 }
-.t-card-body{
-  padding:23px;
-  display:flex;
-  flex-direction:column;
-  gap:13px;
-  flex:1;
+.card822 .btn822{margin-top:12px}
+.account822{
+ background:#e6ece7;border-radius:18px;
+ padding:28px;display:flex;align-items:center;
+ justify-content:space-between;gap:20px
 }
-.t-card-body p{
-  color:#727b74;
-  line-height:1.6;
-  margin:0;
+.account822 h2{margin:0 0 10px}
+.account-actions{
+ display:flex;gap:10px;flex-wrap:wrap
 }
-.t-chip{
-  display:inline-block;
-  border-radius:30px;
-  background:#e5ede7;
-  color:#19352b;
-  padding:7px 10px;
-  font-size:12px;
-  font-weight:700;
+.notice822{
+ padding:15px;border-radius:10px;
+ background:#e6ece7;margin-top:18px;
+ font-size:13px;line-height:1.6
 }
-.t-card-body .btn{
-  font-size:13px;
-  margin-top:auto;
-  padding:14px;
+footer{
+ background:#19352b;color:#dce5df;
+ padding:25px;text-align:center;font-size:12px
 }
-.t-quick{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
-}
-.t-quick article{
-  background:#fffdf9;
-  border:1px solid #e3dbcf;
-  border-radius:15px;
-  padding:23px;
-}
-.t-quick h3{
-  font:22px Georgia,serif;
-  color:#19352b;
-}
-.t-quick p{
-  line-height:1.6;
-  color:#727b74;
-}
-.t-note{
-  background:#e5ede7;
-  border-radius:14px;
-  padding:18px;
-  line-height:1.6;
-  color:#19352b;
-}
-.t-error{color:#9a5048}
-.t-nav{
-  display:flex;
-  gap:8px;
-  align-items:center;
-  flex-wrap:wrap;
-}
-.t-nav a{
-  font-size:13px;
-  padding:10px 12px;
-  border-radius:9px;
-}
-.t-nav a:hover{background:#fffdf9}
-.t-mobile-bar{display:none}
-
-@media(max-width:700px){
-  .navbar{gap:10px;padding:10px 14px}
-  .navbar .brand span{display:block}
-  .navbar .brand b{
-    font-size:13px;
-    letter-spacing:1px;
-  }
-  .navbar .brand img{
-    width:38px;
-    height:38px;
-  }
-  .t-nav{display:none}
-  .nav-actions .btn{
-    padding:10px;
-    font-size:11px;
-  }
-  .t-grid,.t-quick{grid-template-columns:1fr}
-  .t-head{display:block}
-  .t-hero{
-    margin-top:12px;
-    padding:35px 22px;
-  }
-  .t-section{padding:36px 0}
-  .t-mobile-bar{
-    display:flex;
-    position:sticky;
-    bottom:0;
-    z-index:15;
-    background:#fffdf9;
-    border-top:1px solid #e3dbcf;
-    justify-content:space-around;
-    padding:10px 6px;
-  }
-  .t-mobile-bar a{
-    font-size:12px;
-    color:#19352b;
-    text-align:center;
-    padding:8px;
-  }
-  .t-card-top{min-height:125px}
+@media(max-width:760px){
+ .nav{padding:12px 16px}
+ .links>a:not(.btn822){display:none}
+ .brand2 b{font-size:13px}
+ .brand2 img{width:40px;height:40px}
+ .hero822{padding:50px 20px}
+ .cards822{grid-template-columns:1fr}
+ .account822{flex-direction:column;align-items:stretch}
+ .account-actions .btn822{text-align:center;flex:1}
+ .section822{padding:38px 0}
 }
 </style>
 </head>
 
 <body>
-<div class="announcement">
-  COURT 822 · TOURNAMENT CENTRAL
+
+<div class="top">
+ COURT 822 • PICKLEBALL TOURNAMENT CENTRAL
 </div>
 
-<header class="navbar">
-  <a class="brand" href="index.html">
-    <img src="logo.svg" alt="Court 822 logo">
-    <span>
-      <b>COURT 822</b>
-      <small>PICKLEBALL</small>
-    </span>
+<header class="nav">
+ <a class="brand2" href="index.html">
+  <img src="logo.svg" alt="Court 822">
+  <span>
+   <b>COURT 822</b>
+   <small>TOURNAMENT CENTRAL</small>
+  </span>
+ </a>
+
+ <nav class="links">
+  <a href="#tournaments">Tournaments</a>
+  <a href="#account">My Account</a>
+  <a id="accountNav" class="btn822"
+   href="player-login.html">
+   Player Login
   </a>
-
-  <nav class="t-nav" aria-label="Main navigation">
-    <a href="index.html" aria-current="page">Home</a>
-    <a href="#tournaments">Tournaments</a>
-    <a href="#how-it-works">How it works</a>
-    <a href="#contact">Contact</a>
-  </nav>
-
-  <div class="nav-actions">
-    <a class="btn secondary" href="owner.html">Owner</a>
-    <a class="btn" href="#tournaments">View Events</a>
-  </div>
+ </nav>
 </header>
 
-<main class="container">
+<section class="hero822">
+ <div class="wrap">
+  <small>WELCOME TO COURT 822</small>
+  <h1>Register. Compete. Win.</h1>
+  <p>
+   Discover upcoming pickleball tournaments,
+   register your doubles team and follow
+   tournament announcements.
+  </p>
 
-  <section class="t-hero">
-    <div class="t-kicker">
-      COURT 822 · PICKLEBALL TOURNAMENTS
-    </div>
+  <div class="hero-actions">
+   <a class="btn822 gold" href="#tournaments">
+    Explore Tournaments
+   </a>
+   <a class="btn822 light" href="#account">
+    My Account
+   </a>
+  </div>
+ </div>
+</section>
 
-    <h1>Compete. Connect. <em>Win.</em></h1>
+<main>
 
-    <p>
-      Discover upcoming tournaments, register your
-      doubles team, and follow the action at Court 822.
+<section id="tournaments" class="section822">
+ <div class="wrap">
+  <h2>Upcoming Tournaments</h2>
+  <p class="muted822">
+   Find your next Court 822 tournament.
+  </p>
+
+  <div id="tournamentList" class="cards822">
+   <div class="card822">
+    Loading tournaments...
+   </div>
+  </div>
+
+  <p id="tournamentStatus" class="muted822"
+   role="status"></p>
+ </div>
+</section>
+
+<section id="account" class="section822">
+ <div class="wrap">
+  <div class="account822">
+   <div>
+    <h2 id="accountTitle">Player Account</h2>
+    <p id="accountDescription" class="muted822">
+     Sign up once using your email.
+     Returning players stay signed in
+     while their session is valid.
     </p>
+   </div>
 
-    <a class="btn" href="#tournaments">
-      Explore tournaments
+   <div class="account-actions">
+    <a id="accountButton" class="btn822"
+     href="player-login.html">
+     Sign In / Sign Up
     </a>
-  </section>
 
-  <section class="t-section" id="tournaments">
-    <div class="t-head">
-      <div>
-        <h2>Upcoming tournaments</h2>
-        <p>
-          Official events and categories published
-          by Court 822.
-        </p>
-      </div>
-    </div>
+    <button id="signOutButton"
+     class="btn822 light" type="button"
+     hidden>
+     Sign Out
+    </button>
+   </div>
+  </div>
 
-    <div
-      id="tournament-list"
-      class="t-grid"
-      aria-live="polite"
-    >
-      <p>Loading tournaments...</p>
-    </div>
-  </section>
+  <div class="notice822">
+   <strong>Coming next:</strong>
+   My Registrations, payment status,
+   downloadable team QR passes and
+   player profile management.
+  </div>
+ </div>
+</section>
 
-  <section class="t-section" id="how-it-works">
-    <div class="t-head">
-      <h2>How registration works</h2>
-    </div>
+<section class="section822">
+ <div class="wrap">
+  <h2>How Registration Works</h2>
 
-    <div class="t-quick">
-      <article>
-        <h3>01 · Register</h3>
-        <p>
-          Choose an open tournament and register
-          both teammates together.
-        </p>
-      </article>
+  <div class="cards822">
+   <article class="card822">
+    <span class="tag822">STEP 1</span>
+    <h3>Choose Tournament</h3>
+    <p>
+     Browse available categories,
+     schedules and registration fees.
+    </p>
+   </article>
 
-      <article>
-        <h3>02 · Verify payment</h3>
-        <p>
-          Submit payment proof. Court 822 staff
-          will review your registration.
-        </p>
-      </article>
+   <article class="card822">
+    <span class="tag822">STEP 2</span>
+    <h3>Register Your Team</h3>
+    <p>
+     Enter both players' details and
+     submit one payment per team.
+    </p>
+   </article>
 
-      <article>
-        <h3>03 · Check in</h3>
-        <p>
-          After approval, receive one team QR pass
-          for tournament-day check-in.
-        </p>
-      </article>
-    </div>
-  </section>
-
-  <section class="t-section" id="contact">
-    <div class="t-note">
-      <strong>Need help?</strong>
-      Contact Court 822 through its official
-      Facebook Messenger page for tournament
-      inquiries. The direct Messenger link will
-      be added once the official page URL
-      is confirmed.
-    </div>
-  </section>
+   <article class="card822">
+    <span class="tag822">STEP 3</span>
+    <h3>Get Your QR Pass</h3>
+    <p>
+     Once payment is approved,
+     both players will receive
+     the same team QR code.
+    </p>
+   </article>
+  </div>
+ </div>
+</section>
 
 </main>
 
 <footer>
-  © 2026 Court 822 Pickleball · Tournament Central
+ © 2026 Court 822 Pickleball
 </footer>
-
-<nav class="t-mobile-bar" aria-label="Mobile navigation">
-  <a href="index.html">Home</a>
-  <a href="#tournaments">Events</a>
-  <a href="#how-it-works">How it works</a>
-  <a href="#contact">Help</a>
-</nav>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="config.js"></script>
 <script src="supabase-client.js"></script>
 
 <script>
-(async function(){
-  const root = document.getElementById('tournament-list');
+'use strict';
 
-  const esc = s => String(s ?? '').replace(
-    /[&<>"']/g,
-    c => ({
-      '&':'&amp;',
-      '<':'&lt;',
-      '>':'&gt;',
-      '"':'&quot;',
-      "'":'&#39;'
-    }[c])
-  );
+const $=id=>document.getElementById(id);
 
-  const date = s => {
-    if (!s) return 'Date to be announced';
+function dateLabel(value){
+ if(!value)return 'Date to be announced';
 
-    const d = new Date(s + 'T00:00:00');
+ const date=new Date(value+'T00:00:00');
 
-    return Number.isNaN(d.getTime())
-      ? 'Date to be announced'
-      : d.toLocaleDateString('en-PH', {
-          month:'long',
-          day:'numeric',
-          year:'numeric'
-        });
-  };
+ return Number.isNaN(date.getTime())
+  ?'Date to be announced'
+  :date.toLocaleDateString('en-PH',{
+   month:'long',day:'numeric',year:'numeric'
+  });
+}
 
-  if (!window.courtDb) {
-    root.innerHTML =
-      '<p class="t-error">Tournament listings are temporarily unavailable. Please try again later.</p>';
-    return;
+function tournamentCard(t){
+ const card=document.createElement('article');
+ card.className='card822';
+
+ const tag=document.createElement('span');
+ tag.className='tag822';
+ tag.textContent=t.status==='ongoing'
+  ?'ONGOING':'UPCOMING';
+
+ const title=document.createElement('h3');
+ title.textContent=t.title;
+
+ const dates=document.createElement('p');
+ dates.textContent=
+  dateLabel(t.start_date)+
+  (t.end_date && t.end_date!==t.start_date
+   ?' – '+dateLabel(t.end_date):'');
+
+ const description=document.createElement('p');
+ description.textContent=t.description||'';
+
+ const link=document.createElement('a');
+ link.className='btn822';
+ link.textContent='View Tournament';
+ link.href='tournament.html?id='+encodeURIComponent(t.id);
+
+ card.append(tag,title,dates,description,link);
+
+ return card;
+}
+
+async function loadTournaments(){
+ const root=$('tournamentList');
+
+ if(!window.courtDb){
+  root.textContent='Tournament service unavailable.';
+  return;
+ }
+
+ const {data,error}=await courtDb
+  .from('tournaments')
+  .select('id,title,description,start_date,end_date,status')
+  .in('status',['published','ongoing'])
+  .order('start_date',{ascending:true});
+
+ if(error){
+  root.textContent='Unable to load tournaments.';
+  $('tournamentStatus').textContent=
+   'Please try refreshing the page.';
+  return;
+ }
+
+ root.replaceChildren();
+
+ if(!data?.length){
+  root.textContent='No published tournaments yet.';
+  return;
+ }
+
+ data.forEach(t=>root.append(tournamentCard(t)));
+}
+
+function showAccount(user){
+ if(user){
+  $('accountTitle').textContent='Welcome Back!';
+  $('accountDescription').textContent=
+   'Signed in as '+(user.email||'Court 822 player');
+
+  $('accountNav').textContent='My Account';
+  $('accountNav').href='#account';
+
+  $('accountButton').textContent='View Tournaments';
+  $('accountButton').href='#tournaments';
+
+  $('signOutButton').hidden=false;
+ }else{
+  $('accountTitle').textContent='Player Account';
+  $('accountDescription').textContent=
+   'Sign up once using your email. '+
+   'Your login is remembered on this device '+
+   'while the session remains valid.';
+
+  $('accountNav').textContent='Player Login';
+  $('accountNav').href='player-login.html';
+
+  $('accountButton').textContent='Sign In / Sign Up';
+  $('accountButton').href='player-login.html';
+
+  $('signOutButton').hidden=true;
+ }
+}
+
+async function loadAccount(){
+ if(!window.courtDb)return;
+
+ const {data}=await courtDb.auth.getUser();
+ showAccount(data?.user||null);
+}
+
+$('signOutButton').onclick=async()=>{
+ if(!window.courtDb)return;
+
+ const {error}=await courtDb.auth.signOut();
+
+ if(error){
+  alert('Unable to sign out. Please try again.');
+  return;
+ }
+
+ showAccount(null);
+};
+
+if(window.courtDb){
+ courtDb.auth.onAuthStateChange((event,session)=>{
+  if(event==='SIGNED_IN'||event==='SIGNED_OUT'){
+   showAccount(session?.user||null);
   }
+ });
+}
 
-  try {
-    const {data,error} = await window.courtDb
-      .from('tournaments')
-      .select('id,title,description,start_date,end_date,status')
-      .in('status',['published','ongoing'])
-      .order('start_date',{ascending:true});
-
-    if (error) throw error;
-
-    if (!data.length) {
-      root.innerHTML =
-        '<div class="t-note">No tournaments have been published yet. Check back soon for Court 822 events!</div>';
-      return;
-    }
-
-    root.innerHTML = data.map(t => `
-      <article class="t-card">
-        <div class="t-card-top">
-          <small>
-            ${esc(t.status === 'ongoing'
-              ? 'Ongoing tournament'
-              : 'Upcoming tournament')}
-          </small>
-
-          <h3>${esc(t.title)}</h3>
-
-          <span>
-            ${esc(date(t.start_date))}
-            ${t.end_date && t.end_date !== t.start_date
-              ? ' – ' + esc(date(t.end_date))
-              : ''}
-          </span>
-        </div>
-
-        <div class="t-card-body">
-          <p>
-            ${esc(t.description ||
-              'Join the next Court 822 pickleball tournament.')}
-          </p>
-
-          <div>
-            <span class="t-chip">
-              ${esc(t.status === 'ongoing'
-                ? 'In progress'
-                : 'Event details')}
-            </span>
-          </div>
-
-          <a
-            class="btn"
-            href="tournament.html?id=${encodeURIComponent(t.id)}"
-          >
-            View tournament
-          </a>
-        </div>
-      </article>
-    `).join('');
-
-  } catch (e) {
-    console.error('Tournament load failed:',e);
-
-    root.innerHTML =
-      '<p class="t-error">Unable to load tournaments right now. Please try again later.</p>';
-  }
-})();
+loadTournaments();
+loadAccount();
 </script>
-
 </body>
 </html>
