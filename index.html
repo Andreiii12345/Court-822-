@@ -3,340 +3,405 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#19352b">
+
 <title>Court 822 | Tournament Central</title>
+
 <link rel="icon" href="logo.svg">
 <link rel="stylesheet" href="style.css">
 
 <style>
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-html:not(.ready) body{visibility:hidden}
-
-body{
- margin:0;
- background:#f5f0e8;
- color:#19352b;
- font-family:Arial,sans-serif;
+* {
+  box-sizing: border-box;
 }
 
-button,input,select{font:inherit}
-button{cursor:pointer}
-button:disabled{opacity:.6;cursor:not-allowed}
-a{text-decoration:none}
-[hidden]{display:none!important}
-
-.top{
- background:#19352b;
- color:#d4ac70;
- padding:11px;
- text-align:center;
- font-size:11px;
- letter-spacing:2px;
+html {
+  scroll-behavior: smooth;
 }
 
-.nav{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:15px;
- padding:14px 5%;
- background:#fffdf9;
- border-bottom:1px solid #e2d9ca;
+html:not(.ready) body {
+  visibility: hidden;
 }
 
-.brand822{
- display:flex;
- align-items:center;
- gap:10px;
- color:#19352b;
+body {
+  margin: 0;
+  background: #f5f0e8;
+  color: #19352b;
+  font-family: Arial, sans-serif;
 }
 
-.brand822 img{
- width:48px;
- height:48px;
- object-fit:contain;
+button,
+input,
+select {
+  font: inherit;
 }
 
-.brand822 b{
- display:block;
- letter-spacing:2px;
+button {
+  cursor: pointer;
 }
 
-.brand822 small{
- color:#a8895d;
- font-size:10px;
+button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
 }
 
-.links{
- display:flex;
- align-items:center;
- gap:12px;
+a {
+  text-decoration: none;
 }
 
-.links a{
- color:#19352b;
- font-size:13px;
- font-weight:bold;
+[hidden] {
+  display: none !important;
 }
 
-.btn822{
- display:inline-block;
- border:0;
- border-radius:9px;
- padding:13px 18px;
- background:#19352b;
- color:white!important;
- font-size:13px;
- font-weight:bold;
- text-align:center;
+.top {
+  background: #19352b;
+  color: #d4ac70;
+  padding: 11px;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 2px;
 }
 
-.btn822.gold{
- background:#c4a06b;
- color:#19352b!important;
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding: 14px 5%;
+  background: #fffdf9;
+  border-bottom: 1px solid #e2d9ca;
 }
 
-.btn822.light{
- background:#e6ece7;
- color:#19352b!important;
+.brand822 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #19352b;
 }
 
-.wrap{
- max-width:1100px;
- margin:auto;
- padding:0 18px;
+.brand822 img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
 }
 
-.hero{
- background:#19352b;
- color:white;
- text-align:center;
- padding:65px 25px;
+.brand822 b {
+  display: block;
+  letter-spacing: 2px;
 }
 
-.hero small{
- color:#d4ac70;
- letter-spacing:2px;
+.brand822 small {
+  color: #a8895d;
+  font-size: 10px;
 }
 
-.hero h1{
- font:clamp(37px,6vw,68px) Georgia,serif;
- margin:18px auto;
- max-width:850px;
+.links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.hero p{
- color:#dce5df;
- line-height:1.7;
- max-width:570px;
- margin:0 auto 25px;
+.links a {
+  color: #19352b;
+  font-size: 13px;
+  font-weight: bold;
 }
 
-.hero-actions{
- display:flex;
- justify-content:center;
- flex-wrap:wrap;
- gap:12px;
+.btn822 {
+  display: inline-block;
+  border: 0;
+  border-radius: 9px;
+  padding: 13px 18px;
+  background: #19352b;
+  color: white !important;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
 }
 
-.section{padding:55px 0}
-
-.section h2{
- font:clamp(27px,4vw,38px) Georgia,serif;
- margin:0 0 12px;
+.btn822.gold {
+  background: #c4a06b;
+  color: #19352b !important;
 }
 
-.muted{
- color:#68766e;
- font-size:14px;
- line-height:1.7;
+.btn822.light {
+  background: #e6ece7;
+  color: #19352b !important;
 }
 
-.cards{
- display:grid;
- grid-template-columns:repeat(3,minmax(0,1fr));
- gap:18px;
- margin-top:25px;
+.wrap {
+  max-width: 1100px;
+  margin: auto;
+  padding: 0 18px;
 }
 
-.card{
- background:#fffdf9;
- border:1px solid #e2d9ca;
- border-radius:16px;
- padding:24px;
+.hero {
+  background: #19352b;
+  color: white;
+  text-align: center;
+  padding: 65px 25px;
 }
 
-.card h3{
- font:24px Georgia,serif;
- margin:12px 0;
+.hero small {
+  color: #d4ac70;
+  letter-spacing: 2px;
 }
 
-.card p{
- color:#68766e;
- font-size:13px;
- line-height:1.7;
+.hero h1 {
+  font: clamp(37px, 6vw, 68px) Georgia, serif;
+  margin: 18px auto;
+  max-width: 850px;
 }
 
-.tag{
- display:inline-block;
- background:#e6ece7;
- border-radius:7px;
- padding:7px 10px;
- font-size:11px;
- font-weight:bold;
+.hero p {
+  color: #dce5df;
+  line-height: 1.7;
+  max-width: 570px;
+  margin: 0 auto 25px;
 }
 
-.card .btn822{margin-top:12px}
-
-.account{
- background:#e6ece7;
- border-radius:18px;
- padding:28px;
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:20px;
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-.account-actions{
- display:flex;
- gap:10px;
- flex-wrap:wrap;
+.section {
+  padding: 55px 0;
 }
 
-.profile-overlay{
- position:fixed;
- inset:0;
- z-index:1000;
- background:rgba(12,29,22,.72);
- display:flex;
- align-items:center;
- justify-content:center;
- padding:16px;
- overflow-y:auto;
+.section h2 {
+  font: clamp(27px, 4vw, 38px) Georgia, serif;
+  margin: 0 0 12px;
 }
 
-.profile-modal{
- background:#fffdf9;
- border-radius:20px;
- width:100%;
- max-width:520px;
- max-height:95vh;
- overflow-y:auto;
- box-shadow:0 15px 55px rgba(0,0,0,.18);
+.muted {
+  color: #68766e;
+  font-size: 14px;
+  line-height: 1.7;
 }
 
-.profile-header{
- background:#19352b;
- color:white;
- padding:28px;
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 25px;
 }
 
-.profile-header small{
- color:#d4ac70;
- letter-spacing:2px;
+.card {
+  background: #fffdf9;
+  border: 1px solid #e2d9ca;
+  border-radius: 16px;
+  padding: 24px;
 }
 
-.profile-header h2{
- font:32px Georgia,serif;
- margin:12px 0;
+.card h3 {
+  font: 24px Georgia, serif;
+  margin: 12px 0;
 }
 
-.profile-header p{
- color:#dce5df;
- font-size:13px;
- line-height:1.7;
+.card p {
+  color: #68766e;
+  font-size: 13px;
+  line-height: 1.7;
 }
 
-.profile-body{padding:25px}
+.tag {
+  display: inline-block;
+  background: #e6ece7;
+  border-radius: 7px;
+  padding: 7px 10px;
+  font-size: 11px;
+  font-weight: bold;
+}
 
-.field{
- display:block;
- margin:16px 0;
- font-size:13px;
- font-weight:bold;
+.card .btn822 {
+  margin-top: 12px;
+}
+
+.account {
+  background: #e6ece7;
+  border-radius: 18px;
+  padding: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.account-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.profile-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(12, 29, 22, .72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.profile-modal {
+  background: #fffdf9;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 95vh;
+  overflow-y: auto;
+  box-shadow: 0 15px 55px rgba(0, 0, 0, .18);
+}
+
+.profile-header {
+  background: #19352b;
+  color: white;
+  padding: 28px;
+}
+
+.profile-header small {
+  color: #d4ac70;
+  letter-spacing: 2px;
+}
+
+.profile-header h2 {
+  font: 32px Georgia, serif;
+  margin: 12px 0;
+}
+
+.profile-header p {
+  color: #dce5df;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.profile-body {
+  padding: 25px;
+}
+
+.field {
+  display: block;
+  margin: 16px 0;
+  font-size: 13px;
+  font-weight: bold;
 }
 
 .field input,
-.field select{
- display:block;
- width:100%;
- margin-top:8px;
- padding:14px;
- border:1px solid #d5cbbd;
- border-radius:10px;
- background:white;
- color:#19352b;
- font-size:16px;
+.field select {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px;
+  border: 1px solid #d5cbbd;
+  border-radius: 10px;
+  background: white;
+  color: #19352b;
+  font-size: 16px;
 }
 
 .field input:focus,
-.field select:focus{
- outline:2px solid #c4a06b;
- outline-offset:1px;
+.field select:focus {
+  outline: 2px solid #c4a06b;
+  outline-offset: 1px;
 }
 
-.field input:disabled{
- background:#f1eee7;
- color:#68766e;
+.field input:disabled {
+  background: #f1eee7;
+  color: #68766e;
 }
 
-.profile-actions{
- display:flex;
- flex-direction:column;
- gap:10px;
- margin-top:22px;
+.profile-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 22px;
 }
 
-.message{
- background:#e6ece7;
- padding:14px;
- border-radius:10px;
- margin-top:16px;
- font-size:13px;
- line-height:1.6;
- overflow-wrap:anywhere;
+.message {
+  background: #e6ece7;
+  padding: 14px;
+  border-radius: 10px;
+  margin-top: 16px;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
 }
 
-.message.error{
- background:#f8e4e1;
- color:#913c32;
+.message.error {
+  background: #f8e4e1;
+  color: #913c32;
 }
 
-.notice{
- background:#e6ece7;
- padding:15px;
- border-radius:10px;
- margin-top:18px;
- font-size:13px;
- line-height:1.7;
+.notice {
+  background: #e6ece7;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 18px;
+  font-size: 13px;
+  line-height: 1.7;
 }
 
-footer{
- background:#19352b;
- color:#dce5df;
- text-align:center;
- padding:25px;
- font-size:12px;
+footer {
+  background: #19352b;
+  color: #dce5df;
+  text-align: center;
+  padding: 25px;
+  font-size: 12px;
 }
 
-@media(max-width:760px){
- .nav{padding:12px 16px}
- .links>a:not(.btn822){display:none}
- .brand822 b{font-size:13px}
- .brand822 img{width:40px;height:40px}
- .hero{padding:50px 20px}
- .cards{grid-template-columns:1fr}
- .account{
-  flex-direction:column;
-  align-items:stretch;
- }
- .account-actions .btn822{flex:1}
- .section{padding:38px 0}
- .profile-header{padding:24px}
- .profile-body{padding:20px}
+@media(max-width:760px) {
+  .nav {
+    padding: 12px 16px;
+  }
+
+  .links > a:not(.btn822) {
+    display: none;
+  }
+
+  .brand822 b {
+    font-size: 13px;
+  }
+
+  .brand822 img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .hero {
+    padding: 50px 20px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .account {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .account-actions .btn822 {
+    flex: 1;
+  }
+
+  .section {
+    padding: 38px 0;
+  }
+
+  .profile-header {
+    padding: 24px;
+  }
+
+  .profile-body {
+    padding: 20px;
+  }
 }
 </style>
 </head>
@@ -344,265 +409,329 @@ footer{
 <body>
 
 <div class="top">
- COURT 822 • PICKLEBALL TOURNAMENT CENTRAL
+  COURT 822 • PICKLEBALL TOURNAMENT CENTRAL
 </div>
 
 <header class="nav">
- <a class="brand822" href="index.html">
-  <img src="logo.svg" alt="Court 822">
-  <span>
-   <b>COURT 822</b>
-   <small>TOURNAMENT CENTRAL</small>
-  </span>
- </a>
 
- <nav class="links">
-  <a href="#tournaments">Tournaments</a>
-  <a href="#account">My Account</a>
-  <button id="editProfileNav"
-   class="btn822" type="button">
-   My Profile
-  </button>
- </nav>
+  <a class="brand822" href="index.html">
+    <img src="logo.svg" alt="Court 822">
+
+    <span>
+      <b>COURT 822</b>
+      <small>TOURNAMENT CENTRAL</small>
+    </span>
+  </a>
+
+  <nav class="links">
+    <a href="#tournaments">Tournaments</a>
+    <a href="#account">My Account</a>
+
+    <button
+      id="editProfileNav"
+      class="btn822"
+      type="button">
+      My Profile
+    </button>
+  </nav>
+
 </header>
 
 <section class="hero">
- <div class="wrap">
-  <small>WELCOME TO COURT 822</small>
-  <h1>Register. Compete. Win.</h1>
+  <div class="wrap">
 
-  <p>
-   Discover upcoming pickleball tournaments,
-   register your doubles team and follow
-   the action at Court 822.
-  </p>
+    <small>WELCOME TO COURT 822</small>
 
-  <div class="hero-actions">
-   <a class="btn822 gold" href="#tournaments">
-    Explore Tournaments
-   </a>
+    <h1>Register. Compete. Win.</h1>
 
-   <a class="btn822 light" href="#account">
-    My Account
-   </a>
+    <p>
+      Discover upcoming pickleball tournaments,
+      register your doubles team and follow
+      the action at Court 822.
+    </p>
+
+    <div class="hero-actions">
+
+      <a class="btn822 gold" href="#tournaments">
+        Explore Tournaments
+      </a>
+
+      <a class="btn822 light" href="#account">
+        My Account
+      </a>
+
+    </div>
+
   </div>
- </div>
 </section>
 
 <main>
 
 <section id="tournaments" class="section">
- <div class="wrap">
-  <h2>Upcoming Tournaments</h2>
+  <div class="wrap">
 
-  <p class="muted">
-   Official events and categories
-   published by Court 822.
-  </p>
+    <h2>Upcoming Tournaments</h2>
 
-  <div id="tournamentList" class="cards">
-   <div class="card">
-    Loading tournaments...
-   </div>
+    <p class="muted">
+      Official events and categories
+      published by Court 822.
+    </p>
+
+    <div id="tournamentList" class="cards">
+      <div class="card">
+        Loading tournaments...
+      </div>
+    </div>
+
+    <p
+      id="tournamentStatus"
+      class="muted"
+      role="status">
+    </p>
+
   </div>
-
-  <p id="tournamentStatus"
-   class="muted" role="status"></p>
- </div>
 </section>
 
 <section id="account" class="section">
- <div class="wrap">
+  <div class="wrap">
 
-  <div class="account">
-   <div>
-    <h2 id="welcomeName">My Account</h2>
+    <div class="account">
 
-    <p id="accountEmail" class="muted">
-     Loading account...
-    </p>
+      <div>
+        <h2 id="welcomeName">My Account</h2>
 
-    <p class="muted">
-     Your profile is saved for
-     future tournament registrations.
-    </p>
-   </div>
+        <p id="accountEmail" class="muted">
+          Loading account...
+        </p>
 
-   <div class="account-actions">
-    <button id="editProfileButton"
-     class="btn822" type="button">
-     Edit Profile
-    </button>
+        <p class="muted">
+          Your profile is saved for future
+          tournament registrations.
+        </p>
+      </div>
 
-    <button id="signOutButton"
-     class="btn822 light" type="button">
-     Sign Out
-    </button>
-   </div>
+      <div class="account-actions">
+
+        <button
+          id="editProfileButton"
+          class="btn822"
+          type="button">
+          Edit Profile
+        </button>
+
+        <button
+          id="signOutButton"
+          class="btn822 light"
+          type="button">
+          Sign Out
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="notice">
+      <strong>Coming next:</strong>
+      My Registrations, payment status,
+      downloadable team QR passes and
+      registration history.
+    </div>
+
   </div>
-
-  <div class="notice">
-   <strong>Coming next:</strong>
-   My Registrations, payment status,
-   downloadable team QR passes and
-   registration history.
-  </div>
-
- </div>
 </section>
 
 <section class="section">
- <div class="wrap">
-  <h2>How Registration Works</h2>
+  <div class="wrap">
 
-  <div class="cards">
+    <h2>How Registration Works</h2>
 
-   <article class="card">
-    <span class="tag">STEP 1</span>
-    <h3>Choose Tournament</h3>
-    <p>
-     Browse categories, schedules
-     and registration fees.
-    </p>
-   </article>
+    <div class="cards">
 
-   <article class="card">
-    <span class="tag">STEP 2</span>
-    <h3>Register Your Team</h3>
-    <p>
-     Enter your partner's details
-     and submit one team payment.
-    </p>
-   </article>
+      <article class="card">
+        <span class="tag">STEP 1</span>
+        <h3>Choose Tournament</h3>
 
-   <article class="card">
-    <span class="tag">STEP 3</span>
-    <h3>Get Your QR Pass</h3>
-    <p>
-     After payment approval,
-     both players receive the
-     same team QR code.
-    </p>
-   </article>
+        <p>
+          Browse categories, schedules
+          and registration fees.
+        </p>
+      </article>
+
+      <article class="card">
+        <span class="tag">STEP 2</span>
+        <h3>Register Your Team</h3>
+
+        <p>
+          Enter your partner's details
+          and submit one team payment.
+        </p>
+      </article>
+
+      <article class="card">
+        <span class="tag">STEP 3</span>
+        <h3>Get Your QR Pass</h3>
+
+        <p>
+          After payment approval,
+          both players receive the
+          same team QR code.
+        </p>
+      </article>
+
+    </div>
 
   </div>
- </div>
 </section>
 
 </main>
 
 <footer>
- © 2026 Court 822 Pickleball
+  © 2026 Court 822 Pickleball
 </footer>
 
-<!-- INTEGRATED PLAYER PROFILE -->
+<!-- PLAYER PROFILE MODAL -->
 
-<div id="profileOverlay"
- class="profile-overlay" hidden>
+<div
+  id="profileOverlay"
+  class="profile-overlay"
+  hidden>
 
- <section class="profile-modal"
-  role="dialog"
-  aria-modal="true"
-  aria-labelledby="profileHeading">
+  <section
+    class="profile-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="profileHeading">
 
-  <div class="profile-header">
-   <small>COURT 822 PLAYER ACCOUNT</small>
+    <div class="profile-header">
 
-   <h2 id="profileHeading">
-    Complete Your Profile
-   </h2>
+      <small>COURT 822 PLAYER ACCOUNT</small>
 
-   <p id="profileSubtitle">
-    Fill this out once.
-    We'll remember your information
-    for future tournaments.
-   </p>
-  </div>
+      <h2 id="profileHeading">
+        Complete Your Profile
+      </h2>
 
-  <div class="profile-body">
+      <p id="profileSubtitle">
+        Fill this out once.
+        We'll remember your information
+        for future tournaments.
+      </p>
 
-   <form id="profileForm">
-
-    <label class="field">
-     Full Name
-     <input id="fullName"
-      type="text"
-      maxlength="120"
-      autocomplete="name"
-      placeholder="Enter full name"
-      required>
-    </label>
-
-    <label class="field">
-     Verified Email
-     <input id="profileEmail"
-      type="email" disabled>
-    </label>
-
-    <p class="muted">
-     Your email is linked to your
-     verified Court 822 account.
-    </p>
-
-    <label class="field">
-     Contact Number
-     <input id="phone"
-      type="tel"
-      maxlength="20"
-      autocomplete="tel"
-      placeholder="09XXXXXXXXX"
-      required>
-    </label>
-
-    <label class="field">
-     Gender
-     <select id="gender" required>
-      <option value="">Select gender</option>
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-     </select>
-    </label>
-
-    <p class="muted">
-     Used to determine tournament
-     category eligibility.
-    </p>
-
-    <label class="field">
-     Shirt Size
-     <select id="shirtSize" required>
-      <option value="">Select size</option>
-      <option value="XS">XS</option>
-      <option value="S">S</option>
-      <option value="M">M</option>
-      <option value="L">L</option>
-      <option value="XL">XL</option>
-      <option value="2XL">2XL</option>
-      <option value="3XL">3XL</option>
-     </select>
-    </label>
-
-    <div class="profile-actions">
-     <button id="saveProfileButton"
-      class="btn822" type="submit">
-      Save My Profile
-     </button>
-
-     <button id="cancelProfileButton"
-      class="btn822 light"
-      type="button" hidden>
-      Cancel
-     </button>
     </div>
 
-   </form>
+    <div class="profile-body">
 
-   <p id="profileMessage"
-    class="message" role="status"
-    aria-live="polite" hidden></p>
+      <form id="profileForm">
 
-  </div>
- </section>
+        <label class="field">
+          Full Name
+
+          <input
+            id="fullName"
+            type="text"
+            maxlength="120"
+            autocomplete="name"
+            placeholder="Enter full name"
+            required>
+        </label>
+
+        <label class="field">
+          Verified Email
+
+          <input
+            id="profileEmail"
+            type="email"
+            disabled>
+        </label>
+
+        <p class="muted">
+          Your email is linked to your
+          verified Court 822 account.
+        </p>
+
+        <label class="field">
+          Contact Number
+
+          <input
+            id="phone"
+            type="tel"
+            maxlength="20"
+            autocomplete="tel"
+            placeholder="09XXXXXXXXX"
+            required>
+        </label>
+
+        <label class="field">
+          Gender
+
+          <select id="gender" required>
+            <option value="">Select gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </label>
+
+        <p class="muted">
+          Used to determine tournament
+          category eligibility.
+        </p>
+
+        <!-- SHIRT SIZE IS NOW OPTIONAL -->
+
+        <label class="field">
+          Shirt Size (Optional)
+
+          <select id="shirtSize">
+            <option value="">Not selected</option>
+            <option value="XS">XS</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+            <option value="2XL">2XL</option>
+            <option value="3XL">3XL</option>
+          </select>
+        </label>
+
+        <p class="muted">
+          You can leave this blank.
+          We'll only ask for your shirt size
+          when a tournament includes a shirt
+          or jersey.
+        </p>
+
+        <div class="profile-actions">
+
+          <button
+            id="saveProfileButton"
+            class="btn822"
+            type="submit">
+            Save My Profile
+          </button>
+
+          <button
+            id="cancelProfileButton"
+            class="btn822 light"
+            type="button"
+            hidden>
+            Cancel
+          </button>
+
+        </div>
+
+      </form>
+
+      <p
+        id="profileMessage"
+        class="message"
+        role="status"
+        aria-live="polite"
+        hidden>
+      </p>
+
+    </div>
+
+  </section>
+
 </div>
 
 <!-- SUPABASE -->
@@ -614,388 +743,496 @@ footer{
 <script>
 'use strict';
 
-const $=id=>document.getElementById(id);
+const $ = id => document.getElementById(id);
 
-let currentUser=null;
-let currentProfile=null;
-let saving=false;
-let profileRequired=false;
+let currentUser = null;
+let currentProfile = null;
+let saving = false;
+let profileRequired = false;
 
-function loginRedirect(){
- const url=new URL(
-  'player-login.html',
-  location.href
- );
+const VALID_SHIRT_SIZES = [
+  'XS',
+  'S',
+  'M',
+  'L',
+  'XL',
+  '2XL',
+  '3XL'
+];
 
- url.searchParams.set(
-  'next','index.html#tournaments'
- );
+function loginRedirect() {
+  const url = new URL(
+    'player-login.html',
+    location.href
+  );
 
- location.replace(url.href);
+  url.searchParams.set(
+    'next',
+    'index.html#tournaments'
+  );
+
+  location.replace(url.href);
 }
 
-function showProfileMessage(text,error=false){
- const el=$('profileMessage');
- el.textContent=text;
- el.hidden=false;
- el.classList.toggle('error',error);
+function showProfileMessage(text, error = false) {
+  const el = $('profileMessage');
+
+  el.textContent = text;
+  el.hidden = false;
+  el.classList.toggle('error', error);
 }
 
-function clearProfileMessage(){
- $('profileMessage').hidden=true;
+function clearProfileMessage() {
+  $('profileMessage').hidden = true;
 }
 
-function openProfile(required=false){
- profileRequired=required;
+function openProfile(required = false) {
+  profileRequired = required;
 
- $('profileOverlay').hidden=false;
- $('cancelProfileButton').hidden=required;
+  $('profileOverlay').hidden = false;
+  $('cancelProfileButton').hidden = required;
 
- $('profileHeading').textContent=
-  required
-  ?'Complete Your Profile'
-  :'Edit My Profile';
+  $('profileHeading').textContent =
+    required
+      ? 'Complete Your Profile'
+      : 'Edit My Profile';
 
- $('profileSubtitle').textContent=
-  required
-  ?'Complete your information once before viewing tournaments.'
-  :'Update your saved player information.';
+  $('profileSubtitle').textContent =
+    required
+      ? 'Complete your information once before viewing tournaments.'
+      : 'Update your saved player information.';
 
- $('profileEmail').value=currentUser?.email||'';
+  $('profileEmail').value =
+    currentUser?.email || '';
 
- clearProfileMessage();
+  clearProfileMessage();
 
- $('fullName').focus();
+  $('fullName').focus();
 }
 
-function closeProfile(){
- if(profileRequired)return;
+function closeProfile() {
+  if (profileRequired) return;
 
- $('profileOverlay').hidden=true;
- clearProfileMessage();
+  $('profileOverlay').hidden = true;
+
+  clearProfileMessage();
 }
 
-function fillProfile(profile){
- $('fullName').value=profile.full_name||'';
- $('phone').value=profile.phone||'';
- $('gender').value=profile.gender||'';
- $('shirtSize').value=profile.shirt_size||'';
+function fillProfile(profile) {
+  $('fullName').value =
+    profile.full_name || '';
+
+  $('phone').value =
+    profile.phone || '';
+
+  $('gender').value =
+    profile.gender || '';
+
+  $('shirtSize').value =
+    profile.shirt_size || '';
 }
 
-function isProfileComplete(profile){
- return Boolean(
-  profile &&
-  profile.full_name?.trim() &&
-  profile.phone?.trim() &&
-  ['male','female'].includes(profile.gender) &&
-  profile.shirt_size
- );
+// SHIRT SIZE IS NOT REQUIRED FOR PROFILE COMPLETION
+
+function isProfileComplete(profile) {
+  return Boolean(
+    profile &&
+    profile.full_name?.trim() &&
+    profile.phone?.trim() &&
+    ['male', 'female'].includes(profile.gender)
+  );
 }
 
-function updateAccount(){
- $('accountEmail').textContent=
-  currentUser?.email||'';
+function updateAccount() {
+  $('accountEmail').textContent =
+    currentUser?.email || '';
 
- $('welcomeName').textContent=
-  currentProfile?.full_name
-  ?'Welcome, '+currentProfile.full_name+'!'
-  :'My Account';
+  $('welcomeName').textContent =
+    currentProfile?.full_name
+      ? 'Welcome, ' + currentProfile.full_name + '!'
+      : 'My Account';
 }
 
-function dateLabel(value){
- if(!value)return 'Date to be announced';
+function dateLabel(value) {
+  if (!value) return 'Date to be announced';
 
- const d=new Date(value+'T00:00:00');
+  const d = new Date(value + 'T00:00:00');
 
- return Number.isNaN(d.getTime())
-  ?'Date to be announced'
-  :d.toLocaleDateString('en-PH',{
-   month:'long',
-   day:'numeric',
-   year:'numeric'
+  return Number.isNaN(d.getTime())
+    ? 'Date to be announced'
+    : d.toLocaleDateString('en-PH', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric'
+      });
+}
+
+function tournamentCard(t) {
+  const card = document.createElement('article');
+  card.className = 'card';
+
+  const tag = document.createElement('span');
+  tag.className = 'tag';
+
+  tag.textContent =
+    t.status === 'ongoing'
+      ? 'ONGOING'
+      : 'UPCOMING';
+
+  const title = document.createElement('h3');
+
+  title.textContent =
+    t.title || 'Tournament';
+
+  const dates = document.createElement('p');
+
+  dates.textContent =
+    dateLabel(t.start_date) +
+    (
+      t.end_date &&
+      t.end_date !== t.start_date
+        ? ' – ' + dateLabel(t.end_date)
+        : ''
+    );
+
+  const description = document.createElement('p');
+
+  description.textContent =
+    t.description || '';
+
+  const link = document.createElement('a');
+
+  link.className = 'btn822';
+  link.textContent = 'View Tournament';
+
+  link.href =
+    'tournament.html?id=' +
+    encodeURIComponent(t.id);
+
+  card.append(
+    tag,
+    title,
+    dates,
+    description,
+    link
+  );
+
+  return card;
+}
+
+async function loadTournaments() {
+  const root = $('tournamentList');
+
+  const { data, error } = await courtDb
+    .from('tournaments')
+    .select(
+      'id,title,description,start_date,end_date,status'
+    )
+    .in('status', ['published', 'ongoing'])
+    .order('start_date', {
+      ascending: true
+    });
+
+  if (error) {
+    console.error('Tournament loading:', error);
+
+    root.textContent =
+      'Unable to load tournaments.';
+
+    $('tournamentStatus').textContent =
+      'Please refresh the page.';
+
+    return;
+  }
+
+  root.replaceChildren();
+
+  if (!data?.length) {
+    root.textContent =
+      'No published tournaments yet.';
+
+    return;
+  }
+
+  data.forEach(t => {
+    root.append(tournamentCard(t));
   });
 }
 
-function tournamentCard(t){
- const card=document.createElement('article');
- card.className='card';
+async function loadPlayerProfile() {
+  const { data, error } = await courtDb
+    .from('tournament_players')
+    .select(
+      'id,user_id,full_name,email,phone,gender,shirt_size'
+    )
+    .eq('user_id', currentUser.id)
+    .maybeSingle();
 
- const tag=document.createElement('span');
- tag.className='tag';
- tag.textContent=t.status==='ongoing'
-  ?'ONGOING':'UPCOMING';
+  if (error) throw error;
 
- const title=document.createElement('h3');
- title.textContent=t.title||'Tournament';
+  currentProfile = data || null;
 
- const dates=document.createElement('p');
- dates.textContent=
-  dateLabel(t.start_date)+
-  (t.end_date && t.end_date!==t.start_date
-   ?' – '+dateLabel(t.end_date):'');
+  if (currentProfile) {
+    fillProfile(currentProfile);
+  }
 
- const description=document.createElement('p');
- description.textContent=t.description||'';
-
- const link=document.createElement('a');
- link.className='btn822';
- link.textContent='View Tournament';
- link.href='tournament.html?id='+
-  encodeURIComponent(t.id);
-
- card.append(tag,title,dates,description,link);
-
- return card;
+  return isProfileComplete(currentProfile);
 }
 
-async function loadTournaments(){
- const root=$('tournamentList');
-
- const {data,error}=await courtDb
-  .from('tournaments')
-  .select(
-   'id,title,description,start_date,end_date,status'
-  )
-  .in('status',['published','ongoing'])
-  .order('start_date',{ascending:true});
-
- if(error){
-  console.error('Tournament loading:',error);
-  root.textContent='Unable to load tournaments.';
-  $('tournamentStatus').textContent=
-   'Please refresh the page.';
-  return;
- }
-
- root.replaceChildren();
-
- if(!data?.length){
-  root.textContent='No published tournaments yet.';
-  return;
- }
-
- data.forEach(t=>{
-  root.append(tournamentCard(t));
- });
-}
-
-async function loadPlayerProfile(){
- const {data,error}=await courtDb
-  .from('tournament_players')
-  .select(
-   'id,user_id,full_name,email,phone,gender,shirt_size'
-  )
-  .eq('user_id',currentUser.id)
-  .maybeSingle();
-
- if(error)throw error;
-
- currentProfile=data||null;
-
- if(currentProfile){
-  fillProfile(currentProfile);
- }
-
- return isProfileComplete(currentProfile);
-}
-
-async function initialize(){
- if(!window.courtDb){
+function showUnavailable(messageText) {
   document.documentElement.classList.add('ready');
+
   document.body.replaceChildren();
 
-  const message=document.createElement('p');
-  message.textContent=
-   'Court 822 is temporarily unavailable. Please try again later.';
-  message.style.padding='40px 20px';
-  message.style.textAlign='center';
+  const message = document.createElement('p');
+
+  message.textContent = messageText;
+  message.style.padding = '40px 20px';
+  message.style.textAlign = 'center';
 
   document.body.append(message);
-  return;
- }
-
- try{
-  const {data,error}=await courtDb.auth.getUser();
-
-  if(error || !data?.user){
-   loginRedirect();
-   return;
-  }
-
-  currentUser=data.user;
-
-  const complete=await loadPlayerProfile();
-
-  updateAccount();
-
-  if(!complete){
-   openProfile(true);
-  }
-
-  document.documentElement.classList.add('ready');
-
-  if(complete){
-   await loadTournaments();
-  }
-
- }catch(error){
-  console.error('Initialization:',error);
-
-  document.documentElement.classList.add('ready');
-
-  $('profileOverlay').hidden=false;
-  $('profileForm').hidden=true;
-  $('cancelProfileButton').hidden=true;
-
-  showProfileMessage(
-   'Unable to load your account. Please refresh the page.',
-   true
-  );
- }
 }
 
-$('profileForm').addEventListener('submit',async e=>{
- e.preventDefault();
-
- if(saving || !currentUser)return;
-
- const fullName=$('fullName').value.trim();
- const phone=$('phone').value.trim();
- const gender=$('gender').value;
- const shirtSize=$('shirtSize').value;
-
- if(!fullName || !phone || !gender || !shirtSize){
-  showProfileMessage(
-   'Please complete all fields.',
-   true
-  );
-  return;
- }
-
- if(!['male','female'].includes(gender)){
-  showProfileMessage(
-   'Please select a valid gender option.',
-   true
-  );
-  return;
- }
-
- if(!['XS','S','M','L','XL','2XL','3XL']
-  .includes(shirtSize)){
-  showProfileMessage(
-   'Please select a valid shirt size.',
-   true
-  );
-  return;
- }
-
- saving=true;
- $('saveProfileButton').disabled=true;
-
- showProfileMessage('Saving your profile...');
-
- try{
-  const {data:authData,error:authError}=
-   await courtDb.auth.getUser();
-
-  if(authError || !authData?.user){
-   loginRedirect();
-   return;
+async function initialize() {
+  if (!window.courtDb) {
+    showUnavailable(
+      'Court 822 is temporarily unavailable. Please try again later.'
+    );
+    return;
   }
 
-  currentUser=authData.user;
+  try {
+    const { data, error } =
+      await courtDb.auth.getUser();
 
-  const details={
-   full_name:fullName,
-   phone,
-   gender,
-   shirt_size:shirtSize
-  };
+    if (error || !data?.user) {
+      loginRedirect();
+      return;
+    }
 
-  let result;
+    currentUser = data.user;
 
-  if(currentProfile){
-   result=await courtDb
-    .from('tournament_players')
-    .update(details)
-    .eq('user_id',currentUser.id)
-    .select(
-     'id,user_id,full_name,email,phone,gender,shirt_size'
-    )
-    .single();
-  }else{
-   result=await courtDb
-    .from('tournament_players')
-    .insert({
-     ...details,
-     user_id:currentUser.id,
-     email:currentUser.email
-    })
-    .select(
-     'id,user_id,full_name,email,phone,gender,shirt_size'
-    )
-    .single();
+    const complete = await loadPlayerProfile();
+
+    updateAccount();
+
+    if (!complete) {
+      openProfile(true);
+    }
+
+    document.documentElement.classList.add('ready');
+
+    if (complete) {
+      await loadTournaments();
+    }
+
+  } catch (error) {
+    console.error('Initialization:', error);
+
+    document.documentElement.classList.add('ready');
+
+    $('profileOverlay').hidden = false;
+    $('profileForm').hidden = true;
+    $('cancelProfileButton').hidden = true;
+
+    showProfileMessage(
+      'Unable to load your account. Please refresh the page.',
+      true
+    );
   }
+}
 
-  if(result.error)throw result.error;
+// SAVE PLAYER PROFILE
 
-  currentProfile=result.data;
+$('profileForm').addEventListener(
+  'submit',
+  async event => {
+    event.preventDefault();
 
-  updateAccount();
+    if (saving || !currentUser) return;
 
-  const wasRequired=profileRequired;
-  profileRequired=false;
+    const fullName =
+      $('fullName').value.trim();
 
-  $('profileOverlay').hidden=true;
-  clearProfileMessage();
+    const phone =
+      $('phone').value.trim();
 
-  if(wasRequired){
-   await loadTournaments();
+    const gender =
+      $('gender').value;
+
+    const shirtSize =
+      $('shirtSize').value;
+
+    // SHIRT SIZE IS OPTIONAL
+
+    if (!fullName || !phone || !gender) {
+      showProfileMessage(
+        'Please complete the required fields.',
+        true
+      );
+      return;
+    }
+
+    if (!['male', 'female'].includes(gender)) {
+      showProfileMessage(
+        'Please select a valid gender option.',
+        true
+      );
+      return;
+    }
+
+    if (
+      shirtSize &&
+      !VALID_SHIRT_SIZES.includes(shirtSize)
+    ) {
+      showProfileMessage(
+        'Please select a valid shirt size.',
+        true
+      );
+      return;
+    }
+
+    saving = true;
+
+    $('saveProfileButton').disabled = true;
+
+    showProfileMessage(
+      'Saving your profile...'
+    );
+
+    try {
+      const {
+        data: authData,
+        error: authError
+      } = await courtDb.auth.getUser();
+
+      if (authError || !authData?.user) {
+        loginRedirect();
+        return;
+      }
+
+      currentUser = authData.user;
+
+      const details = {
+        full_name: fullName,
+        phone: phone,
+        gender: gender,
+        shirt_size: shirtSize || null
+      };
+
+      let result;
+
+      if (currentProfile) {
+        result = await courtDb
+          .from('tournament_players')
+          .update(details)
+          .eq('user_id', currentUser.id)
+          .select(
+            'id,user_id,full_name,email,phone,gender,shirt_size'
+          )
+          .single();
+
+      } else {
+        result = await courtDb
+          .from('tournament_players')
+          .insert({
+            ...details,
+            user_id: currentUser.id,
+            email: currentUser.email
+          })
+          .select(
+            'id,user_id,full_name,email,phone,gender,shirt_size'
+          )
+          .single();
+      }
+
+      if (result.error) {
+        throw result.error;
+      }
+
+      currentProfile = result.data;
+
+      updateAccount();
+
+      const wasRequired = profileRequired;
+
+      profileRequired = false;
+
+      $('profileOverlay').hidden = true;
+
+      clearProfileMessage();
+
+      if (wasRequired) {
+        await loadTournaments();
+      }
+
+    } catch (error) {
+      console.error('Profile saving:', error);
+
+      showProfileMessage(
+        'Unable to save your profile. Please try again.',
+        true
+      );
+
+    } finally {
+      saving = false;
+
+      $('saveProfileButton').disabled = false;
+    }
   }
+);
 
- }catch(error){
-  console.error('Profile saving:',error);
+// EDIT PROFILE
 
-  showProfileMessage(
-   'Unable to save your profile. Please try again.',
-   true
-  );
+$('editProfileButton').addEventListener(
+  'click',
+  () => {
+    openProfile(false);
+  }
+);
 
- }finally{
-  saving=false;
-  $('saveProfileButton').disabled=false;
- }
-});
+$('editProfileNav').addEventListener(
+  'click',
+  () => {
+    openProfile(false);
+  }
+);
 
-$('editProfileButton').addEventListener('click',()=>{
- openProfile(false);
-});
+// CANCEL PROFILE EDITING
 
-$('editProfileNav').addEventListener('click',()=>{
- openProfile(false);
-});
+$('cancelProfileButton').addEventListener(
+  'click',
+  () => {
+    closeProfile();
+  }
+);
 
-$('cancelProfileButton').addEventListener('click',()=>{
- closeProfile();
-});
+// SIGN OUT
 
-$('signOutButton').addEventListener('click',async()=>{
- if(!window.courtDb)return;
+$('signOutButton').addEventListener(
+  'click',
+  async () => {
+    if (!window.courtDb) return;
 
- const {error}=await courtDb.auth.signOut();
+    const { error } =
+      await courtDb.auth.signOut();
 
- if(error){
-  alert('Unable to sign out. Please try again.');
-  return;
- }
+    if (error) {
+      alert(
+        'Unable to sign out. Please try again.'
+      );
+      return;
+    }
 
- loginRedirect();
-});
+    loginRedirect();
+  }
+);
+
+// INITIALIZE WEBSITE
 
 initialize();
+
 </script>
 
 </body>
 </html>
-
-
