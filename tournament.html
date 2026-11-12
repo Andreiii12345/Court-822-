@@ -4,19 +4,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#19352b">
 <title>Court 822 | Tournament Registration</title>
 <link rel="icon" href="logo.svg">
 <link rel="stylesheet" href="style.css">
 
 <style>
 *{box-sizing:border-box}
-body{background:#f5f0e8;color:#19352b}
+[hidden]{display:none!important}
+body{
+ margin:0;background:#f5f0e8;color:#19352b;
+ font-family:Arial,sans-serif
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
 .wrap{max-width:1100px;margin:25px auto 90px;padding:0 16px}
-.hero{background:#19352b;color:white;padding:30px;border-radius:20px;margin:20px 0}
+.hero{
+ background:#19352b;color:white;padding:30px;
+ border-radius:20px;margin:20px 0
+}
 .hero h1{font:clamp(30px,5vw,50px) Georgia,serif;margin:12px 0}
 .hero p{color:#e3e9e4;line-height:1.6}
 .hero small{color:#d4ac70;letter-spacing:2px;font-weight:bold}
-.panel{background:#fffdf9;border:1px solid #e2d9ca;border-radius:16px;padding:24px;margin:18px 0}
+.panel{
+ background:#fffdf9;border:1px solid #e2d9ca;
+ border-radius:16px;padding:24px;margin:18px 0
+}
 .panel h2{font:26px Georgia,serif;margin:0 0 15px}
 .panel h3{font:21px Georgia,serif;margin:0 0 12px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
@@ -24,28 +38,51 @@ body{background:#f5f0e8;color:#19352b}
 .field input,.field select{
  display:block;width:100%;margin-top:7px;padding:12px;
  border:1px solid #d5cbbd;border-radius:9px;
- background:white;color:#19352b;font:16px Arial,sans-serif
+ background:white;color:#19352b;font-size:16px
 }
+.field input:disabled{background:#e9e9e4;color:#52665a}
 .button{
  background:#19352b;color:white;border:0;border-radius:9px;
- padding:13px 18px;cursor:pointer;font-weight:bold
+ padding:13px 18px;font-weight:bold
 }
-.button:disabled{opacity:.5;cursor:not-allowed}
 .gold{background:#c4a06b;color:#19352b}
 .light{background:#e6ece7;color:#19352b}
 .danger{background:#f5e3e0;color:#963f35}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-.item{border:1px solid #ddd3c4;border-radius:12px;padding:18px;margin:14px 0;background:#faf8f3}
-.item-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.item{
+ border:1px solid #ddd3c4;border-radius:12px;
+ padding:18px;margin:14px 0;background:#faf8f3
+}
+.item-head{
+ display:flex;align-items:center;
+ justify-content:space-between;gap:10px
+}
 .muted{font-size:13px;color:#68766e;line-height:1.6}
-.notice{background:#e6ece7;border-radius:10px;padding:15px;line-height:1.7}
+.notice{
+ background:#e6ece7;border-radius:10px;
+ padding:15px;line-height:1.7;white-space:pre-line
+}
 .error{color:#9b4035}
-.summary{background:#19352b;color:white;padding:22px;border-radius:15px}
+.summary{
+ background:#19352b;color:white;
+ padding:22px;border-radius:15px
+}
 .summary h2{color:white}
+.line{
+ display:flex;justify-content:space-between;gap:12px;
+ padding:12px 0;border-bottom:1px solid #e0d8ca
+}
 .summary .line{border-bottom:1px solid #426154}
-.line{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #e0d8ca}
 .total{font-size:22px;font-weight:bold;color:#e4bc7e}
-.status{padding:12px;border-radius:9px;background:#e6ece7;margin:16px 0;font-size:13px}
+.status{
+ padding:12px;border-radius:9px;
+ background:#e6ece7;margin:16px 0;font-size:13px
+}
+.freebie-tag{
+ display:inline-block;background:#e6ece7;color:#19352b;
+ border-radius:7px;padding:6px 10px;font-size:12px
+}
+.freebie-size{border-top:1px solid #e2d9ca;margin-top:12px;padding-top:12px}
 @media(max-width:700px){
  .grid{grid-template-columns:1fr}
  .panel{padding:18px}
@@ -56,8 +93,8 @@ body{background:#f5f0e8;color:#19352b}
 }
 </style>
 </head>
-
 <body>
+
 <div class="announcement">
  COURT 822 • TOURNAMENT CENTRAL
 </div>
@@ -65,10 +102,7 @@ body{background:#f5f0e8;color:#19352b}
 <header class="navbar">
 <a class="brand" href="index.html">
  <img src="logo.svg" alt="Court 822">
- <span>
-  <b>COURT 822</b>
-  <small>PICKLEBALL</small>
- </span>
+ <span><b>COURT 822</b><small>PICKLEBALL</small></span>
 </a>
 <div class="nav-actions">
  <a class="btn secondary" href="index.html">Home</a>
@@ -95,19 +129,32 @@ body{background:#f5f0e8;color:#19352b}
   when joining another category.
  </p>
  <div class="notice">
-  <strong>Registration fees:</strong>
-  The first category uses the regular per-player fee.
-  A second eligible category uses the double-entry fee.
-  Each unique player receives only one set of tournament
-  freebies, even when playing in multiple categories.
+  First-category fees and double-entry fees are
+  calculated per player. Each player receives
+  one allocation of each tournament freebie,
+  even when entering multiple categories.
  </div>
 </section>
+
+<!-- OWNER-CONFIGURED FREEBIES -->
+
+<section class="panel" id="freebiesPanel">
+ <h2>Included Tournament Freebies</h2>
+ <p class="muted">
+  These items are configured by Court 822.
+  Clothing sizes are collected only when required.
+ </p>
+ <div id="freebiesList">Loading freebies...</div>
+ <p id="freebiesMessage" class="muted" role="status"></p>
+</section>
+
+<!-- PLAYER DETAILS -->
 
 <section class="panel">
  <h2>Step 1 — Add Players</h2>
  <p class="muted">
-  Add every person who will participate in this checkout.
-  Players joining two categories should only be added once.
+  Add every player participating in this checkout.
+  Players joining two categories should be added only once.
  </p>
  <div id="players"></div>
  <button id="addPlayer" class="button light" type="button">
@@ -115,11 +162,13 @@ body{background:#f5f0e8;color:#19352b}
  </button>
 </section>
 
+<!-- TEAM BUILDER -->
+
 <section class="panel">
  <h2>Step 2 — Build Your Teams</h2>
  <p class="muted">
-  Select a tournament category and two players for each team.
-  Click Add Another Team to register additional entries.
+  Select a category and two players for each team.
+  You can add another team before checkout.
  </p>
  <div id="teams"></div>
  <button id="addTeam" class="button light" type="button">
@@ -127,34 +176,41 @@ body{background:#f5f0e8;color:#19352b}
  </button>
 </section>
 
+<!-- SUMMARY -->
+
 <section class="panel">
  <h2>Step 3 — Review Registration</h2>
+
  <div id="validation" class="notice">
-  Add your players and teams to see the registration summary.
+  Add players and teams to see your registration summary.
  </div>
- <div id="checkoutSummary" class="summary" style="margin-top:16px">
+
+ <div class="summary" style="margin-top:16px">
   <h2>Payment Summary</h2>
   <div id="summaryLines"></div>
   <div class="line">
-   <strong>Total Amount Due</strong>
+   <strong>Estimated Total</strong>
    <strong id="grandTotal" class="total">₱0</strong>
   </div>
-  <p id="freebieCount" style="color:#d9e4dc;font-size:13px"></p>
+  <p id="freebieCount" class="muted" style="color:#d9e4dc"></p>
  </div>
+
  <div class="actions">
-  <button id="checkout" class="button gold" disabled type="button">
-   Payment Setup Coming Soon
+  <button id="checkout" class="button gold" disabled>
+   Secure Checkout Coming Soon
   </button>
  </div>
+
  <p class="muted">
-  Online payment submission is not enabled yet.
-  The final amount will be verified securely by Supabase
-  before payment is accepted.
+  This is a registration preview. No payment or
+  registration is submitted yet. Final prices,
+  discounts, eligibility and freebie allocations
+  must be verified securely by the backend.
  </p>
 </section>
 
 <div id="pageStatus" class="status" role="status">
- Loading tournament information...
+ Loading tournament...
 </div>
 </main>
 
@@ -167,41 +223,144 @@ body{background:#f5f0e8;color:#19352b}
 <script>
 'use strict';
 
-const $ = id => document.getElementById(id);
+const $=id=>document.getElementById(id);
 
-const peso = n => new Intl.NumberFormat('en-PH',{
- style:'currency',
- currency:'PHP',
+const peso=n=>new Intl.NumberFormat('en-PH',{
+ style:'currency',currency:'PHP',
  maximumFractionDigits:2
 }).format(Number(n||0));
 
-const fmt = s => s
- ? new Date(s+'T00:00:00').toLocaleDateString('en-PH',{
-    month:'long',day:'numeric',year:'numeric'
-   })
- : 'To be announced';
+const fmt=s=>s
+ ?new Date(s+'T00:00:00').toLocaleDateString('en-PH',{
+   month:'long',day:'numeric',year:'numeric'
+  })
+ :'To be announced';
 
-let categories = [];
-let tournament = null;
-let playerCounter = 0;
-let teamCounter = 0;
+const SIZES=['XS','S','M','L','XL','2XL','3XL'];
 
-const players = [];
-const teams = [];
+let tournament=null;
+let categories=[];
+let tournamentFreebies=[];
+let signedInUser=null;
+let savedProfile=null;
+
+const players=[];
+const teams=[];
 
 function newId(prefix){
- return prefix+'-'+Date.now()+'-'+Math.random()
-  .toString(36).slice(2,9);
+ return prefix+'-'+crypto.randomUUID();
 }
 
+function escapeHtml(text){
+ return String(text).replace(/[&<>"']/g,c=>({
+  '&':'&amp;','<':'&lt;','>':'&gt;',
+  '"':'&quot;',"'":'&#39;'
+ }[c]));
+}
+
+function loginRedirect(){
+ const url=new URL('player-login.html',location.href);
+ const next='tournament.html'+location.search;
+ url.searchParams.set('next',next);
+ location.replace(url.href);
+}
+
+async function requireLogin(){
+ if(!window.courtDb){
+  throw new Error('Supabase connection unavailable.');
+ }
+
+ const {data,error}=await courtDb.auth.getUser();
+ if(error||!data?.user){
+  loginRedirect();
+  return false;
+ }
+
+ signedInUser=data.user;
+
+ const result=await courtDb
+  .from('tournament_players')
+  .select('id,full_name,email,phone,gender')
+  .eq('user_id',signedInUser.id)
+  .maybeSingle();
+
+ if(result.error)throw result.error;
+ savedProfile=result.data;
+
+ return true;
+}
+
+/* FREEBIES */
+
+async function loadTournamentFreebies(id){
+ const root=$('freebiesList');
+ const msg=$('freebiesMessage');
+
+ root.replaceChildren();
+ msg.textContent='Loading freebies...';
+
+ const {data,error}=await courtDb
+  .from('tournament_freebies')
+  .select('id,name,requires_size,quantity_per_player')
+  .eq('tournament_id',id)
+  .eq('is_active',true)
+  .order('created_at',{ascending:true});
+
+ if(error){
+  console.error('Freebies loading:',error);
+  tournamentFreebies=[];
+  msg.textContent='Unable to load tournament freebies.';
+  root.textContent='Freebies temporarily unavailable.';
+  return;
+ }
+
+ tournamentFreebies=data||[];
+ msg.textContent='';
+
+ if(!tournamentFreebies.length){
+  root.textContent='No complimentary items listed.';
+  return;
+ }
+
+ for(const f of tournamentFreebies){
+  const box=document.createElement('div');
+  box.className='item';
+
+  const title=document.createElement('h3');
+  title.textContent=f.name;
+
+  const details=document.createElement('p');
+  details.className='muted';
+  details.textContent=
+   'Quantity per player: '+f.quantity_per_player;
+
+  box.append(title,details);
+
+  if(f.requires_size){
+   const tag=document.createElement('span');
+   tag.className='freebie-tag';
+   tag.textContent='Clothing size required';
+   box.append(tag);
+  }
+
+  root.append(box);
+ }
+}
+
+function sizedFreebies(){
+ return tournamentFreebies.filter(f=>f.requires_size);
+}
+
+/* PLAYERS */
+
 function addPlayer(data={}){
- const p = {
+ const p={
   id:newId('player'),
   name:data.name||'',
   gender:data.gender||'',
   email:data.email||'',
   phone:data.phone||'',
-  shirt:data.shirt||''
+  sizes:{}
  };
 
  players.push(p);
@@ -211,15 +370,13 @@ function addPlayer(data={}){
 }
 
 function removePlayer(id){
- const used = teams.some(t=>t.p1===id||t.p2===id);
-
- if(used){
+ if(teams.some(t=>t.p1===id||t.p2===id)){
   alert('Remove this player from their teams first.');
   return;
  }
 
- const index=players.findIndex(p=>p.id===id);
- if(index>=0)players.splice(index,1);
+ const i=players.findIndex(p=>p.id===id);
+ if(i>=0)players.splice(i,1);
 
  renderPlayers();
  renderTeams();
@@ -234,92 +391,114 @@ function renderPlayers(){
   const box=document.createElement('div');
   box.className='item';
 
-  box.innerHTML=`
-   <div class="item-head">
-    <h3>Player ${i+1}</h3>
-    <button type="button" class="button danger remove">
-     Remove
-    </button>
-   </div>
+  const heading=document.createElement('div');
+  heading.className='item-head';
 
-   <div class="grid">
-    <label class="field">Full Name
-     <input data-key="name" maxlength="100"
-      placeholder="Full name" required>
-    </label>
+  const title=document.createElement('h3');
+  title.textContent='Player '+(i+1)+
+   (i===0?' — Your Account':'');
 
-    <label class="field">Category Eligibility
-     <select data-key="gender" required>
-      <option value="">Select</option>
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-     </select>
-    </label>
+  const remove=document.createElement('button');
+  remove.className='button danger';
+  remove.type='button';
+  remove.textContent='Remove';
+  remove.disabled=i===0;
+  remove.onclick=()=>removePlayer(p.id);
 
-    <label class="field">Email Address
-     <input data-key="email" type="email"
-      placeholder="name@example.com">
-    </label>
+  heading.append(title,remove);
+  box.append(heading);
 
-    <label class="field">Contact Number
-     <input data-key="phone" type="tel"
-      placeholder="09XXXXXXXXX">
-    </label>
+  const grid=document.createElement('div');
+  grid.className='grid';
 
-    <label class="field">Shirt Size
-     <select data-key="shirt">
-      <option value="">Select size</option>
-      <option>XS</option>
-      <option>S</option>
-      <option>M</option>
-      <option>L</option>
-      <option>XL</option>
-      <option>2XL</option>
-      <option>3XL</option>
-     </select>
-    </label>
-   </div>
-  `;
+  for(const [key,label,type] of [
+   ['name','Full Name','text'],
+   ['email','Email Address','email'],
+   ['phone','Contact Number','tel']
+  ]){
+   const wrapper=document.createElement('label');
+   wrapper.className='field';
+   wrapper.textContent=label;
 
-  for(const key of ['name','gender','email','phone','shirt']){
-   const input=box.querySelector(`[data-key="${key}"]`);
+   const input=document.createElement('input');
+   input.type=type;
    input.value=p[key];
-
+   input.maxLength=key==='name'?100:254;
+   input.disabled=i===0;
    input.addEventListener('input',()=>{
     p[key]=input.value;
-
-    if(key==='name'){
-     updateTeamPlayerLabels();
-    }
-
+    if(key==='name')updateTeamPlayerLabels();
     calculate();
    });
+
+   wrapper.append(input);
+   grid.append(wrapper);
   }
 
-  box.querySelector('.remove').onclick=()=>removePlayer(p.id);
+  const genderWrap=document.createElement('label');
+  genderWrap.className='field';
+  genderWrap.textContent='Category Eligibility';
+
+  const gender=document.createElement('select');
+  gender.disabled=i===0;
+  gender.innerHTML=`
+   <option value="">Select</option>
+   <option value="male">Male</option>
+   <option value="female">Female</option>
+  `;
+  gender.value=p.gender;
+  gender.onchange=()=>{
+   p.gender=gender.value;
+   calculate();
+  };
+
+  genderWrap.append(gender);
+  grid.append(genderWrap);
+  box.append(grid);
+
+  for(const freebie of sizedFreebies()){
+   const wrapper=document.createElement('div');
+   wrapper.className='freebie-size';
+
+   const label=document.createElement('label');
+   label.className='field';
+   label.textContent=freebie.name+' — Size';
+
+   const select=document.createElement('select');
+   select.required=true;
+
+   select.append(new Option('Select size',''));
+
+   for(const size of SIZES){
+    select.append(new Option(size,size));
+   }
+
+   select.value=p.sizes[freebie.id]||'';
+   select.onchange=()=>{
+    p.sizes[freebie.id]=select.value;
+    calculate();
+   };
+
+   label.append(select);
+   wrapper.append(label);
+   box.append(wrapper);
+  }
+
   root.append(box);
  });
 }
+
+/* TEAMS */
 
 function playerOptions(selected){
  return [
   '<option value="">Select player</option>',
   ...players.map(p=>
-   `<option value="${p.id}" ${p.id===selected?'selected':''}>${
-    escapeHtml(p.name||'Unnamed player')
-   }</option>`
+   `<option value="${p.id}" ${
+    p.id===selected?'selected':''
+   }>${escapeHtml(p.name||'Unnamed player')}</option>`
   )
  ].join('');
-}
-
-function escapeHtml(text){
- return String(text).replace(/[&<>"']/g,c=>({
-  '&':'&amp;',
-  '<':'&lt;',
-  '>':'&gt;',
-  '"':'&quot;',
-  "'":'&#39;'
- }[c]));
 }
 
 function addTeam(){
@@ -354,33 +533,27 @@ function renderTeams(){
   box.innerHTML=`
    <div class="item-head">
     <h3>Team ${i+1}</h3>
-    <button type="button" class="button danger remove">
+    <button class="button danger remove" type="button">
      Remove
     </button>
    </div>
 
-   <label class="field">Tournament Category
+   <label class="field">
+    Tournament Category
     <select data-key="category">
      <option value="">Select category</option>
      ${categories.map(c=>
-      `<option value="${c.id}" ${c.id===t.category?'selected':''}>
-       ${escapeHtml(c.name)}
-       </option>`
+      `<option value="${c.id}">${escapeHtml(c.name)}</option>`
      ).join('')}
     </select>
    </label>
 
    <div class="grid">
     <label class="field">Player 1
-     <select data-key="p1">
-      ${playerOptions(t.p1)}
-     </select>
+     <select data-key="p1"></select>
     </label>
-
     <label class="field">Player 2
-     <select data-key="p2">
-      ${playerOptions(t.p2)}
-     </select>
+     <select data-key="p2"></select>
     </label>
    </div>
 
@@ -390,11 +563,18 @@ function renderTeams(){
   `;
 
   for(const key of ['category','p1','p2']){
-   box.querySelector(`[data-key="${key}"]`)
-    .addEventListener('change',e=>{
-     t[key]=e.target.value;
-     calculate();
-    });
+   const select=box.querySelector(`[data-key="${key}"]`);
+
+   if(key!=='category'){
+    select.innerHTML=playerOptions(t[key]);
+   }
+
+   select.value=t[key];
+
+   select.onchange=()=>{
+    t[key]=select.value;
+    calculate();
+   };
   }
 
   box.querySelector('.remove').onclick=()=>removeTeam(t.id);
@@ -410,9 +590,12 @@ function updateTeamPlayerLabels(){
   for(const key of ['p1','p2']){
    const select=box.querySelector(`[data-key="${key}"]`);
    select.innerHTML=playerOptions(t[key]);
+   select.value=t[key];
   }
  });
 }
+
+/* CATEGORY VALIDATION */
 
 function categoryType(c){
  const name=c.name.toLowerCase();
@@ -420,10 +603,10 @@ function categoryType(c){
  if(name.includes('mixed')||name.includes('mix'))
   return 'mixed';
 
- if(name.includes("women")||name.includes("ladies"))
+ if(name.includes('women')||name.includes('ladies'))
   return 'womens';
 
- if(name.includes("men"))
+ if(name.includes('men'))
   return 'mens';
 
  return 'other';
@@ -457,14 +640,16 @@ function validateTeam(t){
  return null;
 }
 
+/* ESTIMATED FEES */
+
 function calculate(){
  const errors=[];
  const entries=new Map();
+ const appearances=new Map();
  const teamResults=[];
+ let total=0;
 
- const orderedTeams=[...teams];
-
- for(const t of orderedTeams){
+ for(const [i,t] of teams.entries()){
   const c=categories.find(x=>x.id===t.category);
   const a=players.find(x=>x.id===t.p1);
   const b=players.find(x=>x.id===t.p2);
@@ -472,7 +657,7 @@ function calculate(){
   const error=validateTeam(t);
 
   if(error){
-   errors.push(`Team ${teams.indexOf(t)+1}: ${error}`);
+   errors.push(`Team ${i+1}: ${error}`);
    continue;
   }
 
@@ -481,31 +666,17 @@ function calculate(){
   }
 
   for(const p of [a,b]){
-   const key=p.id;
+   const used=entries.get(p.id)||[];
 
-   if(!entries.has(key)){
-    entries.set(key,[]);
-   }
-
-   if(entries.get(key).includes(c.id)){
+   if(used.includes(c.id)){
     errors.push(
      `${p.name||'Player'} is already entered in ${c.name}.`
     );
-   }else{
-    entries.get(key).push(c.id);
    }
+
+   used.push(c.id);
+   entries.set(p.id,used);
   }
- }
-
- const appearances=new Map();
- let total=0;
-
- for(const t of orderedTeams){
-  const c=categories.find(x=>x.id===t.category);
-  const a=players.find(x=>x.id===t.p1);
-  const b=players.find(x=>x.id===t.p2);
-
-  if(!c||!a||!b||a.id===b.id)continue;
 
   let teamTotal=0;
 
@@ -530,18 +701,47 @@ function calculate(){
   });
  }
 
+ const participating=new Set(
+  teams.flatMap(t=>[t.p1,t.p2]).filter(Boolean)
+ );
+
+ const emails=new Set();
+
  for(const p of players){
-  if(!p.name.trim())errors.push('All players need full names.');
-  if(!p.gender)errors.push(`${p.name||'A player'} needs an eligibility selection.`);
+  if(!p.name.trim())
+   errors.push('All players need full names.');
+
+  if(!p.gender)
+   errors.push(`${p.name||'A player'} needs an eligibility selection.`);
+
+  if(participating.has(p.id)){
+   const email=p.email.trim().toLowerCase();
+
+   if(!email){
+    errors.push(`${p.name||'A player'} needs an email address.`);
+   }else if(emails.has(email)){
+    errors.push('Each player must have a different email address.');
+   }else{
+    emails.add(email);
+   }
+
+   for(const f of sizedFreebies()){
+    if(!p.sizes[f.id]){
+     errors.push(
+      `${p.name||'A player'} needs a size for ${f.name}.`
+     );
+    }
+   }
+  }
  }
 
- if(teams.length===0)errors.push('Add at least one team.');
+ if(teams.length===0)
+  errors.push('Add at least one team.');
 
  document.querySelectorAll('[data-team-id]').forEach(box=>{
   const result=teamResults.find(x=>x.id===box.dataset.teamId);
-  const feeBox=box.querySelector('.teamFee');
 
-  feeBox.textContent=result
+  box.querySelector('.teamFee').textContent=result
    ?`Estimated team fee: ${peso(result.amount)}`
    :'Complete the team details to see pricing.';
  });
@@ -553,34 +753,32 @@ function calculate(){
   const row=document.createElement('div');
   row.className='line';
 
-  const name=document.createElement('span');
-  name.textContent=`${r.category}: ${r.players}`;
+  const label=document.createElement('span');
+  label.textContent=`${r.category}: ${r.players}`;
 
   const amount=document.createElement('strong');
   amount.textContent=peso(r.amount);
 
-  row.append(name,amount);
+  row.append(label,amount);
   summary.append(row);
  }
 
  $('grandTotal').textContent=peso(total);
 
- const uniquePlayers=new Set(
-  teams.flatMap(t=>[t.p1,t.p2]).filter(Boolean)
- );
-
  $('freebieCount').textContent=
-  `${uniquePlayers.size} unique participating players. `+
-  `Freebies are counted once per player per tournament.`;
+  `${participating.size} unique participating player(s). `+
+  `Each freebie is allocated once per player per tournament.`;
 
  const valid=errors.length===0;
 
  $('validation').textContent=valid
-  ?'Registration details look valid. Payment setup is not enabled yet.'
+  ?'Details look valid. Secure checkout is not enabled yet.'
   :errors.slice(0,8).join('\n');
 
  $('validation').classList.toggle('error',!valid);
 }
+
+/* LOAD TOURNAMENT */
 
 async function loadTournament(){
  const id=new URLSearchParams(location.search).get('id');
@@ -591,22 +789,24 @@ async function loadTournament(){
   return;
  }
 
- if(!window.courtDb){
-  $('pageStatus').textContent='Supabase connection unavailable.';
-  return;
- }
-
  try{
+  if(!await requireLogin())return;
+
   const {data:t,error}=await courtDb
    .from('tournaments')
-   .select('id,title,description,start_date,end_date,status,registration_opens_at,registration_deadline')
+   .select(
+    'id,title,description,start_date,end_date,status,'+
+    'registration_opens_at,registration_deadline'
+   )
    .eq('id',id)
    .in('status',['published','ongoing'])
    .single();
 
-  if(error||!t)throw error||new Error('Tournament unavailable');
+  if(error||!t)
+   throw error||new Error('Tournament unavailable');
 
   tournament=t;
+
   $('tournamentName').textContent=t.title;
   $('tournamentDescription').textContent=t.description||'';
   $('tournamentDates').textContent=fmt(t.start_date)+
@@ -627,7 +827,10 @@ async function loadTournament(){
 
   const {data:list,error:ce}=await courtDb
    .from('tournament_categories')
-   .select('id,name,category_date,entry_fee,double_entry_fee,max_teams,registration_open')
+   .select(
+    'id,name,category_date,entry_fee,'+
+    'double_entry_fee,max_teams,registration_open'
+   )
    .eq('tournament_id',id)
    .order('category_date',{ascending:true});
 
@@ -635,25 +838,36 @@ async function loadTournament(){
 
   categories=list||[];
 
-  renderTeams();
-  calculate();
+  await loadTournamentFreebies(id);
+
+  // Prefill the signed-in player's saved profile.
+  players.length=0;
+  teams.length=0;
+
+  addPlayer({
+   name:savedProfile?.full_name||'',
+   gender:savedProfile?.gender||'',
+   email:signedInUser.email||'',
+   phone:savedProfile?.phone||''
+  });
+
+  addPlayer();
+  addTeam();
 
   $('pageStatus').textContent=
    'Tournament loaded. Registration submissions remain disabled.';
 
  }catch(e){
-  console.error(e);
+  console.error('Tournament loading:',e);
   $('tournamentName').textContent='Tournament unavailable';
-  $('pageStatus').textContent='Unable to load tournament information.';
+  $('pageStatus').textContent=
+   'Unable to load tournament information: '+e.message;
  }
 }
 
 $('addPlayer').onclick=()=>addPlayer();
 $('addTeam').onclick=addTeam;
 
-addPlayer();
-addPlayer();
-addTeam();
 loadTournament();
 </script>
 </body>
