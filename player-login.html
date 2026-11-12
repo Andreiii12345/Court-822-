@@ -3,785 +3,707 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#19352b">
+
 <title>Court 822 | Player Login</title>
 
 <link rel="icon" href="logo.svg">
 <link rel="stylesheet" href="style.css">
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ background:#f5f0e8;
+ color:#19352b;
+ font-family:Arial,sans-serif;
+ min-height:100vh;
 }
 
-body {
-  margin: 0;
-  background: #f5f0e8;
-  color: #19352b;
-  font-family: Arial, sans-serif;
-  min-height: 100vh;
+.topbar{
+ background:#19352b;
+ color:#d4ac70;
+ text-align:center;
+ padding:11px;
+ font-size:11px;
+ letter-spacing:2px;
 }
 
-.c822-topbar {
-  background: #19352b;
-  color: #ffffff;
-  text-align: center;
-  padding: 10px 15px;
-  font-size: 11px;
-  font-weight: bold;
-  letter-spacing: 1.5px;
+.nav822{
+ background:#fffdf9;
+ border-bottom:1px solid #e2d9ca;
+ padding:14px 5%;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:12px;
 }
 
-.c822-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 5%;
-  background: #f5f0e8;
-  border-bottom: 1px solid #e3dacd;
+.brand822{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ color:#19352b;
+ text-decoration:none;
 }
 
-.c822-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  color: #19352b;
+.brand822 img{
+ width:45px;
+ height:45px;
+ object-fit:contain;
 }
 
-.c822-brand img {
-  width: 46px;
-  height: 46px;
-  object-fit: contain;
+.brand822 b{
+ display:block;
+ letter-spacing:2px;
 }
 
-.c822-brand strong {
-  display: block;
-  font-family: Georgia, serif;
-  letter-spacing: 3px;
-  font-size: 17px;
+.brand822 small{
+ display:block;
+ color:#b78e55;
+ font-size:10px;
 }
 
-.c822-brand small {
-  display: block;
-  color: #b78e55;
-  font-size: 10px;
-  letter-spacing: 2px;
-  margin-top: 3px;
+.home-link{
+ color:#19352b;
+ background:#e6ece7;
+ padding:11px 16px;
+ border-radius:9px;
+ text-decoration:none;
+ font-size:13px;
+ font-weight:bold;
 }
 
-.c822-home {
-  background: #ffffff;
-  color: #19352b;
-  text-decoration: none;
-  border: 1px solid #e1d8ca;
-  border-radius: 9px;
-  padding: 11px 16px;
-  font-size: 13px;
-  font-weight: bold;
+.login-wrap{
+ max-width:460px;
+ margin:45px auto 70px;
+ padding:0 16px;
 }
 
-.login-container {
-  max-width: 480px;
-  margin: 45px auto 70px;
-  padding: 0 16px;
+.login-card{
+ background:#fffdf9;
+ border:1px solid #e2d9ca;
+ border-radius:20px;
+ overflow:hidden;
+ box-shadow:0 12px 35px rgba(0,0,0,.06);
 }
 
-.login-card {
-  background: #fffdf9;
-  border: 1px solid #e2d9ca;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 12px 35px rgba(0,0,0,.06);
+.login-head{
+ background:#19352b;
+ color:white;
+ padding:35px 25px;
+ text-align:center;
 }
 
-.login-header {
-  background: #19352b;
-  color: white;
-  padding: 38px 25px;
-  text-align: center;
+.login-head img{
+ width:72px;
+ height:72px;
+ object-fit:contain;
+ background:white;
+ border-radius:50%;
+ padding:8px;
+ margin-bottom:14px;
 }
 
-.login-header img {
-  width: 76px;
-  height: 76px;
-  object-fit: contain;
-  background: white;
-  border-radius: 50%;
-  padding: 8px;
-  margin-bottom: 15px;
+.login-head small{
+ color:#d4ac70;
+ letter-spacing:2px;
+ font-weight:bold;
 }
 
-.login-header small {
-  color: #d4ac70;
-  font-size: 11px;
-  font-weight: bold;
-  letter-spacing: 2px;
+.login-head h1{
+ font:36px Georgia,serif;
+ margin:12px 0;
 }
 
-.login-header h1 {
-  font-family: Georgia, serif;
-  font-size: 36px;
-  font-weight: normal;
-  margin: 12px 0;
+.login-head p{
+ color:#d9e4dc;
+ font-size:14px;
+ line-height:1.7;
 }
 
-.login-header p {
-  color: #d9e4dc;
-  font-size: 14px;
-  line-height: 1.7;
-  margin-bottom: 0;
+.login-body{padding:28px}
+
+.login-body h2{
+ font:26px Georgia,serif;
+ margin:0 0 12px;
 }
 
-.login-body {
-  padding: 30px;
+.muted{
+ color:#68766e;
+ font-size:13px;
+ line-height:1.7;
 }
 
-.login-body h2 {
-  font-family: Georgia, serif;
-  font-size: 26px;
-  font-weight: normal;
-  margin: 0 0 12px;
+.field{
+ display:block;
+ margin:20px 0;
+ font-size:13px;
+ font-weight:bold;
 }
 
-.muted {
-  color: #68766e;
-  font-size: 14px;
-  line-height: 1.7;
+.field input{
+ display:block;
+ width:100%;
+ padding:15px;
+ margin-top:9px;
+ border:1px solid #d5cbbd;
+ border-radius:10px;
+ font-size:16px;
+ background:white;
+ color:#19352b;
 }
 
-.field {
-  display: block;
-  font-size: 13px;
-  font-weight: bold;
-  margin: 22px 0;
+.field input:focus{
+ outline:2px solid #c4a06b;
+ outline-offset:1px;
 }
 
-.field input {
-  display: block;
-  width: 100%;
-  margin-top: 9px;
-  padding: 15px;
-  background: white;
-  border: 1px solid #d5cbbd;
-  border-radius: 10px;
-  color: #19352b;
-  font-size: 16px;
+.otp-input{
+ text-align:center;
+ font-size:26px!important;
+ font-weight:bold;
+ letter-spacing:5px;
 }
 
-.field input:focus {
-  outline: 2px solid #c4a06b;
-  outline-offset: 1px;
+.btn822{
+ display:block;
+ width:100%;
+ padding:15px;
+ border:0;
+ border-radius:10px;
+ background:#19352b;
+ color:white;
+ font-weight:bold;
+ font-size:15px;
+ cursor:pointer;
+ margin-top:12px;
 }
 
-.login-button {
-  display: block;
-  width: 100%;
-  padding: 15px;
-  border: none;
-  border-radius: 10px;
-  background: #19352b;
-  color: white;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 12px;
-  text-align: center;
+.btn822:disabled{
+ opacity:.55;
+ cursor:not-allowed;
 }
 
-.login-button:hover {
-  background: #285442;
+.btn822.light{
+ background:#e6ece7;
+ color:#19352b;
 }
 
-.login-button:disabled {
-  opacity: .55;
-  cursor: not-allowed;
+.message{
+ margin-top:18px;
+ padding:14px;
+ background:#e6ece7;
+ border-radius:10px;
+ font-size:13px;
+ line-height:1.6;
+ overflow-wrap:anywhere;
 }
 
-.secondary-button {
-  background: #e6ece7;
-  color: #19352b;
+.message.error{
+ background:#f8e4e1;
+ color:#913c32;
 }
 
-.secondary-button:hover {
-  background: #d5e2d8;
+.hidden{display:none!important}
+
+.footer822{
+ text-align:center;
+ padding:20px;
+ font-size:13px;
 }
 
-.message {
-  background: #e6ece7;
-  padding: 15px;
-  border-radius: 10px;
-  margin-top: 18px;
-  font-size: 13px;
-  line-height: 1.7;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-}
+.footer822 a{color:#19352b}
 
-.message.error {
-  background: #f8e4e1;
-  color: #913c32;
-}
-
-.hidden {
-  display: none !important;
-}
-
-.email-icon {
-  font-size: 40px;
-  text-align: center;
-  margin-bottom: 15px;
-}
-
-.success-icon {
-  font-size: 42px;
-  color: #2d7952;
-  text-align: center;
-  margin-bottom: 15px;
-}
-
-.footer-link {
-  text-align: center;
-  padding: 22px;
-  font-size: 13px;
-}
-
-.footer-link a {
-  color: #19352b;
-  text-decoration: none;
-}
-
-@media (max-width: 600px) {
-  .login-container {
-    margin: 20px auto 50px;
-  }
-
-  .login-body {
-    padding: 23px;
-  }
-
-  .login-header {
-    padding: 30px 20px;
-  }
-
-  .login-header h1 {
-    font-size: 32px;
-  }
-
-  .c822-nav {
-    padding: 12px 16px;
-  }
-
-  .c822-brand strong {
-    font-size: 14px;
-    letter-spacing: 2px;
-  }
-
-  .c822-home {
-    padding: 10px 12px;
-  }
+@media(max-width:600px){
+ .login-wrap{margin:20px auto 50px}
+ .login-body{padding:22px}
+ .login-head{padding:30px 20px}
+ .login-head h1{font-size:32px}
 }
 </style>
 </head>
 
 <body>
 
-<div class="c822-topbar">
-  COURT 822 • PLAYER ACCESS
+<div class="topbar">
+ COURT 822 • PLAYER ACCESS
 </div>
 
-<header class="c822-nav">
+<header class="nav822">
+ <a class="brand822" href="index.html">
+  <img src="logo.svg" alt="Court 822">
+  <span>
+   <b>COURT 822</b>
+   <small>PICKLEBALL</small>
+  </span>
+ </a>
 
-  <a class="c822-brand" href="index.html">
-    <img src="logo.svg" alt="Court 822 Logo">
-
-    <span>
-      <strong>COURT 822</strong>
-      <small>PICKLEBALL</small>
-    </span>
-  </a>
-
-  <a class="c822-home" href="index.html">
-    Home
-  </a>
-
+ <a class="home-link" href="index.html">
+  Home
+ </a>
 </header>
 
-<main class="login-container">
+<main class="login-wrap">
 
-  <section class="login-card">
+<section class="login-card">
 
-    <div class="login-header">
+ <div class="login-head">
+  <img src="logo.svg" alt="Court 822">
 
-      <img src="logo.svg" alt="Court 822 Logo">
+  <small>COURT 822 V3</small>
 
-      <small>COURT 822 V3</small>
+  <h1>Player Login</h1>
 
-      <h1>Player Login</h1>
+  <p>
+   Register once and access your
+   tournament account anytime.
+  </p>
+ </div>
 
-      <p>
-        Sign in using your email address.
-        No password or Player ID required.
-      </p>
+ <div class="login-body">
 
-    </div>
+  <!-- EMAIL FORM -->
 
-    <div class="login-body">
+  <form id="emailForm">
 
-      <!-- EMAIL LOGIN FORM -->
+   <h2>Welcome, Player!</h2>
 
-      <form id="loginForm">
+   <p class="muted">
+    Enter your email address.
+    We'll send you an 8-digit
+    verification code.
+   </p>
 
-        <h2>Welcome, Player!</h2>
+   <label class="field">
+    Email Address
 
-        <p class="muted">
-          Enter your email address below.
-          We'll send you a secure login link.
-        </p>
+    <input
+     id="email"
+     type="email"
+     autocomplete="email"
+     placeholder="yourname@email.com"
+     maxlength="254"
+     required>
+   </label>
 
-        <label class="field">
-          Email Address
+   <button
+    id="sendButton"
+    class="btn822"
+    type="submit">
+    Send Verification Code
+   </button>
 
-          <input
-            id="email"
-            type="email"
-            placeholder="yourname@email.com"
-            autocomplete="email"
-            maxlength="254"
-            required>
-        </label>
+  </form>
 
-        <button
-          id="sendButton"
-          class="login-button"
-          type="submit">
-          Send Login Link
-        </button>
+  <!-- OTP FORM -->
 
-        <p class="muted" style="text-align:center">
-          New player? You can use this same form
-          to create your account.
-        </p>
+  <form id="otpForm" class="hidden">
 
-      </form>
+   <h2>Verify Your Email</h2>
 
-      <!-- EMAIL SENT SCREEN -->
+   <p class="muted">
+    Check your email on your phone
+    or another device, then enter
+    the code below.
+   </p>
 
-      <div id="emailSent" class="hidden">
+   <p class="muted">
+    Code sent to:
+    <strong id="sentEmail"></strong>
+   </p>
 
-        <div class="email-icon">✉</div>
+   <label class="field">
+    Verification Code
 
-        <h2 style="text-align:center">
-          Check Your Email!
-        </h2>
+    <input
+     id="otp"
+     class="otp-input"
+     type="text"
+     inputmode="numeric"
+     autocomplete="one-time-code"
+     pattern="[0-9]{8}"
+     minlength="8"
+     maxlength="8"
+     placeholder="00000000"
+     required>
+   </label>
 
-        <p class="muted" style="text-align:center">
-          If your email address is eligible,
-          we've requested a secure sign-in link.
-        </p>
+   <button
+    id="verifyButton"
+    class="btn822"
+    type="submit">
+    Verify & Continue
+   </button>
 
-        <div class="message">
-          Open your email and click the
-          sign-in link.
+   <button
+    id="resendButton"
+    class="btn822 light"
+    type="button"
+    disabled>
+    Resend Code (60s)
+   </button>
 
-          You'll return to the Court 822
-          website automatically.
+   <button
+    id="changeEmail"
+    class="btn822 light"
+    type="button">
+    Change Email
+   </button>
 
-          Check your spam folder if the
-          email doesn't appear.
-        </div>
+  </form>
 
-        <button
-          id="tryAgain"
-          class="login-button secondary-button"
-          type="button">
-          Use Another Email
-        </button>
+  <!-- SUCCESS PANEL -->
 
-      </div>
+  <div id="successPanel" class="hidden">
 
-      <!-- SUCCESS SCREEN -->
+   <h2>Welcome to Court 822!</h2>
 
-      <div id="successPanel" class="hidden">
+   <div class="message">
+    Your account is verified.
+    You're signed in successfully.
+   </div>
 
-        <div class="success-icon">✓</div>
+   <p id="accountEmail" class="muted"></p>
 
-        <h2 style="text-align:center">
-          Welcome to Court 822!
-        </h2>
+   <button
+    id="continueButton"
+    class="btn822"
+    type="button">
+    Continue to Tournaments
+   </button>
 
-        <p class="muted" style="text-align:center">
-          You have successfully signed in.
-        </p>
+   <button
+    id="logoutButton"
+    class="btn822 light"
+    type="button">
+    Sign Out
+   </button>
 
-        <div class="message">
-          Your email has been verified.
-
-          Your player account is ready
-          for tournament registration.
-        </div>
-
-        <p id="accountEmail"
-           class="muted"
-           style="text-align:center">
-        </p>
-
-        <button
-          id="continueButton"
-          class="login-button"
-          type="button">
-          Continue to Tournaments
-        </button>
-
-        <button
-          id="logoutButton"
-          class="login-button secondary-button"
-          type="button">
-          Sign Out
-        </button>
-
-      </div>
-
-      <!-- STATUS MESSAGES -->
-
-      <p
-        id="statusMessage"
-        class="message hidden"
-        role="status"
-        aria-live="polite">
-      </p>
-
-    </div>
-
-  </section>
-
-  <div class="footer-link">
-    <a href="index.html">
-      Back to Court 822
-    </a>
   </div>
+
+  <p
+   id="statusMessage"
+   class="message hidden"
+   role="status"
+   aria-live="polite">
+  </p>
+
+ </div>
+
+</section>
+
+<div class="footer822">
+ <a href="index.html">Back to Court 822</a>
+</div>
 
 </main>
 
-<!-- SUPABASE -->
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-
 <script src="config.js"></script>
 <script src="supabase-client.js"></script>
 
 <script>
 'use strict';
 
-const $ = id => document.getElementById(id);
+const $=id=>document.getElementById(id);
 
-const LOGIN_URL = new URL(
-  'player-login.html',
-  window.location.href
-).href;
+let pendingEmail='';
+let busy=false;
+let resendAllowedAt=0;
+let resendTimer=null;
 
-let busy = false;
+function showPanel(name){
+ ['emailForm','otpForm','successPanel']
+ .forEach(id=>{
+  $(id).classList.toggle('hidden',id!==name);
+ });
+}
 
-function showPanel(name) {
-  [
-    'loginForm',
-    'emailSent',
-    'successPanel'
-  ].forEach(id => {
-    $(id).classList.toggle(
-      'hidden',
-      id !== name
-    );
+function showStatus(text,error=false){
+ const el=$('statusMessage');
+
+ el.textContent=text;
+ el.classList.remove('hidden');
+ el.classList.toggle('error',error);
+}
+
+function clearStatus(){
+ $('statusMessage').classList.add('hidden');
+}
+
+function showSuccess(user){
+ showPanel('successPanel');
+
+ $('accountEmail').textContent=
+  'Signed in as: '+(user.email||'');
+
+ clearStatus();
+}
+
+function safeNext(){
+ const fallback=new URL(
+  'index.html#tournaments',
+  location.href
+ ).href;
+
+ const raw=new URLSearchParams(
+  location.search
+ ).get('next');
+
+ if(!raw || raw.startsWith('/') ||
+    raw.includes('\\')){
+  return fallback;
+ }
+
+ try{
+  const url=new URL(raw,location.href);
+  const base=new URL('./',location.href);
+
+  if(url.origin!==base.origin ||
+     !url.pathname.startsWith(base.pathname)){
+   return fallback;
+  }
+
+  return url.href;
+ }catch{
+  return fallback;
+ }
+}
+
+function updateResend(){
+ const seconds=Math.max(
+  0,
+  Math.ceil((resendAllowedAt-Date.now())/1000)
+ );
+
+ $('resendButton').disabled=
+  seconds>0 || busy;
+
+ $('resendButton').textContent=
+  seconds>0
+  ?'Resend Code ('+seconds+'s)'
+  :'Resend Code';
+}
+
+function startCooldown(){
+ resendAllowedAt=Date.now()+60000;
+
+ if(resendTimer){
+  clearInterval(resendTimer);
+ }
+
+ updateResend();
+
+ resendTimer=setInterval(()=>{
+  updateResend();
+
+  if(Date.now()>=resendAllowedAt){
+   clearInterval(resendTimer);
+   resendTimer=null;
+  }
+ },1000);
+}
+
+async function sendCode(email){
+ if(!window.courtDb){
+  throw new Error('Supabase unavailable');
+ }
+
+ const {error}=await courtDb.auth.signInWithOtp({
+  email,
+  options:{
+   shouldCreateUser:true
+  }
+ });
+
+ if(error)throw error;
+}
+
+// REQUEST CODE
+
+$('emailForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+
+ if(busy)return;
+
+ const email=$('email').value.trim().toLowerCase();
+
+ if(!email)return;
+
+ busy=true;
+ $('sendButton').disabled=true;
+
+ showStatus('Sending verification code...');
+
+ try{
+  await sendCode(email);
+
+  pendingEmail=email;
+  $('sentEmail').textContent=email;
+  $('otp').value='';
+
+  showPanel('otpForm');
+  startCooldown();
+
+  showStatus(
+   'Check your email for the verification code.'
+  );
+
+ }catch(error){
+  console.error('Email request:',error);
+
+  showStatus(
+   'Unable to send the code right now. '+
+   'Please wait and try again.',
+   true
+  );
+
+ }finally{
+  busy=false;
+  $('sendButton').disabled=false;
+  updateResend();
+ }
+});
+
+// VERIFY CODE
+
+$('otpForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+
+ if(busy)return;
+
+ const token=$('otp').value.trim();
+
+ if(!/^[0-9]{8}$/.test(token)){
+  showStatus('Enter the complete 8-digit code.',true);
+  return;
+ }
+
+ busy=true;
+ $('verifyButton').disabled=true;
+
+ showStatus('Verifying your code...');
+
+ try{
+  const {data,error}=await courtDb.auth.verifyOtp({
+   email:pendingEmail,
+   token,
+   type:'email'
   });
-}
 
-function showStatus(text, isError = false) {
-  const el = $('statusMessage');
+  if(error)throw error;
 
-  el.textContent = text;
-
-  el.classList.remove('hidden');
-
-  el.classList.toggle(
-    'error',
-    isError
-  );
-}
-
-function clearStatus() {
-  $('statusMessage').classList.add('hidden');
-}
-
-function getSafeNext() {
-  const fallback = new URL(
-    'index.html#tournaments',
-    window.location.href
-  ).href;
-
-  const raw = new URLSearchParams(
-    window.location.search
-  ).get('next');
-
-  if (!raw ||
-      raw.startsWith('/') ||
-      raw.includes('\\')) {
-    return fallback;
+  if(!data.session || !data.user){
+   throw new Error('No session returned');
   }
 
-  try {
-    const target = new URL(
-      raw,
-      window.location.href
-    );
-
-    const base = new URL(
-      './',
-      window.location.href
-    );
-
-    if (
-      target.origin !== base.origin ||
-      !target.pathname.startsWith(base.pathname)
-    ) {
-      return fallback;
-    }
-
-    return target.href;
-
-  } catch (error) {
-    return fallback;
-  }
-}
-
-function showSuccess(user) {
-  showPanel('successPanel');
-
-  $('accountEmail').textContent =
-    'Signed in as: ' + (user.email || '');
-
-  clearStatus();
-}
-
-// SEND MAGIC LINK
-
-$('loginForm').addEventListener(
-  'submit',
-  async event => {
-
-    event.preventDefault();
-
-    if (busy) return;
-
-    const email = $('email')
-      .value.trim().toLowerCase();
-
-    if (!email) return;
-
-    if (!window.courtDb) {
-      showStatus(
-        'Supabase connection unavailable.',
-        true
-      );
-      return;
-    }
-
-    busy = true;
-
-    $('sendButton').disabled = true;
-
-    showStatus(
-      'Requesting your login link...'
-    );
-
-    try {
-
-      const { error } =
-        await window.courtDb.auth.signInWithOtp({
-          email: email,
-          options: {
-            shouldCreateUser: true,
-            emailRedirectTo: LOGIN_URL
-          }
-        });
-
-      if (error) throw error;
-
-      showPanel('emailSent');
-
-      clearStatus();
-
-    } catch (error) {
-
-      console.error(
-        'Magic Link Error:',
-        error
-      );
-
-      showStatus(
-        'Unable to send the login link. ' +
-        'Please wait and try again.',
-        true
-      );
-
-    } finally {
-
-      busy = false;
-
-      $('sendButton').disabled = false;
-
-    }
-  }
-);
-
-// TRY ANOTHER EMAIL
-
-$('tryAgain').addEventListener(
-  'click',
-  () => {
-    showPanel('loginForm');
-    clearStatus();
-  }
-);
-
-// CONTINUE TO TOURNAMENTS
-
-$('continueButton').addEventListener(
-  'click',
-  () => {
-    window.location.assign(
-      getSafeNext()
-    );
-  }
-);
-
-// SIGN OUT
-
-$('logoutButton').addEventListener(
-  'click',
-  async () => {
-
-    if (!window.courtDb) return;
-
-    try {
-
-      const { error } =
-        await window.courtDb.auth.signOut();
-
-      if (error) throw error;
-
-      showPanel('loginForm');
-
-      clearStatus();
-
-    } catch (error) {
-
-      showStatus(
-        'Unable to sign out. Try again.',
-        true
-      );
-
-    }
-  }
-);
-
-// INITIALIZE AUTHENTICATION
-
-async function initialize() {
-
-  if (!window.courtDb) {
-
-    showStatus(
-      'Supabase connection unavailable.',
-      true
-    );
-
-    $('sendButton').disabled = true;
-
-    return;
-  }
-
-  try {
-
-    const { data, error } =
-      await window.courtDb.auth.getUser();
-
-    if (data?.user) {
-
-      showSuccess(data.user);
-
-      return;
-    }
-
-    const query = new URLSearchParams(
-      window.location.search
-    );
-
-    const hash = window.location.hash;
-
-    if (
-      query.has('error') ||
-      hash.includes('error=')
-    ) {
-
-      showStatus(
-        'Your login link may have expired. ' +
-        'Please request a new one.',
-        true
-      );
-
-    } else if (
-      error &&
-      error.name !== 'AuthSessionMissingError'
-    ) {
-
-      console.warn(
-        'Session check:',
-        error.message
-      );
-
-    }
-
-  } catch (error) {
-
-    console.error(
-      'Authentication initialization error:',
-      error
-    );
-
-  }
-}
-
-// LISTEN FOR SUCCESSFUL LOGIN
-
-if (window.courtDb) {
-
-  window.courtDb.auth.onAuthStateChange(
-    (event, session) => {
-
-      if (
-        event === 'SIGNED_IN' &&
-        session?.user
-      ) {
-
-        showSuccess(session.user);
-
-      }
-
-      if (event === 'SIGNED_OUT') {
-
-        showPanel('loginForm');
-
-      }
-    }
+  showSuccess(data.user);
+
+ }catch(error){
+  console.error('Verification:',error);
+
+  showStatus(
+   'Invalid or expired code. '+
+   'Check your email or request a new one.',
+   true
   );
 
+ }finally{
+  busy=false;
+  $('verifyButton').disabled=false;
+  updateResend();
+ }
+});
+
+// RESEND CODE
+
+$('resendButton').addEventListener('click',async()=>{
+ if(busy || Date.now()<resendAllowedAt)return;
+
+ busy=true;
+ updateResend();
+
+ try{
+  await sendCode(pendingEmail);
+  startCooldown();
+
+  showStatus(
+   'A new verification code has been requested.'
+  );
+
+ }catch(error){
+  console.error('Resend:',error);
+  startCooldown();
+
+  showStatus(
+   'Unable to resend right now. Try later.',
+   true
+  );
+
+ }finally{
+  busy=false;
+  updateResend();
+ }
+});
+
+$('changeEmail').addEventListener('click',()=>{
+ pendingEmail='';
+ showPanel('emailForm');
+ clearStatus();
+});
+
+$('continueButton').addEventListener('click',()=>{
+ location.assign(safeNext());
+});
+
+$('logoutButton').addEventListener('click',async()=>{
+ if(!window.courtDb)return;
+
+ const {error}=await courtDb.auth.signOut();
+
+ if(error){
+  showStatus('Unable to sign out.',true);
+  return;
+ }
+
+ showPanel('emailForm');
+ clearStatus();
+});
+
+// INITIALIZE
+
+async function initialize(){
+ if(!window.courtDb){
+  showStatus('Supabase connection unavailable.',true);
+  $('sendButton').disabled=true;
+  return;
+ }
+
+ try{
+  const {data}=await courtDb.auth.getUser();
+
+  if(data?.user){
+   showSuccess(data.user);
+  }
+
+ }catch(error){
+  console.error('Initialization:',error);
+ }
+}
+
+if(window.courtDb){
+ courtDb.auth.onAuthStateChange((event,session)=>{
+  if(event==='SIGNED_IN' && session?.user){
+   showSuccess(session.user);
+  }
+ });
 }
 
 initialize();
-
 </script>
-
 </body>
 </html>
