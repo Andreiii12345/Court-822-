@@ -1,0 +1,537 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#19352b">
+
+<title>Court 822 | My Player Profile</title>
+
+<link rel="icon" href="logo.svg">
+<link rel="stylesheet" href="style.css">
+
+<style>
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ background:#f5f0e8;
+ color:#19352b;
+ font-family:Arial,sans-serif;
+ min-height:100vh;
+}
+
+.topbar{
+ background:#19352b;
+ color:#d4ac70;
+ text-align:center;
+ padding:11px;
+ font-size:11px;
+ letter-spacing:2px;
+}
+
+.nav822{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:12px;
+ padding:14px 5%;
+ background:#fffdf9;
+ border-bottom:1px solid #e2d9ca;
+}
+
+.brand822{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ color:#19352b;
+ text-decoration:none;
+}
+
+.brand822 img{
+ width:45px;
+ height:45px;
+ object-fit:contain;
+}
+
+.brand822 b{
+ display:block;
+ letter-spacing:2px;
+}
+
+.brand822 small{
+ display:block;
+ color:#b78e55;
+ font-size:10px;
+}
+
+.home-link{
+ background:#e6ece7;
+ color:#19352b;
+ padding:11px 16px;
+ border-radius:9px;
+ text-decoration:none;
+ font-size:13px;
+ font-weight:bold;
+}
+
+.wrap{
+ max-width:620px;
+ margin:35px auto 70px;
+ padding:0 16px;
+}
+
+.profile-card{
+ background:#fffdf9;
+ border:1px solid #e2d9ca;
+ border-radius:20px;
+ overflow:hidden;
+ box-shadow:0 12px 35px rgba(0,0,0,.05);
+}
+
+.profile-head{
+ background:#19352b;
+ color:white;
+ padding:35px 28px;
+}
+
+.profile-head small{
+ color:#d4ac70;
+ letter-spacing:2px;
+ font-weight:bold;
+}
+
+.profile-head h1{
+ font:36px Georgia,serif;
+ margin:12px 0;
+}
+
+.profile-head p{
+ color:#d9e4dc;
+ font-size:14px;
+ line-height:1.7;
+}
+
+.profile-body{
+ padding:30px;
+}
+
+.field{
+ display:block;
+ font-size:13px;
+ font-weight:bold;
+ margin:18px 0;
+}
+
+.field input,
+.field select{
+ display:block;
+ width:100%;
+ padding:14px;
+ margin-top:8px;
+ border:1px solid #d5cbbd;
+ border-radius:10px;
+ background:white;
+ color:#19352b;
+ font-size:16px;
+}
+
+.field input:focus,
+.field select:focus{
+ outline:2px solid #c4a06b;
+ outline-offset:1px;
+}
+
+.field input:disabled{
+ background:#f1eee7;
+ color:#68766e;
+}
+
+.btn822{
+ display:block;
+ width:100%;
+ border:0;
+ border-radius:10px;
+ background:#19352b;
+ color:white;
+ padding:15px;
+ font-size:15px;
+ font-weight:bold;
+ cursor:pointer;
+ margin-top:15px;
+}
+
+.btn822:disabled{
+ opacity:.55;
+ cursor:not-allowed;
+}
+
+.btn822.light{
+ background:#e6ece7;
+ color:#19352b;
+}
+
+.message{
+ padding:15px;
+ border-radius:10px;
+ background:#e6ece7;
+ margin-top:18px;
+ font-size:13px;
+ line-height:1.7;
+ overflow-wrap:anywhere;
+}
+
+.message.error{
+ background:#f8e4e1;
+ color:#913c32;
+}
+
+.muted{
+ color:#68766e;
+ font-size:13px;
+ line-height:1.7;
+}
+
+.hidden{display:none!important}
+
+@media(max-width:600px){
+ .wrap{margin:20px auto 50px}
+ .profile-body{padding:22px}
+ .profile-head{padding:28px 22px}
+ .profile-head h1{font-size:30px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+ COURT 822 • PLAYER ACCOUNT
+</div>
+
+<header class="nav822">
+ <a class="brand822" href="index.html">
+  <img src="logo.svg" alt="Court 822">
+  <span>
+   <b>COURT 822</b>
+   <small>PICKLEBALL</small>
+  </span>
+ </a>
+
+ <a class="home-link" href="index.html">
+  Home
+ </a>
+</header>
+
+<main class="wrap">
+
+<section class="profile-card">
+
+ <div class="profile-head">
+  <small>COURT 822 V3</small>
+  <h1>My Player Profile</h1>
+  <p>
+   Complete your details once.
+   We'll remember them for future tournaments.
+  </p>
+ </div>
+
+ <div class="profile-body">
+
+  <p id="loadingText" class="muted">
+   Loading your player profile...
+  </p>
+
+  <form id="profileForm" class="hidden">
+
+   <label class="field">
+    Full Name
+    <input
+     id="fullName"
+     type="text"
+     maxlength="120"
+     autocomplete="name"
+     placeholder="Enter your full name"
+     required>
+   </label>
+
+   <label class="field">
+    Verified Email
+    <input
+     id="email"
+     type="email"
+     disabled>
+   </label>
+
+   <p class="muted">
+    Your email comes from your verified
+    Court 822 login and cannot be changed here.
+   </p>
+
+   <label class="field">
+    Contact Number
+    <input
+     id="phone"
+     type="tel"
+     inputmode="tel"
+     maxlength="20"
+     autocomplete="tel"
+     placeholder="09XXXXXXXXX"
+     required>
+   </label>
+
+   <label class="field">
+    Gender
+    <select id="gender" required>
+     <option value="">Select gender</option>
+     <option value="male">Male</option>
+     <option value="female">Female</option>
+    </select>
+   </label>
+
+   <p class="muted">
+    This information will help determine
+    eligibility for tournament categories.
+    Contact Court 822 if you need assistance
+    with category eligibility.
+   </p>
+
+   <label class="field">
+    Shirt Size
+    <select id="shirtSize" required>
+     <option value="">Select shirt size</option>
+     <option value="XS">XS</option>
+     <option value="S">S</option>
+     <option value="M">M</option>
+     <option value="L">L</option>
+     <option value="XL">XL</option>
+     <option value="2XL">2XL</option>
+     <option value="3XL">3XL</option>
+    </select>
+   </label>
+
+   <button
+    id="saveButton"
+    class="btn822"
+    type="submit">
+    Save My Profile
+   </button>
+
+   <a
+    class="btn822 light"
+    href="index.html"
+    style="text-align:center;text-decoration:none">
+    Back to Tournaments
+   </a>
+
+  </form>
+
+  <p
+   id="statusMessage"
+   class="message hidden"
+   role="status"
+   aria-live="polite">
+  </p>
+
+ </div>
+
+</section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="supabase-client.js"></script>
+
+<script>
+'use strict';
+
+const $=id=>document.getElementById(id);
+
+let currentUser=null;
+let existingProfile=null;
+let saving=false;
+
+function showStatus(text,error=false){
+ const el=$('statusMessage');
+
+ el.textContent=text;
+ el.classList.remove('hidden');
+ el.classList.toggle('error',error);
+}
+
+function clearStatus(){
+ $('statusMessage').classList.add('hidden');
+}
+
+function redirectToLogin(){
+ const url=new URL(
+  'player-login.html',
+  location.href
+ );
+
+ url.searchParams.set(
+  'next',
+  'player-profile.html'
+ );
+
+ location.replace(url.href);
+}
+
+async function loadProfile(){
+ if(!window.courtDb){
+  $('loadingText').textContent=
+   'Supabase connection unavailable.';
+  return;
+ }
+
+ try{
+  const {data:authData,error:authError}=
+   await courtDb.auth.getUser();
+
+  if(authError || !authData?.user){
+   redirectToLogin();
+   return;
+  }
+
+  currentUser=authData.user;
+
+  $('email').value=currentUser.email||'';
+
+  const {data,error}=await courtDb
+   .from('tournament_players')
+   .select(
+    'id,user_id,full_name,email,phone,gender,shirt_size'
+   )
+   .eq('user_id',currentUser.id)
+   .maybeSingle();
+
+  if(error)throw error;
+
+  existingProfile=data||null;
+
+  if(existingProfile){
+   $('fullName').value=existingProfile.full_name||'';
+   $('phone').value=existingProfile.phone||'';
+   $('gender').value=existingProfile.gender||'';
+   $('shirtSize').value=existingProfile.shirt_size||'';
+  }
+
+  $('loadingText').classList.add('hidden');
+  $('profileForm').classList.remove('hidden');
+
+ }catch(error){
+  console.error('Profile loading:',error);
+
+  $('loadingText').textContent=
+   'Unable to load your profile. Please refresh.';
+
+  showStatus(
+   'Your profile could not be loaded.',
+   true
+  );
+ }
+}
+
+$('profileForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+
+ if(saving || !currentUser)return;
+
+ const fullName=$('fullName').value.trim();
+ const phone=$('phone').value.trim();
+ const gender=$('gender').value;
+ const shirtSize=$('shirtSize').value;
+
+ if(!fullName || !phone || !gender || !shirtSize){
+  showStatus('Please complete all fields.',true);
+  return;
+ }
+
+ if(!['male','female'].includes(gender)){
+  showStatus('Please select a valid option.',true);
+  return;
+ }
+
+ saving=true;
+ $('saveButton').disabled=true;
+
+ showStatus('Saving your profile...');
+
+ try{
+  // Refresh authenticated identity before saving.
+  const {data:authData,error:authError}=
+   await courtDb.auth.getUser();
+
+  if(authError || !authData?.user){
+   redirectToLogin();
+   return;
+  }
+
+  currentUser=authData.user;
+
+  const profile={
+   user_id:currentUser.id,
+   full_name:fullName,
+   email:currentUser.email,
+   phone:phone,
+   gender:gender,
+   shirt_size:shirtSize
+  };
+
+  let result;
+
+  if(existingProfile){
+   // Do not allow the browser to change
+   // identity fields during an update.
+   result=await courtDb
+    .from('tournament_players')
+    .update({
+     full_name:profile.full_name,
+     phone:profile.phone,
+     gender:profile.gender,
+     shirt_size:profile.shirt_size
+    })
+    .eq('user_id',currentUser.id)
+    .select('id')
+    .single();
+  }else{
+   result=await courtDb
+    .from('tournament_players')
+    .insert(profile)
+    .select('id')
+    .single();
+  }
+
+  if(result.error)throw result.error;
+
+  existingProfile={
+   ...(existingProfile||{}),
+   ...profile,
+   id:result.data.id
+  };
+
+  showStatus(
+   'Your player profile has been saved successfully!'
+  );
+
+ }catch(error){
+  console.error('Profile saving:',error);
+
+  showStatus(
+   'Unable to save your profile. Please try again.',
+   true
+  );
+
+ }finally{
+  saving=false;
+  $('saveButton').disabled=false;
+ }
+});
+
+loadProfile();
+</script>
+
+</body>
+</html>
