@@ -6,97 +6,93 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#19352b">
 <title>Court 822 | Tournament Central</title>
-<meta name="description"
- content="Court 822 Pickleball tournaments, registration, schedules and results.">
+<meta name="description" content="Court 822 Pickleball Tournament Central">
 <link rel="icon" href="logo.svg">
 <link rel="stylesheet" href="style.css">
 
 <style>
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+html:not(.authenticated) body{visibility:hidden}
 body{
  margin:0;background:#f5f0e8;color:#19352b;
  font-family:Arial,sans-serif
 }
 a{text-decoration:none}
 .top{
- background:#19352b;color:#d4ac70;
- text-align:center;padding:10px;
- font-size:11px;letter-spacing:2px
+ background:#19352b;color:#d4ac70;text-align:center;
+ padding:10px;font-size:11px;letter-spacing:2px
 }
 .nav{
  display:flex;justify-content:space-between;
  align-items:center;gap:15px;padding:14px 5%;
  background:#fffdf9;border-bottom:1px solid #e2d9ca
 }
-.brand2{
- display:flex;align-items:center;gap:10px;
- color:#19352b
+.brand{
+ display:flex;align-items:center;gap:10px;color:#19352b
 }
-.brand2 img{width:48px;height:48px;object-fit:contain}
-.brand2 b{display:block;letter-spacing:2px}
-.brand2 small{color:#a8895d;font-size:10px}
+.brand img{width:48px;height:48px;object-fit:contain}
+.brand b{display:block;letter-spacing:2px}
+.brand small{color:#a8895d;font-size:10px}
 .links{display:flex;gap:12px;align-items:center}
 .links a{color:#19352b;font-size:13px;font-weight:bold}
-.btn822{
+.btn{
  display:inline-block;background:#19352b;color:white!important;
  border:0;border-radius:9px;padding:13px 18px;
  font-size:13px;font-weight:bold;cursor:pointer
 }
-.btn822.gold{background:#c4a06b;color:#19352b!important}
-.btn822.light{background:#e6ece7;color:#19352b!important}
+.btn.gold{background:#c4a06b;color:#19352b!important}
+.btn.light{background:#e6ece7;color:#19352b!important}
 .wrap{max-width:1100px;margin:auto;padding:0 18px}
-.hero822{
+.hero{
  background:#19352b;color:white;
  padding:65px 25px;text-align:center
 }
-.hero822 small{color:#d4ac70;letter-spacing:2px}
-.hero822 h1{
+.hero small{color:#d4ac70;letter-spacing:2px}
+.hero h1{
  font:clamp(37px,6vw,68px) Georgia,serif;
  margin:18px auto;max-width:850px
 }
-.hero822 p{
+.hero p{
  color:#dce5df;line-height:1.7;
  max-width:570px;margin:0 auto 25px
 }
 .hero-actions{
- display:flex;justify-content:center;gap:12px;flex-wrap:wrap
+ display:flex;justify-content:center;
+ gap:12px;flex-wrap:wrap
 }
-.section822{padding:55px 0}
-.section822 h2{
+.section{padding:55px 0}
+.section h2{
  font:clamp(27px,4vw,38px) Georgia,serif;
  margin:0 0 12px
 }
-.muted822{color:#68766e;font-size:14px;line-height:1.7}
-.cards822{
+.muted{color:#68766e;font-size:14px;line-height:1.7}
+.cards{
  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
  gap:18px;margin-top:25px
 }
-.card822{
+.card{
  background:#fffdf9;border:1px solid #e2d9ca;
  border-radius:16px;padding:24px
 }
-.card822 h3{font:24px Georgia,serif;margin:12px 0}
-.card822 p{font-size:13px;color:#68766e;line-height:1.7}
-.tag822{
+.card h3{font:24px Georgia,serif;margin:12px 0}
+.card p{font-size:13px;color:#68766e;line-height:1.7}
+.tag{
  display:inline-block;background:#e6ece7;
  padding:7px 10px;border-radius:7px;
  font-size:11px;font-weight:bold
 }
-.card822 .btn822{margin-top:12px}
-.account822{
- background:#e6ece7;border-radius:18px;
- padding:28px;display:flex;align-items:center;
+.card .btn{margin-top:12px}
+.account{
+ background:#e6ece7;border-radius:18px;padding:28px;
+ display:flex;align-items:center;
  justify-content:space-between;gap:20px
 }
-.account822 h2{margin:0 0 10px}
-.account-actions{
- display:flex;gap:10px;flex-wrap:wrap
-}
-.notice822{
- padding:15px;border-radius:10px;
- background:#e6ece7;margin-top:18px;
- font-size:13px;line-height:1.6
+.account h2{margin:0 0 10px}
+.account-actions{display:flex;gap:10px;flex-wrap:wrap}
+.notice{
+ padding:15px;border-radius:10px;background:#e6ece7;
+ margin-top:18px;font-size:13px;line-height:1.6
 }
 footer{
  background:#19352b;color:#dce5df;
@@ -104,14 +100,14 @@ footer{
 }
 @media(max-width:760px){
  .nav{padding:12px 16px}
- .links>a:not(.btn822){display:none}
- .brand2 b{font-size:13px}
- .brand2 img{width:40px;height:40px}
- .hero822{padding:50px 20px}
- .cards822{grid-template-columns:1fr}
- .account822{flex-direction:column;align-items:stretch}
- .account-actions .btn822{text-align:center;flex:1}
- .section822{padding:38px 0}
+ .links>a:not(.btn){display:none}
+ .brand b{font-size:13px}
+ .brand img{width:40px;height:40px}
+ .hero{padding:50px 20px}
+ .cards{grid-template-columns:1fr}
+ .account{flex-direction:column;align-items:stretch}
+ .account-actions .btn{text-align:center;flex:1}
+ .section{padding:38px 0}
 }
 </style>
 </head>
@@ -123,7 +119,7 @@ footer{
 </div>
 
 <header class="nav">
- <a class="brand2" href="index.html">
+ <a class="brand" href="index.html">
   <img src="logo.svg" alt="Court 822">
   <span>
    <b>COURT 822</b>
@@ -134,14 +130,11 @@ footer{
  <nav class="links">
   <a href="#tournaments">Tournaments</a>
   <a href="#account">My Account</a>
-  <a id="accountNav" class="btn822"
-   href="player-login.html">
-   Player Login
-  </a>
+  <a class="btn" href="#account">Player Account</a>
  </nav>
 </header>
 
-<section class="hero822">
+<section class="hero">
  <div class="wrap">
   <small>WELCOME TO COURT 822</small>
   <h1>Register. Compete. Win.</h1>
@@ -150,12 +143,11 @@ footer{
    register your doubles team and follow
    tournament announcements.
   </p>
-
   <div class="hero-actions">
-   <a class="btn822 gold" href="#tournaments">
+   <a class="btn gold" href="#tournaments">
     Explore Tournaments
    </a>
-   <a class="btn822 light" href="#account">
+   <a class="btn light" href="#account">
     My Account
    </a>
   </div>
@@ -164,51 +156,45 @@ footer{
 
 <main>
 
-<section id="tournaments" class="section822">
+<section id="tournaments" class="section">
  <div class="wrap">
   <h2>Upcoming Tournaments</h2>
-  <p class="muted822">
+  <p class="muted">
    Find your next Court 822 tournament.
   </p>
 
-  <div id="tournamentList" class="cards822">
-   <div class="card822">
-    Loading tournaments...
-   </div>
+  <div id="tournamentList" class="cards">
+   <div class="card">Loading tournaments...</div>
   </div>
 
-  <p id="tournamentStatus" class="muted822"
+  <p id="tournamentStatus" class="muted"
    role="status"></p>
  </div>
 </section>
 
-<section id="account" class="section822">
+<section id="account" class="section">
  <div class="wrap">
-  <div class="account822">
+  <div class="account">
    <div>
-    <h2 id="accountTitle">Player Account</h2>
-    <p id="accountDescription" class="muted822">
-     Sign up once using your email.
-     Returning players stay signed in
-     while their session is valid.
+    <h2>My Account</h2>
+    <p id="accountDescription" class="muted">
+     Checking your login...
     </p>
    </div>
 
    <div class="account-actions">
-    <a id="accountButton" class="btn822"
-     href="player-login.html">
-     Sign In / Sign Up
+    <a class="btn" href="#tournaments">
+     View Tournaments
     </a>
 
     <button id="signOutButton"
-     class="btn822 light" type="button"
-     hidden>
+     class="btn light" type="button">
      Sign Out
     </button>
    </div>
   </div>
 
-  <div class="notice822">
+  <div class="notice">
    <strong>Coming next:</strong>
    My Registrations, payment status,
    downloadable team QR passes and
@@ -217,13 +203,13 @@ footer{
  </div>
 </section>
 
-<section class="section822">
+<section class="section">
  <div class="wrap">
   <h2>How Registration Works</h2>
 
-  <div class="cards822">
-   <article class="card822">
-    <span class="tag822">STEP 1</span>
+  <div class="cards">
+   <article class="card">
+    <span class="tag">STEP 1</span>
     <h3>Choose Tournament</h3>
     <p>
      Browse available categories,
@@ -231,8 +217,8 @@ footer{
     </p>
    </article>
 
-   <article class="card822">
-    <span class="tag822">STEP 2</span>
+   <article class="card">
+    <span class="tag">STEP 2</span>
     <h3>Register Your Team</h3>
     <p>
      Enter both players' details and
@@ -240,8 +226,8 @@ footer{
     </p>
    </article>
 
-   <article class="card822">
-    <span class="tag822">STEP 3</span>
+   <article class="card">
+    <span class="tag">STEP 3</span>
     <h3>Get Your QR Pass</h3>
     <p>
      Once payment is approved,
@@ -268,24 +254,30 @@ footer{
 
 const $=id=>document.getElementById(id);
 
+function loginRedirect(){
+ const url=new URL('player-login.html',location.href);
+ url.searchParams.set('next','index.html#tournaments');
+ location.replace(url.href);
+}
+
 function dateLabel(value){
  if(!value)return 'Date to be announced';
 
- const date=new Date(value+'T00:00:00');
+ const d=new Date(value+'T00:00:00');
 
- return Number.isNaN(date.getTime())
+ return Number.isNaN(d.getTime())
   ?'Date to be announced'
-  :date.toLocaleDateString('en-PH',{
+  :d.toLocaleDateString('en-PH',{
    month:'long',day:'numeric',year:'numeric'
   });
 }
 
 function tournamentCard(t){
  const card=document.createElement('article');
- card.className='card822';
+ card.className='card';
 
  const tag=document.createElement('span');
- tag.className='tag822';
+ tag.className='tag';
  tag.textContent=t.status==='ongoing'
   ?'ONGOING':'UPCOMING';
 
@@ -302,22 +294,16 @@ function tournamentCard(t){
  description.textContent=t.description||'';
 
  const link=document.createElement('a');
- link.className='btn822';
+ link.className='btn';
  link.textContent='View Tournament';
  link.href='tournament.html?id='+encodeURIComponent(t.id);
 
  card.append(tag,title,dates,description,link);
-
  return card;
 }
 
 async function loadTournaments(){
  const root=$('tournamentList');
-
- if(!window.courtDb){
-  root.textContent='Tournament service unavailable.';
-  return;
- }
 
  const {data,error}=await courtDb
   .from('tournaments')
@@ -342,46 +328,36 @@ async function loadTournaments(){
  data.forEach(t=>root.append(tournamentCard(t)));
 }
 
-function showAccount(user){
- if(user){
-  $('accountTitle').textContent='Welcome Back!';
+async function initialize(){
+ if(!window.courtDb){
+  document.documentElement.classList.add('authenticated');
+  document.body.textContent=
+   'Court 822 is temporarily unavailable.';
+  return;
+ }
+
+ try{
+  const {data,error}=await courtDb.auth.getUser();
+
+  if(error || !data?.user){
+   loginRedirect();
+   return;
+  }
+
   $('accountDescription').textContent=
-   'Signed in as '+(user.email||'Court 822 player');
+   'Signed in as '+(data.user.email||'Court 822 player');
 
-  $('accountNav').textContent='My Account';
-  $('accountNav').href='#account';
+  document.documentElement.classList.add('authenticated');
 
-  $('accountButton').textContent='View Tournaments';
-  $('accountButton').href='#tournaments';
+  await loadTournaments();
 
-  $('signOutButton').hidden=false;
- }else{
-  $('accountTitle').textContent='Player Account';
-  $('accountDescription').textContent=
-   'Sign up once using your email. '+
-   'Your login is remembered on this device '+
-   'while the session remains valid.';
-
-  $('accountNav').textContent='Player Login';
-  $('accountNav').href='player-login.html';
-
-  $('accountButton').textContent='Sign In / Sign Up';
-  $('accountButton').href='player-login.html';
-
-  $('signOutButton').hidden=true;
+ }catch(error){
+  console.error(error);
+  loginRedirect();
  }
 }
 
-async function loadAccount(){
- if(!window.courtDb)return;
-
- const {data}=await courtDb.auth.getUser();
- showAccount(data?.user||null);
-}
-
-$('signOutButton').onclick=async()=>{
- if(!window.courtDb)return;
-
+$('signOutButton').addEventListener('click',async()=>{
  const {error}=await courtDb.auth.signOut();
 
  if(error){
@@ -389,19 +365,10 @@ $('signOutButton').onclick=async()=>{
   return;
  }
 
- showAccount(null);
-};
+ loginRedirect();
+});
 
-if(window.courtDb){
- courtDb.auth.onAuthStateChange((event,session)=>{
-  if(event==='SIGNED_IN'||event==='SIGNED_OUT'){
-   showAccount(session?.user||null);
-  }
- });
-}
-
-loadTournaments();
-loadAccount();
+initialize();
 </script>
 </body>
 </html>
