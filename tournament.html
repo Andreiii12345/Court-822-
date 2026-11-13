@@ -3,11 +3,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#19352b">
 <title>Court 822 | Tournament Registration</title>
 <link rel="icon" href="logo.svg">
 <link rel="stylesheet" href="style.css">
+
 <style>
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -61,6 +62,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
 }
 </style>
 </head>
+
 <body>
 
 <div class="announcement">COURT 822 • TOURNAMENT CENTRAL</div>
@@ -77,6 +79,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
 </header>
 
 <main class="wrap">
+
 <a href="index.html#tournaments">← Back to tournaments</a>
 
 <section class="hero">
@@ -157,6 +160,15 @@ button:disabled{opacity:.5;cursor:not-allowed}
   <button id="reviewRegistration" class="button gold" type="button" disabled>
    Review Registration
   </button>
+
+  <button id="saveDraft" class="button light" type="button" disabled>
+   Save Registration Draft
+  </button>
+
+  <button id="resumeDraft" class="button light" type="button" disabled>
+   Resume Saved Draft
+  </button>
+
   <button id="checkout" class="button" type="button" disabled>
    Secure Checkout Coming Soon
   </button>
@@ -167,16 +179,21 @@ button:disabled{opacity:.5;cursor:not-allowed}
   to verify your fees with Court 822.
  </div>
 
+ <div id="draftStatus" class="notice review-status" role="status">
+  Your registration has not been saved yet.
+ </div>
+
  <p class="muted">
-  This is a registration preview. No registration, payment,
-  partner invitation, or freebie claim is submitted yet.
-  Final checkout will require additional server-side checks.
+  This is a registration preview. Saving a draft does not
+  submit an official registration, reserve a tournament slot,
+  send a partner invitation, or process a payment.
  </p>
 </section>
 
 <div id="pageStatus" class="status" role="status">
  Loading tournament...
 </div>
+
 </main>
 
 <footer>© 2026 Court 822 Pickleball</footer>
@@ -218,6 +235,11 @@ let quoteBusy = false;
 let formRevision = 0;
 let lastLocalValid = false;
 
+let activeDraftRequestId = null;
+let draftBusy = false;
+let formDirty = false;
+let draftSavedRevision = -1;
+
 const players = [];
 const teams = [];
 
@@ -233,6 +255,14 @@ function escapeHtml(text){
   '"':'&quot;',
   "'":'&#39;'
  }[c]));
+}
+
+function setStatus(id,message,type=''){
+ const el = $(id);
+ if(!el) return;
+ el.textContent = message;
+ el.classList.remove('error','success');
+ if(type) el.classList.add(type);
 }
 
 function loginRedirect(){
@@ -267,35 +297,50 @@ async function requireLogin(){
  return true;
 }
 
-/* OFFICIAL QUOTATION STATE */
+/* QUOTATION AND DRAFT STATE */
+
+function updateButtons(){
+ $('reviewRegistration').disabled =
+  quoteBusy || draftBusy || !lastLocalValid ||
+  !tournament || !freebiesLoaded;
+
+ $('saveDraft').disabled =
+  quoteBusy || draftBusy || !lastLocalValid ||
+  !officialQuote || !tournament;
+
+ $('resumeDraft').disabled =
+  quoteBusy || draftBusy || !tournament;
+
+ $('saveDraft').textContent =
+  draftBusy ? 'Processing...' : 'Save Registration Draft';
+}
 
 function invalidateOfficialQuote(){
  formRevision++;
  officialQuote = null;
+ formDirty = true;
 
  $('totalLabel').textContent = 'Estimated Total';
 
- const status = $('officialQuoteStatus');
- status.classList.remove('error','success');
-
- status.textContent =
+ setStatus(
+  'officialQuoteStatus',
   'Registration details changed. Click Review Registration '+
-  'to verify the latest total with Court 822.';
-}
+  'to verify the latest total with Court 822.'
+ );
 
-function setQuoteStatus(message,type=''){
- const el = $('officialQuoteStatus');
- el.textContent = message;
- el.classList.remove('error','success');
+ if(draftSavedRevision >= 0){
+  setStatus(
+   'draftStatus',
+   'You have unsaved changes. Review and save again.'
+  );
+ }
 
- if(type) el.classList.add(type);
+ updateButtons();
 }
 
 function updateReviewButton(valid){
  lastLocalValid = valid;
-
- $('reviewRegistration').disabled =
-  quoteBusy || !valid || !tournament || !freebiesLoaded;
+ updateButtons();
 }
 
 /* FREEBIES */
@@ -365,13 +410,18 @@ function sizedFreebies(){
 /* PLAYERS */
 
 function addPlayer(data={}){
+ if(players.length>=20){
+  alert('Maximum 20 players per draft.');
+  return;
+ }
+
  const p = {
-  id:newId('player'),
+  id:data.id||newId('player'),
   name:data.name||'',
   gender:data.gender||'',
   email:data.email||'',
   phone:data.phone||'',
-  sizes:{}
+  sizes:{...(data.sizes||{})}
  };
 
  players.push(p);
@@ -434,7 +484,7 @@ function renderPlayers(){
    const input = document.createElement('input');
    input.type = type;
    input.value = p[key];
-   input.maxLength = key==='name'?100:254;
+   input.maxLength = key==='name'?100:key==='phone'?40:254;
    input.disabled = i===0;
 
    input.addEventListener('input',()=>{
@@ -509,7 +559,7 @@ function playerOptions(selected){
  return [
   '<option value="">Select player</option>',
   ...players.map(p=>
-   `<option value="${p.id}" ${
+   `<option value="${escapeHtml(p.id)}" ${
     p.id===selected?'selected':''
    }>${escapeHtml(p.name||'Unnamed player')}</option>`
   )
@@ -517,6 +567,11 @@ function playerOptions(selected){
 }
 
 function addTeam(){
+ if(teams.length>=10){
+  alert('Maximum 10 teams per registration.');
+  return;
+ }
+
  teams.push({
   id:newId('team'),
   category:'',
@@ -660,7 +715,7 @@ function validateTeam(t){
  return null;
 }
 
-/* LOCAL REGISTRATION VALIDATION AND ESTIMATE */
+/* LOCAL VALIDATION AND ESTIMATE */
 
 function calculate(){
  invalidateOfficialQuote();
@@ -703,7 +758,7 @@ function calculate(){
  }
 
  if(teams.length>10){
-  errors.push('A maximum of 10 teams can be reviewed at once.');
+  errors.push('Maximum 10 teams per registration.');
  }
 
  for(const [i,t] of teams.entries()){
@@ -840,10 +895,11 @@ function calculate(){
 /* SERVER-VERIFIED REGISTRATION REVIEW */
 
 async function reviewRegistration(){
- if(quoteBusy || !tournament || !signedInUser) return;
+ if(quoteBusy || draftBusy || !tournament || !signedInUser) return;
 
  if(!calculate()){
-  setQuoteStatus(
+  setStatus(
+   'officialQuoteStatus',
    'Please correct the registration details above before reviewing.',
    'error'
   );
@@ -857,7 +913,11 @@ async function reviewRegistration(){
   const player2 = players.find(p=>p.id===team.p2);
 
   if(!player1 || !player2 || !team.category){
-   setQuoteStatus('Complete all team information first.','error');
+   setStatus(
+    'officialQuoteStatus',
+    'Complete all team information first.',
+    'error'
+   );
    return;
   }
 
@@ -871,10 +931,14 @@ async function reviewRegistration(){
  const revisionAtStart = formRevision;
 
  quoteBusy = true;
- $('reviewRegistration').disabled = true;
+ updateButtons();
+
  $('reviewRegistration').textContent = 'Verifying registration...';
 
- setQuoteStatus('Contacting Court 822 secure pricing server...');
+ setStatus(
+  'officialQuoteStatus',
+  'Contacting Court 822 secure pricing server...'
+ );
 
  try{
   const {data,error} = await courtDb.functions.invoke(
@@ -889,7 +953,8 @@ async function reviewRegistration(){
   );
 
   if(revisionAtStart!==formRevision){
-   setQuoteStatus(
+   setStatus(
+    'officialQuoteStatus',
     'Your details changed during verification. Please review again.'
    );
    return;
@@ -937,7 +1002,8 @@ async function reviewRegistration(){
   $('totalLabel').textContent = 'Server-Verified Total';
   $('grandTotal').textContent = peso(amount);
 
-  setQuoteStatus(
+  setStatus(
+   'officialQuoteStatus',
    'Court 822 server quotation verified.\n'+
    'Combined total: '+peso(amount)+'\n'+
    'Teams: '+quote.team_count+'\n'+
@@ -950,7 +1016,8 @@ async function reviewRegistration(){
   console.error('Registration review:',error);
   officialQuote = null;
 
-  setQuoteStatus(
+  setStatus(
+   'officialQuoteStatus',
    'Unable to verify this registration. '+
    'Check the tournament schedule, category availability, '+
    'and team details, then try again.',
@@ -960,7 +1027,329 @@ async function reviewRegistration(){
  }finally{
   quoteBusy = false;
   $('reviewRegistration').textContent = 'Review Registration';
-  updateReviewButton(lastLocalValid);
+  updateButtons();
+ }
+}
+
+/* CHECKPOINT 2 — BUILD COMPLETE DRAFT */
+
+function buildDraftSnapshot(){
+ const usedIds = new Set();
+
+ for(const team of teams){
+  usedIds.add(team.p1);
+  usedIds.add(team.p2);
+ }
+
+ const savedPlayers = players
+  .filter(p=>usedIds.has(p.id))
+  .map(p=>({
+   id:p.id,
+   name:p.name.trim(),
+   email:p.email.trim().toLowerCase(),
+   phone:p.phone.trim(),
+   gender:p.gender,
+   sizes:{...p.sizes}
+  }));
+
+ const savedTeams = teams.map(t=>({
+  id:t.id,
+  category:t.category,
+  p1:t.p1,
+  p2:t.p2
+ }));
+
+ const requestTeams = teams.map(t=>{
+  const a = players.find(p=>p.id===t.p1);
+  const b = players.find(p=>p.id===t.p2);
+
+  if(!a || !b){
+   throw new Error('Team player information is missing.');
+  }
+
+  return {
+   category_id:t.category,
+   player1_email:a.email.trim().toLowerCase(),
+   player2_email:b.email.trim().toLowerCase()
+  };
+ });
+
+ return {
+  requestTeams,
+  draftData:{
+   version:1,
+   players:savedPlayers,
+   teams:savedTeams
+  }
+ };
+}
+
+/* SAVE DRAFT */
+
+async function saveRegistrationDraft(){
+ if(draftBusy || quoteBusy || !tournament || !signedInUser) return;
+
+ if(!officialQuote || !lastLocalValid){
+  setStatus(
+   'draftStatus',
+   'Click Review Registration before saving.',
+   'error'
+  );
+  return;
+ }
+
+ let snapshot;
+
+ try{
+  snapshot = buildDraftSnapshot();
+ }catch(error){
+  setStatus('draftStatus',error.message,'error');
+  return;
+ }
+
+ const requestId =
+  activeDraftRequestId || crypto.randomUUID();
+
+ const revisionAtStart = formRevision;
+
+ draftBusy = true;
+ updateButtons();
+
+ setStatus(
+  'draftStatus',
+  'Saving your registration securely...'
+ );
+
+ try{
+  const {data,error} = await courtDb.functions.invoke(
+   'court822-checkout',
+   {
+    body:{
+     action:'save_draft',
+     tournament_id:tournament.id,
+     request_id:requestId,
+     teams:snapshot.requestTeams,
+     draft_data:snapshot.draftData
+    }
+   }
+  );
+
+  if(error || !data?.success || !data?.draft?.success){
+   throw new Error(
+    data?.error || error?.message || 'Unable to save registration.'
+   );
+  }
+
+  activeDraftRequestId = requestId;
+
+  if(revisionAtStart!==formRevision){
+   setStatus(
+    'draftStatus',
+    'An earlier version was saved, but the form changed. '+
+    'Review and save again.'
+   );
+   return;
+  }
+
+  formDirty = false;
+  draftSavedRevision = formRevision;
+
+  setStatus(
+   'draftStatus',
+   'Registration draft saved successfully!\n'+
+   'Teams saved: '+data.draft.team_count+'\n'+
+   'Estimated total: '+peso(data.quotation.estimated_total)+'\n'+
+   'You can return later and resume this draft.\n'+
+   'No payment or official registration was submitted.',
+   'success'
+  );
+
+ }catch(error){
+  console.error('Save draft error:',error);
+
+  setStatus(
+   'draftStatus',
+   'Unable to save your draft. Please try again.',
+   'error'
+  );
+
+ }finally{
+  draftBusy = false;
+  updateButtons();
+ }
+}
+
+/* RESTORE DRAFT */
+
+function restoreDraftForm(draftData){
+ if(
+  !draftData ||
+  !Array.isArray(draftData.players) ||
+  !Array.isArray(draftData.teams)
+ ){
+  throw new Error('Saved form data is unavailable.');
+ }
+
+ const accountEmail =
+  signedInUser.email.trim().toLowerCase();
+
+ const captain = draftData.players.find(
+  p=>String(p.email).trim().toLowerCase()===accountEmail
+ );
+
+ if(!captain){
+  throw new Error(
+   'The saved draft does not contain your account.'
+  );
+ }
+
+ const restoredPlayers = draftData.players.map(p=>({
+  id:p.id,
+  name:p.name,
+  email:p.email,
+  phone:p.phone||'',
+  gender:p.gender,
+  sizes:{...(p.sizes||{})}
+ }));
+
+ const restoredTeams = draftData.teams.map(t=>({
+  id:t.id,
+  category:t.category,
+  p1:t.p1,
+  p2:t.p2
+ }));
+
+ const playerIds = new Set(restoredPlayers.map(p=>p.id));
+ const categoryIds = new Set(categories.map(c=>c.id));
+
+ if(
+  restoredPlayers.length<2 ||
+  restoredPlayers.length>20 ||
+  restoredTeams.length<1 ||
+  restoredTeams.length>10 ||
+  playerIds.size!==restoredPlayers.length ||
+  restoredTeams.some(t=>
+   !playerIds.has(t.p1) ||
+   !playerIds.has(t.p2) ||
+   t.p1===t.p2 ||
+   !categoryIds.has(t.category)
+  )
+ ){
+  throw new Error('Saved registration data is invalid.');
+ }
+
+ const captainIndex = restoredPlayers.findIndex(
+  p=>p.id===captain.id
+ );
+
+ restoredPlayers.splice(captainIndex,1);
+
+ restoredPlayers.unshift({
+  ...captain,
+  name:savedProfile?.full_name||captain.name,
+  email:signedInUser.email,
+  phone:savedProfile?.phone||captain.phone||'',
+  gender:savedProfile?.gender||captain.gender,
+  sizes:{...(captain.sizes||{})}
+ });
+
+ players.splice(0,players.length,...restoredPlayers);
+ teams.splice(0,teams.length,...restoredTeams);
+
+ renderPlayers();
+ renderTeams();
+
+ officialQuote = null;
+ calculate();
+}
+
+/* RESUME SAVED DRAFT */
+
+async function resumeRegistrationDraft(){
+ if(draftBusy || quoteBusy || !tournament || !signedInUser) return;
+
+ if(!confirm(
+  'Resume your saved draft? This will replace '+
+  'the unsaved details currently on the page.'
+ )){
+  return;
+ }
+
+ draftBusy = true;
+ updateButtons();
+
+ setStatus(
+  'draftStatus',
+  'Loading your saved registration...'
+ );
+
+ try{
+  const {data,error} = await courtDb.functions.invoke(
+   'court822-checkout',
+   {
+    body:{
+     action:'load_draft',
+     tournament_id:tournament.id
+    }
+   }
+  );
+
+  if(error || !data?.success){
+   throw new Error(
+    data?.error || error?.message || 'Unable to load draft.'
+   );
+  }
+
+  if(!data.found || !data.draft){
+   setStatus(
+    'draftStatus',
+    'No saved registration draft was found.'
+   );
+   return;
+  }
+
+  const draft = data.draft;
+
+  if(!draft.draft_data){
+   activeDraftRequestId = draft.request_id;
+
+   setStatus(
+    'draftStatus',
+    'An older test draft was found without complete player details.\n'+
+    'Build your registration, review it, and save again to update this draft.'
+   );
+   return;
+  }
+
+  restoreDraftForm(draft.draft_data);
+  activeDraftRequestId = draft.request_id;
+
+  formDirty = false;
+  draftSavedRevision = formRevision;
+
+  setStatus(
+   'draftStatus',
+   'Saved registration restored successfully!\n'+
+   'Players: '+draft.draft_data.players.length+'\n'+
+   'Teams: '+draft.draft_data.teams.length+'\n'+
+   'Last saved: '+
+   new Date(draft.updated_at).toLocaleString('en-PH')+'\n'+
+   'Click Review Registration to verify current fees.',
+   'success'
+  );
+
+ }catch(error){
+  console.error('Resume draft error:',error);
+
+  setStatus(
+   'draftStatus',
+   'Unable to restore your saved registration.',
+   'error'
+  );
+
+ }finally{
+  draftBusy = false;
+  updateButtons();
  }
 }
 
@@ -1047,9 +1436,15 @@ async function loadTournament(){
   addPlayer();
   addTeam();
 
+  formDirty = false;
+  draftSavedRevision = -1;
+
   $('pageStatus').textContent =
    'Tournament loaded. Review Registration is available '+
-   'for eligible teams. Payment submission remains disabled.';
+   'for eligible teams. Draft saving is available for System Test. '+
+   'Payment submission remains disabled.';
+
+  updateButtons();
 
  }catch(error){
   console.error('Tournament loading:',error);
@@ -1071,7 +1466,18 @@ $('reviewRegistration').addEventListener(
  reviewRegistration
 );
 
+$('saveDraft').addEventListener(
+ 'click',
+ saveRegistrationDraft
+);
+
+$('resumeDraft').addEventListener(
+ 'click',
+ resumeRegistrationDraft
+);
+
 loadTournament();
 </script>
+
 </body>
 </html>
