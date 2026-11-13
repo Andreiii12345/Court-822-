@@ -1,4 +1,21 @@
 
+/*
+ * COURT 822 V4
+ * OWNER FREEBIE MANAGEMENT
+ *
+ * Features:
+ * - Owner authentication
+ * - Tournament selection
+ * - Freebie configuration overview
+ * - Eligible player counts
+ * - Allocated quantities
+ * - Claimed quantities
+ * - Unclaimed allocations
+ * - Refresh support
+ *
+ * READ ONLY
+ * No payment, checkout, or claim writes.
+ */
 
 (() => {
   "use strict";
@@ -230,16 +247,55 @@
     );
     if (error) throw error;
     if (!Array.isArray(data)) {
-      throw new Error("Invalid player tracking response.");
+      throw new Error("Invalid draft player tracking response.");
     }
     return data;
   }
 
-  function renderPlayerTracking(data) {
+  async function loadConfirmedPlayerTracking(tournamentId) {
+    const { data, error } = await courtDb.rpc(
+      "court822_owner_get_confirmed_player_freebies",
+      { p_tournament_id: tournamentId }
+    );
+    if (error) throw error;
+    if (!Array.isArray(data)) {
+      throw new Error("Invalid confirmed player tracking response.");
+    }
+    return data;
+  }
+
+  function renderPlayerTracking(draftData, confirmedData) {
     clearPlayerTracking();
     const tbody = $("freebiePlayerTrackingRows");
     if (!tbody) return;
-    for (const item of data) {
+
+    // Confirmed entitlements first. The server function returns
+    // one row per permanent player ID and freebie.
+    for (const item of confirmedData) {
+      const tr = document.createElement("tr");
+      const sizeLabel = item.size_conflict
+        ? "Conflicting sizes"
+        : (item.selected_size || (item.requires_size ? "Missing" : "Not required"));
+      const registrationLabel = item.registration_status || "Confirmed";
+      const eligibilityLabel = item.eligible ? "Yes" : "No";
+      const readinessLabel = item.claim_ready
+        ? "Ready"
+        : (item.size_review_required ? "Needs size review" : "Not ready");
+
+      [
+        item.player_name || "Unnamed player",
+        item.freebie_name || "—",
+        sizeLabel,
+        registrationLabel,
+        eligibilityLabel + " / " + readinessLabel,
+        number(item.claimed_quantity),
+        number(item.remaining_quantity)
+      ].forEach(value => cell(tr, value));
+      tbody.appendChild(tr);
+    }
+
+    // Draft selections remain visible but are never treated as eligible.
+    for (const item of draftData) {
       const tr = document.createElement("tr");
       [
         item.player_name || "Unnamed player",
@@ -247,15 +303,17 @@
         item.selected_size || (item.requires_size ? "Missing" : "Not required"),
         "Draft — not eligible",
         "No",
-        number(0)
+        "0",
+        "0"
       ].forEach(value => cell(tr, value));
       tbody.appendChild(tr);
     }
-    if (!data.length) {
+
+    if (!draftData.length && !confirmedData.length) {
       const tr = document.createElement("tr");
       const td = document.createElement("td");
-      td.colSpan = 6;
-      td.textContent = "No editable draft shirt selections for this tournament.";
+      td.colSpan = 7;
+      td.textContent = "No draft selections or confirmed player entitlements for this tournament.";
       tr.appendChild(td);
       tbody.appendChild(tr);
     }
@@ -371,16 +429,17 @@
       "freebieEligibilityMessage",
       "Loading eligibility..."
     );
-    setMessage("freebiePlayerTrackingMessage", "Loading draft shirt selections...");
+    setMessage("freebiePlayerTrackingMessage", "Loading draft and confirmed player shirt tracking...");
 
     try {
       await checkOwner();
 
-      const [overviewResult, eligibilityResult, trackingResult] =
+      const [overviewResult, eligibilityResult, trackingResult, confirmedTrackingResult] =
         await Promise.allSettled([
           loadOverview(tournamentId),
           loadEligibility(tournamentId),
-          loadPlayerTracking(tournamentId)
+          loadPlayerTracking(tournamentId),
+          loadConfirmedPlayerTracking(tournamentId)
         ]);
 
       if (
@@ -436,20 +495,34 @@
         );
       }
 
-      if (trackingResult.status === "fulfilled") {
-        renderPlayerTracking(trackingResult.value);
+      if (
+        trackingResult.status === "fulfilled" &&
+        confirmedTrackingResult.status === "fulfilled"
+      ) {
+        renderPlayerTracking(
+          trackingResult.value,
+          confirmedTrackingResult.value
+        );
         setMessage(
           "freebiePlayerTrackingMessage",
-          `${trackingResult.value.length} draft player selection(s) loaded.`
+          `${confirmedTrackingResult.value.length} confirmed player entitlement(s) and ${trackingResult.value.length} draft player selection(s) loaded.`
         );
       } else {
         clearPlayerTracking();
+        const errors = [];
+        if (trackingResult.status === "rejected") {
+          errors.push("Draft tracking: " + trackingResult.reason.message);
+          console.error("Freebie draft player tracking:", trackingResult.reason);
+        }
+        if (confirmedTrackingResult.status === "rejected") {
+          errors.push("Confirmed tracking: " + confirmedTrackingResult.reason.message);
+          console.error("Freebie confirmed player tracking:", confirmedTrackingResult.reason);
+        }
         setMessage(
           "freebiePlayerTrackingMessage",
-          "Unable to load draft player tracking: " + trackingResult.reason.message,
+          "Unable to load complete player tracking: " + errors.join("; "),
           true
         );
-        console.error("Freebie player tracking:", trackingResult.reason);
       }
 
     } catch (error) {
