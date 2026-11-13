@@ -164,7 +164,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
    <input id="captainAgreement" type="checkbox" style="margin-top:4px" />
    <span>I confirm my partner's permission and agree to the registration terms and refund policy.</span>
   </label>
-  <p class="muted">This agreement currently applies to draft saving only. Official registration and payment remain disabled until server-side consent recording is deployed.</p>
+  <p class="muted">Your agreement will be recorded when you save your draft. Official registration and payment remain disabled until the backend workflow is approved.</p>
  </section>
 
  <div class="actions">
@@ -1154,6 +1154,16 @@ async function saveRegistrationDraft(){
    throw new Error(
     data?.error || error?.message || 'Unable to save registration.'
    );
+  }
+
+  // Record captain agreement server-side after the draft exists.
+  // This is a declaration by the captain, NOT partner acceptance.
+  const {data: consent, error: consentError} = await courtDb.rpc(
+   'court822_accept_captain_terms',
+   {p_tournament_id:tournament.id, p_request_id:requestId, p_accepted:true}
+  );
+  if(consentError || !consent?.consent_recorded){
+   throw new Error('Draft saved, but captain agreement could not be recorded. Please retry.');
   }
 
   activeDraftRequestId = requestId;
