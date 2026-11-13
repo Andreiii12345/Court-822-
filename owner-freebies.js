@@ -431,9 +431,7 @@
       );
 
     } finally {
-      if (request === state.request && refresh) {
-        refresh.disabled = false;
-      }
+      if (refresh) refresh.disabled = false;
     }
   }
 
