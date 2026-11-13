@@ -1,21 +1,4 @@
 
-/*
- * COURT 822 V4
- * OWNER FREEBIE MANAGEMENT
- *
- * Features:
- * - Owner authentication
- * - Tournament selection
- * - Freebie configuration overview
- * - Eligible player counts
- * - Allocated quantities
- * - Claimed quantities
- * - Unclaimed allocations
- * - Refresh support
- *
- * READ ONLY
- * No payment, checkout, or claim writes.
- */
 
 (() => {
   "use strict";
@@ -67,9 +50,14 @@
     setValue("freebieUnclaimed", 0);
   }
 
+  function clearPlayerTracking() {
+    $("freebiePlayerTrackingRows")?.replaceChildren();
+  }
+
   function clearAll() {
     clearOverview();
     clearEligibility();
+    clearPlayerTracking();
   }
 
   async function checkOwner() {
@@ -235,6 +223,44 @@
     return data;
   }
 
+  async function loadPlayerTracking(tournamentId) {
+    const { data, error } = await courtDb.rpc(
+      "court822_owner_get_draft_freebie_tracking",
+      { p_tournament_id: tournamentId }
+    );
+    if (error) throw error;
+    if (!Array.isArray(data)) {
+      throw new Error("Invalid player tracking response.");
+    }
+    return data;
+  }
+
+  function renderPlayerTracking(data) {
+    clearPlayerTracking();
+    const tbody = $("freebiePlayerTrackingRows");
+    if (!tbody) return;
+    for (const item of data) {
+      const tr = document.createElement("tr");
+      [
+        item.player_name || "Unnamed player",
+        item.freebie_name || "—",
+        item.selected_size || (item.requires_size ? "Missing" : "Not required"),
+        "Draft — not eligible",
+        "No",
+        number(0)
+      ].forEach(value => cell(tr, value));
+      tbody.appendChild(tr);
+    }
+    if (!data.length) {
+      const tr = document.createElement("tr");
+      const td = document.createElement("td");
+      td.colSpan = 6;
+      td.textContent = "No editable draft shirt selections for this tournament.";
+      tr.appendChild(td);
+      tbody.appendChild(tr);
+    }
+  }
+
   function renderOverview(data) {
     clearOverview();
 
@@ -328,6 +354,7 @@
         "freebieEligibilityMessage",
         "Select a tournament."
       );
+      setMessage("freebiePlayerTrackingMessage", "Select a tournament.");
 
       return;
     }
@@ -344,14 +371,16 @@
       "freebieEligibilityMessage",
       "Loading eligibility..."
     );
+    setMessage("freebiePlayerTrackingMessage", "Loading draft shirt selections...");
 
     try {
       await checkOwner();
 
-      const [overviewResult, eligibilityResult] =
+      const [overviewResult, eligibilityResult, trackingResult] =
         await Promise.allSettled([
           loadOverview(tournamentId),
-          loadEligibility(tournamentId)
+          loadEligibility(tournamentId),
+          loadPlayerTracking(tournamentId)
         ]);
 
       if (
@@ -407,6 +436,22 @@
         );
       }
 
+      if (trackingResult.status === "fulfilled") {
+        renderPlayerTracking(trackingResult.value);
+        setMessage(
+          "freebiePlayerTrackingMessage",
+          `${trackingResult.value.length} draft player selection(s) loaded.`
+        );
+      } else {
+        clearPlayerTracking();
+        setMessage(
+          "freebiePlayerTrackingMessage",
+          "Unable to load draft player tracking: " + trackingResult.reason.message,
+          true
+        );
+        console.error("Freebie player tracking:", trackingResult.reason);
+      }
+
     } catch (error) {
       if (request !== state.request) return;
 
@@ -424,6 +469,7 @@
         "Eligibility unavailable.",
         true
       );
+      setMessage("freebiePlayerTrackingMessage", "Player tracking unavailable.", true);
 
       console.error(
         "Court 822 Freebie Management:",
