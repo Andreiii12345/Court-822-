@@ -1,0 +1,84 @@
+/* Court 822 V4 - owner-only, read-only freebie configuration and claim totals. */
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const state = { tournaments: [], loading: false, initialized: false, request: 0 };
+  const number = value => Number(value || 0).toLocaleString('en-PH');
+  function status(text, isError = false) {
+    $('freebieMessage').textContent = text;
+    $('freebieMessage').classList.toggle('owner-error', isError);
+  }
+  function cell(row, value) {
+    const td = document.createElement('td');
+    td.textContent = String(value ?? '—');
+    row.appendChild(td);
+  }
+  function clear() {
+    $('freebieRows').replaceChildren();
+    $('freebieCount').textContent = '0';
+    $('freebieClaimRecords').textContent = '0';
+    $('freebieClaimedTotal').textContent = '0';
+  }
+  async function checkOwner() {
+    const { data: auth, error: authError } = await courtDb.auth.getUser();
+    if (authError || !auth?.user) throw new Error('Please sign in with your owner account.');
+    const { data, error } = await courtDb.rpc('court822_is_owner');
+    if (error || data !== true) throw new Error('Owner access required.');
+  }
+  function setTournaments(rows) {
+    state.tournaments = rows || [];
+    const select = $('freebieTournament');
+    const previous = select.value;
+    select.replaceChildren(new Option('Select tournament', ''));
+    for (const row of state.tournaments) select.add(new Option(row.title, row.id));
+    if (state.tournaments.some(t => t.id === previous)) select.value = previous;
+    else {
+      const battle = state.tournaments.find(t => t.title.toLowerCase().includes('battle for novice'));
+      if (battle) select.value = battle.id;
+    }
+    state.initialized = true;
+  }
+  async function load() {
+    if (state.loading) return;
+    const id = $('freebieTournament').value;
+    const request = ++state.request;
+    if (!id) { clear(); status('Select a tournament.'); return; }
+    state.loading = true;
+    $('freebieRefresh').disabled = true;
+    status('Loading freebie configuration and claim totals...');
+    try {
+      await checkOwner();
+      const { data, error } = await courtDb.rpc('court822_owner_get_freebie_overview', { p_tournament_id: id });
+      if (error) throw error;
+      if (!Array.isArray(data)) throw new Error('Unexpected freebie overview response.');
+      if (request !== state.request || id !== $('freebieTournament').value) return;
+      clear();
+      let records = 0, claimed = 0;
+      for (const item of data) {
+        records += Number(item.claim_records || 0);
+        claimed += Number(item.total_claimed || 0);
+        const tr = document.createElement('tr');
+        [item.name, item.requires_size ? 'Yes' : 'No', number(item.quantity_per_player), item.is_active ? 'Active' : 'Inactive', number(item.claim_records), number(item.total_claimed)].forEach(value => cell(tr, value));
+        $('freebieRows').appendChild(tr);
+      }
+      $('freebieCount').textContent = number(data.length);
+      $('freebieClaimRecords').textContent = number(records);
+      $('freebieClaimedTotal').textContent = number(claimed);
+      status(data.length ? `${data.length} freebie configuration(s) loaded.` : 'No freebies configured for this tournament.');
+    } catch (error) {
+      clear();
+      status(`Unable to load freebie overview: ${error.message}`, true);
+      console.error('Court 822 freebie overview:', error);
+    } finally {
+      state.loading = false;
+      $('freebieRefresh').disabled = false;
+    }
+  }
+  window.addEventListener('court822:tournaments', event => setTournaments(event.detail));
+  window.addEventListener('court822:freebies', () => {
+    if (state.initialized) load();
+  });
+  $('freebieTournament').addEventListener('change', () => { state.request++; load(); });
+  $('freebieRefresh').addEventListener('click', load);
+  // Never issue claim writes from this module.
+})();
