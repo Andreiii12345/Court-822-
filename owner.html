@@ -10,12 +10,27 @@
 <section class="owner-tab" id="tournamentsTab"><div class="card panel"><h2>Registration Approvals</h2><p class="muted">Owner review of registration details only; not payment verification.</p><label>Tournament<select id="ownerTournamentSelect"></select></label><div class="owner-actions"><button id="refreshTournamentRegistrations" class="btn secondary">Refresh registrations</button></div><p id="tournamentReviewMessage" role="status"></p></div><div class="dash-grid"><div class="card"><small>Checkouts</small><b id="tournamentCheckoutCount">0</b></div><div class="card"><small>Awaiting review</small><b id="tournamentPendingCount">0</b></div><div class="card"><small>Review approved</small><b id="tournamentApprovedCount">0</b></div></div><div id="tournamentRegistrationList" style="margin-top:14px"></div></section>
 <section class="owner-tab" id="paymentsTab"><div class="card panel"><h2>Payment Verification</h2><p class="dash-note">Not yet enabled. The current test checkouts are non-payable. Do not approve payment or issue QR codes through this dashboard.</p></div></section>
 <section class="owner-tab" id="freebiesTab">
-<div class="card panel"><h2>Freebie Management</h2><p class="muted">Live owner-only freebie configurations and recorded claim totals. Eligibility and unclaimed allocations are not calculated yet.</p>
+<div class="card panel"><h2>Freebie Management</h2><p class="muted">Live owner-only freebie configurations, claim totals, and confirmed-registration eligibility.</p>
 <label>Tournament <select id="freebieTournament"><option value="">Select tournament</option></select></label>
 <div class="owner-actions"><button id="freebieRefresh" class="btn secondary" type="button">Refresh freebies</button><button class="btn" id="goFreebieManager" type="button">Configure in Tournament Manager</button></div>
 <p id="freebieMessage" role="status" class="muted">Select a tournament to view its freebies.</p></div>
 <div class="dash-grid"><div class="card"><small>Configured freebies</small><b id="freebieCount">0</b></div><div class="card"><small>Claim records</small><b id="freebieClaimRecords">0</b></div><div class="card"><small>Total quantity claimed</small><b id="freebieClaimedTotal">0</b></div></div>
 <div class="card panel" style="margin-top:14px"><div class="owner-table-wrap"><table class="roster-table" style="min-width:760px"><thead><tr><th>Freebie</th><th>Size required</th><th>Quantity / player</th><th>Status</th><th>Claim records</th><th>Quantity claimed</th></tr></thead><tbody id="freebieRows"></tbody></table></div>
-<p class="dash-note">Read-only. No freebie allocations or staff claims can be made here. A reviewed draft is not eligible for claims. QR check-in will be a separate staff interface.</p></div></section>
+<p class="dash-note">Read-only. No freebie allocations or staff claims can be made here. A reviewed draft is not eligible for claims. QR check-in will be a separate staff interface.</p></div>
+<div class="dash-grid" style="margin-top:14px" aria-label="Freebie eligibility totals">
+  <div class="card"><small>Eligible unique players</small><b id="freebieEligiblePlayers">0</b></div>
+  <div class="card"><small>Allocated freebie quantity</small><b id="freebieAllocated">0</b></div>
+  <div class="card"><small>Unclaimed allocations</small><b id="freebieUnclaimed">0</b></div>
+</div>
+<div class="card panel" style="margin-top:14px">
+  <h2>Freebie Eligibility Overview</h2>
+  <p class="muted">Counts require approved owner review, verified payment, and confirmed checkout and team statuses. Each player is counted once per freebie across categories.</p>
+  <div class="owner-table-wrap"><table class="roster-table" style="min-width:760px">
+    <thead><tr><th>Freebie</th><th>Eligible players</th><th>Allocated</th><th>Claimed</th><th>Unclaimed</th></tr></thead>
+    <tbody id="freebieEligibilityRows"></tbody>
+  </table></div>
+  <p id="freebieEligibilityMessage" role="status" class="muted">Select a tournament to load eligibility.</p>
+  <p class="dash-note">Read-only eligibility estimates. Shirt sizes and individual claim authorization will be implemented separately; no claims can be recorded here.</p>
+</div></section>
 </div></div></main></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script src="config.js"></script><script src="supabase-client.js"></script><script src="owner-unified.js"></script><script src="tournament-owner.js"></script><script src="owner-roster.js"></script><script src="owner-freebies.js"></script></body></html>
