@@ -71,17 +71,9 @@ body.embedded .top,body.embedded .nav,body.embedded .hero{display:none}body.embe
 </section>
 
 <section id="loginPanel" class="panel">
-<h2>Owner Sign In</h2>
-<form id="loginForm">
-<label class="field">Email
-<input id="loginEmail" type="email" required autocomplete="username">
-</label>
-<label class="field">Password
-<input id="loginPassword" type="password" required autocomplete="current-password">
-</label>
-<button class="btn822" type="submit">Sign In</button>
-</form>
-<p id="loginMessage" class="notice" role="status">Owner access required.</p>
+<h2>Owner Session Required</h2>
+<p id="loginMessage" class="notice" role="status">Checking your existing Court 822 OTP session...</p>
+<a class="btn822" style="display:inline-block;text-decoration:none;margin-top:12px" href="player-login.html?next=owner.html">Sign in with OTP</a>
 </section>
 
 <div id="manager" hidden>
@@ -435,39 +427,17 @@ async function saveTournament(publish=false){
  notice("tournamentMessage","Saving tournament...");
 
  try{
-  let id=currentId;
-
-  if(id){
-   const {error}=await courtDb.from("tournaments")
-    .update(payload).eq("id",id);
-   if(error)throw error;
-  }else{
-   const {data,error}=await courtDb.from("tournaments")
-    .insert({...payload,created_by:ownerId})
-    .select("id").single();
-
-   if(error)throw error;
-   id=data.id;
-   currentId=id;
-  }
-
-  for(const c of categories){
-   const {id:categoryId,...fields}=c;
-
-   if(categoryId){
-    const {error}=await courtDb.from("tournament_categories")
-     .update(fields)
-     .eq("id",categoryId)
-     .eq("tournament_id",id);
-
-    if(error)throw error;
-   }else{
-    const {error}=await courtDb.from("tournament_categories")
-     .insert({...fields,tournament_id:id});
-
-    if(error)throw error;
+  // Single database transaction: either tournament and all categories save,
+  // or PostgreSQL rolls everything back.
+  const {data:id,error:saveError}=await courtDb.rpc(
+   "court822_owner_save_tournament_atomic",{
+    p_tournament_id:currentId,
+    p_tournament:payload,
+    p_categories:categories
    }
-  }
+  );
+  if(saveError)throw saveError;
+  currentId=id;
 
   await loadTournamentList();
   await loadTournament(id);
@@ -480,7 +450,7 @@ async function saveTournament(publish=false){
   console.error(error);
   notice("tournamentMessage",
    "Save failed: "+error.message+
-   ". Some changes may already have saved; reload before retrying.",true);
+   ". No tournament/category changes were committed by this save.",true);
  }finally{
   $("saveTournament").disabled=false;
   $("publishTournament").disabled=false;
@@ -711,7 +681,7 @@ async function initializeOwner(){
 
  const {data,error}=await courtDb.auth.getUser();
 
- if(error||!data?.user){if(new URLSearchParams(location.search).has("embedded"))notice("loginMessage","Sign in through the public Court 822 OTP login, then reload the Owner Dashboard.",true);return;}
+ if(error||!data?.user){notice("loginMessage","Sign in through the public Court 822 OTP login, then reload this page.",true);return;}
 
  const user=data.user;
 
@@ -739,26 +709,6 @@ async function initializeOwner(){
   notice("tournamentMessage","Unable to load tournaments: "+error.message,true);
  }
 }
-
-$("loginForm").onsubmit=async event=>{
- event.preventDefault();
-
- notice("loginMessage","Signing in...");
-
- if(!window.courtDb)return;
-
- const {error}=await courtDb.auth.signInWithPassword({
-  email:$("loginEmail").value,
-  password:$("loginPassword").value
- });
-
- if(error){
-  notice("loginMessage",error.message,true);
-  return;
- }
-
- await initializeOwner();
-};
 
 $("logout").onclick=async()=>{
  const {error}=await courtDb.auth.signOut();
