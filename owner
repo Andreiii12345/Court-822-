@@ -1,0 +1,107 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Court 822 | Owner Dashboard</title><link rel="icon" href="logo.svg"><link rel="stylesheet" href="style.css"><style>
+[hidden]{display:none!important}.owner-layout{grid-template-columns:210px minmax(0,1fr)}.owner-shell{min-width:0}.owner-sidebar button{font-size:12px}.dash-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.dash-grid .card{padding:18px}.dash-grid b{display:block;font-size:27px;margin-top:8px}.dash-note{padding:14px;background:#e6ece7;border-radius:10px;margin:14px 0;line-height:1.5}.owner-filter{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0}.owner-filter label{font-size:12px}.owner-filter select,.owner-filter input{width:100%;padding:10px;border:1px solid #d9d0c4;border-radius:8px;margin-top:6px}.roster-table{min-width:1300px}.roster-table th,.roster-table td{font-size:11px;padding:10px}.roster-table th{position:sticky;top:0;background:#19382d;color:white}.owner-table-wrap{overflow:auto;max-height:68vh}.owner-actions{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.owner-manager-frame{display:block;width:100%;height:1550px;border:0;border-radius:14px;background:#f5f0e8}.owner-tab h2{margin-top:0}.owner-error{color:#973a2d}.review-card{padding:20px;margin-bottom:15px}.review-card .team{padding:12px;border:1px solid #ddd;border-radius:8px;margin:8px 0}.review-card .team p{margin:5px 0}.review-card .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}@media(max-width:850px){.owner-filter{grid-template-columns:repeat(2,minmax(0,1fr))}.dash-grid{grid-template-columns:1fr}.owner-manager-frame{height:1700px}}@media(max-width:550px){.owner-filter{grid-template-columns:1fr}}
+</style></head><body class="owner-body">
+<div id="ownerGate" class="login-screen"><div class="card login-card"><img src="logo.svg" alt="Court 822"><h1>Owner Dashboard</h1><p id="gateMessage">Checking your Court 822 session...</p><a class="btn" href="player-login.html?next=owner.html">Sign in with email OTP</a><p><a href="index.html">Back to public website</a></p></div></div>
+<div id="dashboard" class="hidden"><div class="announcement">COURT 822 · TOURNAMENT MANAGEMENT</div><header class="navbar"><a class="brand" href="index.html"><img src="logo.svg" alt="Court 822"><span><b>COURT 822</b><small>OWNER</small></span></a><div class="nav-actions"><span class="badge success">Owner mode</span><button id="logoutButton" class="btn secondary" type="button">Log out</button></div></header>
+<main class="container page-space" style="width:min(1500px,calc(100% - 32px))"><div class="owner-heading"><div><h1>Owner dashboard</h1><p>Manage tournaments, teams, registrations, and freebies in one place.</p></div></div><div class="owner-layout"><aside class="owner-sidebar"><button data-tab="overview" class="active">Overview</button><button data-tab="manager">Tournament Manager</button><button data-tab="roster">Teams &amp; Players</button><button data-tab="tournaments">Registration Approvals</button><button data-tab="payments">Payment Verification</button><button data-tab="freebies">Freebie Management</button></aside><div class="owner-shell">
+<section class="owner-tab active" id="overviewTab"><div class="card panel"><h2>Tournament Overview</h2><p class="muted">Choose a tournament to view its current registration summary.</p><label>Tournament <select id="overviewTournament"></select></label><div class="owner-actions"><button class="btn secondary" id="overviewRefresh">Refresh overview</button></div><div id="overviewMessage" role="status" class="muted"></div></div><div class="dash-grid"><div class="card"><small>Teams (all statuses)</small><b id="overviewTeams">0</b></div><div class="card"><small>Confirmed teams</small><b id="overviewConfirmed">0</b></div><div class="card"><small>Listed player entries</small><b id="overviewPlayers">0</b></div></div><p class="dash-note">Draft/test registrations are not confirmed tournament entries. Payments and QR issuance remain disabled.</p></section>
+<section class="owner-tab" id="managerTab"><div class="card panel"><h2>Tournament Manager</h2><p class="muted">The existing tournament editor is embedded below, preserving categories, dates, fees, prizes, and freebies. It uses the same verified owner session.</p></div><iframe id="managerFrame" class="owner-manager-frame" title="Tournament Manager" loading="lazy" src="tournament-admin.html?embedded=1"></iframe></section>
+<section class="owner-tab" id="rosterTab"><div class="card panel"><h2>Teams &amp; Players</h2><p class="muted">Live owner-only roster. Search, filter, and export the current view as an Excel-compatible CSV.</p><div class="owner-filter"><label>Tournament<select id="rosterTournament"></select></label><label>Category<select id="rosterCategory"><option value="">All categories</option></select></label><label>Checkout status<select id="rosterStatus"><option value="">All statuses</option><option value="draft">Draft / Test</option><option value="pending_payment">Pending payment</option><option value="pending_verification">Pending verification</option><option value="confirmed">Confirmed</option><option value="cancelled">Cancelled</option><option value="rejected">Rejected</option><option value="expired">Expired</option></select></label><label>Search<input id="rosterSearch" placeholder="Player name, email, team..."></label></div><div class="owner-actions"><button id="rosterRefresh" class="btn secondary">Refresh</button><button id="rosterExport" class="btn gold">Export CSV for Excel</button></div><p id="rosterMessage" role="status" class="muted"></p></div><div class="dash-grid"><div class="card"><small>Teams shown</small><b id="rosterTeamCount">0</b></div><div class="card"><small>Player entries</small><b id="rosterPlayerCount">0</b></div><div class="card"><small>Total listed fees (not paid)</small><b id="rosterFeeTotal">₱0.00</b></div></div><div class="card panel" style="margin-top:14px"><div class="owner-table-wrap"><table class="roster-table"><thead><tr><th>#</th><th>Category</th><th>Team ID</th><th>Player 1</th><th>Player 2</th><th>P1 Email</th><th>P2 Email</th><th>P1 Fee</th><th>P2 Fee</th><th>Total</th><th>Entry Types</th><th>Checkout</th><th>Owner Review</th><th>Team Status</th></tr></thead><tbody id="rosterRows"></tbody></table></div><p class="muted">Draft and test checkouts do not reserve tournament slots. Fees shown are not verified payments.</p></div></section>
+<section class="owner-tab" id="tournamentsTab"><div class="card panel"><h2>Registration Approvals</h2><p class="muted">Owner review of registration details only; not payment verification.</p><label>Tournament<select id="ownerTournamentSelect"></select></label><div class="owner-actions"><button id="refreshTournamentRegistrations" class="btn secondary">Refresh registrations</button></div><p id="tournamentReviewMessage" role="status"></p></div><div class="dash-grid"><div class="card"><small>Checkouts</small><b id="tournamentCheckoutCount">0</b></div><div class="card"><small>Awaiting review</small><b id="tournamentPendingCount">0</b></div><div class="card"><small>Review approved</small><b id="tournamentApprovedCount">0</b></div></div><div id="tournamentRegistrationList" style="margin-top:14px"></div></section>
+<section class="owner-tab" id="paymentsTab"><div class="card panel"><h2>Payment Verification</h2><p class="dash-note">Not yet enabled. The current test checkouts are non-payable. Do not approve payment or issue QR codes through this dashboard.</p></div></section>
+<section class="owner-tab" id="freebiesTab">
+<div class="card panel"><h2>Freebie Management</h2><p class="muted">Live owner-only freebie configurations and recorded claim totals. Eligibility and unclaimed allocations are not calculated yet.</p>
+<label>Tournament <select id="freebieTournament"><option value="">Select tournament</option></select></label>
+<div class="owner-actions"><button id="freebieRefresh" class="btn secondary" type="button">Refresh freebies</button><button class="btn" id="goFreebieManager" type="button">Configure in Tournament Manager</button></div>
+<p id="freebieMessage" role="status" class="muted">Select a tournament to view its freebies.</p></div>
+<div class="dash-grid"><div class="card"><small>Configured freebies</small><b id="freebieCount">0</b></div><div class="card"><small>Claim records</small><b id="freebieClaimRecords">0</b></div><div class="card"><small>Total quantity claimed</small><b id="freebieClaimedTotal">0</b></div></div>
+<div class="card panel" style="margin-top:14px"><div class="owner-table-wrap"><table class="roster-table" style="min-width:760px"><thead><tr><th>Freebie</th><th>Size required</th><th>Quantity / player</th><th>Status</th><th>Claim records</th><th>Quantity claimed</th></tr></thead><tbody id="freebieRows"></tbody></table></div>
+<p class="dash-note">Read-only. No freebie allocations or staff claims can be made here. A reviewed draft is not eligible for claims. QR check-in will be a separate staff interface.</p></div></section>
+</div></div></main></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script src="config.js"></script><script src="supabase-client.js"></script><script src="owner-unified.js"></script><script src="tournament-owner.js"></script><script src="owner-roster.js"></script><script src="owner-freebies.js"></script></body></html>
+/* Court 822 V4 - owner-only, read-only freebie configuration and claim totals. */
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const state = { tournaments: [], loading: false, initialized: false, request: 0 };
+  const number = value => Number(value || 0).toLocaleString('en-PH');
+  function status(text, isError = false) {
+    $('freebieMessage').textContent = text;
+    $('freebieMessage').classList.toggle('owner-error', isError);
+  }
+  function cell(row, value) {
+    const td = document.createElement('td');
+    td.textContent = String(value ?? '—');
+    row.appendChild(td);
+  }
+  function clear() {
+    $('freebieRows').replaceChildren();
+    $('freebieCount').textContent = '0';
+    $('freebieClaimRecords').textContent = '0';
+    $('freebieClaimedTotal').textContent = '0';
+  }
+  async function checkOwner() {
+    const { data: auth, error: authError } = await courtDb.auth.getUser();
+    if (authError || !auth?.user) throw new Error('Please sign in with your owner account.');
+    const { data, error } = await courtDb.rpc('court822_is_owner');
+    if (error || data !== true) throw new Error('Owner access required.');
+  }
+  function setTournaments(rows) {
+    state.tournaments = rows || [];
+    const select = $('freebieTournament');
+    const previous = select.value;
+    select.replaceChildren(new Option('Select tournament', ''));
+    for (const row of state.tournaments) select.add(new Option(row.title, row.id));
+    if (state.tournaments.some(t => t.id === previous)) select.value = previous;
+    else {
+      const battle = state.tournaments.find(t => t.title.toLowerCase().includes('battle for novice'));
+      if (battle) select.value = battle.id;
+    }
+    state.initialized = true;
+  }
+  async function load() {
+    if (state.loading) return;
+    const id = $('freebieTournament').value;
+    const request = ++state.request;
+    if (!id) { clear(); status('Select a tournament.'); return; }
+    state.loading = true;
+    $('freebieRefresh').disabled = true;
+    status('Loading freebie configuration and claim totals...');
+    try {
+      await checkOwner();
+      const { data, error } = await courtDb.rpc('court822_owner_get_freebie_overview', { p_tournament_id: id });
+      if (error) throw error;
+      if (!Array.isArray(data)) throw new Error('Unexpected freebie overview response.');
+      if (request !== state.request || id !== $('freebieTournament').value) return;
+      clear();
+      let records = 0, claimed = 0;
+      for (const item of data) {
+        records += Number(item.claim_records || 0);
+        claimed += Number(item.total_claimed || 0);
+        const tr = document.createElement('tr');
+        [item.name, item.requires_size ? 'Yes' : 'No', number(item.quantity_per_player), item.is_active ? 'Active' : 'Inactive', number(item.claim_records), number(item.total_claimed)].forEach(value => cell(tr, value));
+        $('freebieRows').appendChild(tr);
+      }
+      $('freebieCount').textContent = number(data.length);
+      $('freebieClaimRecords').textContent = number(records);
+      $('freebieClaimedTotal').textContent = number(claimed);
+      status(data.length ? `${data.length} freebie configuration(s) loaded.` : 'No freebies configured for this tournament.');
+    } catch (error) {
+      clear();
+      status(`Unable to load freebie overview: ${error.message}`, true);
+      console.error('Court 822 freebie overview:', error);
+    } finally {
+      state.loading = false;
+      $('freebieRefresh').disabled = false;
+    }
+  }
+  window.addEventListener('court822:tournaments', event => setTournaments(event.detail));
+  window.addEventListener('court822:freebies', () => {
+    if (state.initialized) load();
+  });
+  $('freebieTournament').addEventListener('change', () => { state.request++; load(); });
+  $('freebieRefresh').addEventListener('click', load);
+  // Never issue claim writes from this module.
+})();
+
+(()=>{'use strict';const $=id=>document.getElementById(id);let tournaments=[];let active='overview';async function auth(){if(!window.courtDb)throw Error('Supabase connection unavailable');const {data,error}=await courtDb.auth.getUser();if(error||!data?.user)throw Error('Sign in through the public Court 822 login first.');const role=await courtDb.rpc('court822_is_owner');if(role.error||role.data!==true)throw Error('Owner access required. Sign in with your owner account.');return data.user}function selectTab(name){active=name;document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));document.querySelectorAll('.owner-tab').forEach(x=>x.classList.toggle('active',x.id===name+'Tab'));if(name==='roster')window.dispatchEvent(new Event('court822:roster'));if(name==='tournaments')window.dispatchEvent(new Event('court822:reviews'));if(name==='freebies')window.dispatchEvent(new Event('court822:freebies'));if(name==='overview')loadOverview()}async function loadOverview(){const id=$('overviewTournament').value;if(!id)return;try{const {data,error}=await courtDb.rpc('court822_owner_get_team_roster',{p_tournament_id:id});if(error)throw error;const rows=Array.isArray(data)?data:[];$('overviewTeams').textContent=rows.length;$('overviewConfirmed').textContent=rows.filter(t=>t.team_status==='confirmed'&&t.checkout_status==='confirmed').length;$('overviewPlayers').textContent=rows.reduce((n,t)=>n+(t.players?.length||0),0);$('overviewMessage').textContent='Overview updated.'}catch(e){$('overviewMessage').textContent=e.message}}async function init(){try{await auth();$('ownerGate').hidden=true;$('dashboard').classList.remove('hidden');const {data,error}=await courtDb.from('tournaments').select('id,title').order('title');if(error)throw error;tournaments=data||[];const t=tournaments.find(t=>t.title.trim().toLowerCase()==='system test');for(const id of ['overviewTournament','rosterTournament','ownerTournamentSelect']){const el=$(id);el.replaceChildren(new Option('Select tournament',''));for(const row of tournaments)el.add(new Option(row.title,row.id));if(t)el.value=t.id}window.dispatchEvent(new CustomEvent('court822:tournaments',{detail:tournaments}));await loadOverview()}catch(e){$('gateMessage').textContent=e.message;console.error(e)}}document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>selectTab(b.dataset.tab)));$('overviewTournament').addEventListener('change',loadOverview);$('overviewRefresh').addEventListener('click',loadOverview);$('goFreebieManager').addEventListener('click',()=>selectTab('manager'));$('logoutButton').addEventListener('click',async()=>{await courtDb.auth.signOut();location.href='player-login.html?next=owner.html'});init()})();
