@@ -1169,7 +1169,7 @@ async function saveRegistrationDraft(){
    }
   );
 
-  if(consentError || !consentData?.success || !consentData?.recorded){
+  if(consentError || !consentData?.success || consentData?.consent_recorded !== true){
    throw new Error(
     'Draft saved, but captain consent was not recorded. '+
     (consentError?.message || 'Please retry Save Registration Draft.')
