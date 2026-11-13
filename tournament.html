@@ -156,6 +156,17 @@ button:disabled{opacity:.5;cursor:not-allowed}
   <p id="freebieCount" class="muted" style="color:#d9e4dc"></p>
  </div>
 
+ <section class="item" id="captainAgreementPanel" aria-labelledby="captainAgreementTitle">
+  <h3 id="captainAgreementTitle">Captain Registration Agreement</h3>
+  <p class="muted">As team captain, I confirm that both players agreed to participate, that I am authorized to submit their information, and that all submitted details are accurate. I understand that staff may verify player identities at event check-in and that incorrect information may prevent participation.</p>
+  <p class="muted"><strong>Refund policy:</strong> Verified registration payments are generally non-refundable for voluntary withdrawal or no-shows, subject to applicable law and the published event cancellation and refund policy. This does not waive statutory rights.</p>
+  <label style="display:flex;gap:10px;align-items:flex-start;line-height:1.5;cursor:pointer">
+   <input id="captainAgreement" type="checkbox" style="margin-top:4px" />
+   <span>I confirm my partner's permission and agree to the registration terms and refund policy.</span>
+  </label>
+  <p class="muted">This agreement currently applies to draft saving only. Official registration and payment remain disabled until server-side consent recording is deployed.</p>
+ </section>
+
  <div class="actions">
   <button id="reviewRegistration" class="button gold" type="button" disabled>
    Review Registration
@@ -306,7 +317,8 @@ function updateButtons(){
 
  $('saveDraft').disabled =
   quoteBusy || draftBusy || !lastLocalValid ||
-  !officialQuote || !tournament;
+  !officialQuote || !tournament ||
+  !$('captainAgreement').checked;
 
  $('resumeDraft').disabled =
   quoteBusy || draftBusy || !tournament;
@@ -1087,6 +1099,10 @@ function buildDraftSnapshot(){
 /* SAVE DRAFT */
 
 async function saveRegistrationDraft(){
+ if(!$('captainAgreement').checked){
+  setStatus('draftStatus','Accept the captain registration agreement before saving.','error');
+  return;
+ }
  if(draftBusy || quoteBusy || !tournament || !signedInUser) return;
 
  if(!officialQuote || !lastLocalValid){
@@ -1458,6 +1474,7 @@ async function loadTournament(){
 
 /* EVENT LISTENERS */
 
+$('captainAgreement').addEventListener('change',updateButtons);
 $('addPlayer').addEventListener('click',()=>addPlayer());
 $('addTeam').addEventListener('click',addTeam);
 
