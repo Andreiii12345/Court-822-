@@ -164,7 +164,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
    <input id="captainAgreement" type="checkbox" style="margin-top:4px" />
    <span>I confirm my partner's permission and agree to the registration terms and refund policy.</span>
   </label>
-  <p class="muted">Your agreement will be recorded when you save your draft. Official registration and payment remain disabled until the backend workflow is approved.</p>
+  <p class="muted">Your agreement is recorded securely when you save the draft. Official checkout and payment remain disabled while testing continues.</p>
  </section>
 
  <div class="actions">
@@ -1156,17 +1156,25 @@ async function saveRegistrationDraft(){
    );
   }
 
-  // Record captain agreement server-side after the draft exists.
-  // This is a declaration by the captain, NOT partner acceptance.
-  const {data: consent, error: consentError} = await courtDb.rpc(
-   'court822_accept_captain_terms',
-   {p_tournament_id:tournament.id, p_request_id:requestId, p_accepted:true}
-  );
-  if(consentError || !consent?.consent_recorded){
-   throw new Error('Draft saved, but captain agreement could not be recorded. Please retry.');
-  }
-
   activeDraftRequestId = requestId;
+
+  // Record the captain declaration on the server after the draft exists.
+  // This is distinct from any partner personally accepting an invitation.
+  const {data:consentData,error:consentError} = await courtDb.rpc(
+   'court822_accept_captain_terms',
+   {
+    p_tournament_id:tournament.id,
+    p_request_id:requestId,
+    p_accepted:true
+   }
+  );
+
+  if(consentError || !consentData?.success || !consentData?.recorded){
+   throw new Error(
+    'Draft saved, but captain consent was not recorded. '+
+    (consentError?.message || 'Please retry Save Registration Draft.')
+   );
+  }
 
   if(revisionAtStart!==formRevision){
    setStatus(
@@ -1182,7 +1190,7 @@ async function saveRegistrationDraft(){
 
   setStatus(
    'draftStatus',
-   'Registration draft saved successfully!\n'+
+   'Registration draft and captain agreement saved successfully!\n'+
    'Teams saved: '+data.draft.team_count+'\n'+
    'Estimated total: '+peso(data.quotation.estimated_total)+'\n'+
    'You can return later and resume this draft.\n'+
@@ -1195,7 +1203,7 @@ async function saveRegistrationDraft(){
 
   setStatus(
    'draftStatus',
-   'Unable to save your draft. Please try again.',
+   error.message || 'Unable to save your draft. Please try again.',
    'error'
   );
 
