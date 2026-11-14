@@ -1,23 +1,4 @@
 
-/*
- COURT 822 V4
- OWNER TOURNAMENT PAYMENT DASHBOARD
-
- Features:
- - Owner authentication
- - Tournament selection
- - Registration checkout overview
- - GCash / Maya payment details
- - Payment reference numbers
- - Secure receipt preview
- - Private 60-second receipt URLs
-
- Payment verification: DISABLED
- Automatic QR issuance: DISABLED
-
- Existing 8-digit OTP: UNCHANGED
-*/
-
 (() => {
   "use strict";
 
@@ -29,7 +10,11 @@
   // have passed a controlled end-to-end test. This frontend
   // flag is NOT a security boundary: the Edge Function must
   // independently enforce COURT822_VERIFY_PAYMENT_ENABLED.
-  const VERIFY_UI_ENABLED = false;
+  const VERIFY_UI_ENABLED = true;
+  // Historical test checkout: no funds received; never approve it.
+  const UNPAID_TEST_CHECKOUTS = new Set([
+    "921de6cf-d306-4bb0-ad1b-fe22be37ab60"
+  ]);
 
   const state = {
     busy: false,
@@ -444,13 +429,24 @@
 
           const approve = el("button", "Approve Payment", "btn");
           approve.type = "button";
-          approve.disabled = !VERIFY_UI_ENABLED;
-          approve.title = VERIFY_UI_ENABLED ? "Verify funds received" : "Approval locked until QR verification and delivery tests pass";
+          approve.disabled = !VERIFY_UI_ENABLED || UNPAID_TEST_CHECKOUTS.has(checkout.checkout_id);
+          approve.title = UNPAID_TEST_CHECKOUTS.has(checkout.checkout_id)
+            ? "Test submission without received funds: cannot approve"
+            : "Approve only after independently confirming the received funds";
           approve.addEventListener("click", async () => {
-            if (!VERIFY_UI_ENABLED || state.busy || !paymentId) return;
-            if (!window.confirm("Have you independently verified that " + money(payment.amount) +
-              " was received in the official account with reference " +
-              (payment.reference_number || "(missing)") + "? Approval issues team QR credentials.")) return;
+            if (!VERIFY_UI_ENABLED || state.busy || !paymentId ||
+                UNPAID_TEST_CHECKOUTS.has(checkout.checkout_id)) return;
+            const confirmedReference = window.prompt(
+              "Check your actual GCash/Maya receiving account. If the full " +
+              money(payment.amount) + " arrived, type the exact transaction reference shown in the RECEIVING account to approve. Cancel otherwise."
+            );
+            if (confirmedReference === null) return;
+            if (!payment.reference_number ||
+                confirmedReference.trim() !== String(payment.reference_number).trim()) {
+              message("Reference does not match the submitted payment. Approval cancelled.", true);
+              return;
+            }
+            if (!window.confirm("FINAL CONFIRMATION: You independently verified actual funds received. Approve payment and issue live admission QR codes to both players on each team?")) return;
             state.busy = true;
             approve.disabled = true;
             reject.disabled = true;
@@ -473,7 +469,25 @@
                 throw new Error(serverMessage || "Verification failed");
               }
               if (!result?.success) throw new Error(result?.error || "Verification was not confirmed");
-              message("Payment verified. QR credentials queued by backend. Refreshing...");
+              message("Payment verified and team QR emails queued. Starting owner-authorized dispatch...");
+              try {
+                const { data: dispatch, error: dispatchError } =
+                  await courtDb.functions.invoke("court822-qr-dispatch", {
+                    body: { action: "dispatch" }
+                  });
+                if (dispatchError || dispatch?.success !== true) {
+                  let detail = dispatchError?.message || dispatch?.error || "Dispatch unavailable";
+                  if (dispatchError?.context instanceof Response) {
+                    const response = await dispatchError.context.clone().json().catch(() => null);
+                    detail = response?.error || detail;
+                  }
+                  message("Payment verified and QRs queued, but email dispatch needs retry: " + detail, true);
+                } else {
+                  message("Payment verified. QR dispatch attempted; check email delivery status in Supabase.");
+                }
+              } catch (dispatchErr) {
+                message("Payment verified and QRs queued. Dispatch not completed: " + dispatchErr.message, true);
+              }
             } catch (err) {
               message("Verification failed: " + (err.message || "Unknown error"), true);
             } finally {
@@ -515,7 +529,9 @@
           });
           actions.append(approve, reject);
           detail.append(actions);
-          if (!VERIFY_UI_ENABLED) detail.append(el("p", "Approve is locked until secure QR issuance and email dispatch are tested. Reject is available after installing the owner SQL update.", "muted"));
+          if (UNPAID_TEST_CHECKOUTS.has(checkout.checkout_id)) {
+            detail.append(el("p", "Approval disabled: this checkout was explicitly identified as an unpaid test submission.", "owner-error"));
+          }
         }
       }
 
