@@ -299,8 +299,10 @@
           "muted"
         )
       );
-      return;
+      return 0;
     }
+
+    const verifiedAmount = checkout.status === "confirmed" ? data.reduce((sum,p) => sum + (p.status === "verified" ? Number(p.amount || 0) : 0), 0) : 0;
 
     for (const payment of data) {
       const detail = el("div");
@@ -527,6 +529,7 @@
 
       card.append(detail);
     }
+    return verifiedAmount;
   }
 
   async function refresh() {
@@ -580,20 +583,14 @@
         x => x.status === "confirmed"
       ).length;
 
-      const total = data.reduce(
-        (sum, x) =>
-          sum + Number(x.total_amount || 0),
-        0
-      );
+      $("paymentAwaiting").textContent = awaiting;
+      $("paymentConfirmed").textContent = confirmed;
+      $("paymentTotal").textContent = "Loading verified payments...";
 
-      $("paymentAwaiting").textContent =
-        awaiting;
-
-      $("paymentConfirmed").textContent =
-        confirmed;
-
-      $("paymentTotal").textContent =
-        money(total);
+      const {data: hiddenIds, error: hiddenError} = await courtDb.rpc("court822_owner_hidden_expired_checkouts_v1");
+      if (hiddenError) throw hiddenError;
+      const hidden = new Set(Array.isArray(hiddenIds) ? hiddenIds : []);
+      let verifiedTotal = 0;
 
       let teamsByCheckout = new Map();
       let teamLoadError = null;
@@ -609,6 +606,7 @@
       list.replaceChildren();
 
       for (const checkout of data) {
+        if (checkout.status === "expired" && hidden.has(checkout.checkout_id)) continue;
         const card = el(
           "article",
           "",
@@ -650,10 +648,30 @@
           teamLoadError
         );
 
-        await loadPaymentDetails(
-          checkout,
-          card
-        );
+        const verifiedForCheckout = await loadPaymentDetails(checkout, card);
+        if (Number.isFinite(verifiedForCheckout)) verifiedTotal += verifiedForCheckout;
+
+        if (checkout.status === "expired") {
+          const remove = el("button", "Remove Expired Registration", "btn secondary");
+          remove.type = "button";
+          remove.addEventListener("click", async () => {
+            if (state.busy || !window.confirm("Remove this expired registration from the owner dashboard? Database history will be preserved.")) return;
+            state.busy = true;
+            remove.disabled = true;
+            try {
+              await requireOwner();
+              const {data:result,error} = await courtDb.rpc("court822_owner_hide_expired_checkout_v1", {p_checkout_id:checkout.checkout_id});
+              if (error || result?.success !== true) throw new Error(error?.message || result?.error || "Unable to remove registration");
+              hidden.add(checkout.checkout_id);
+              card.remove();
+              message("Expired registration hidden. Historical records preserved.");
+            } catch (e) {
+              message("Unable to remove expired registration: " + e.message, true);
+              remove.disabled = false;
+            } finally { state.busy = false; }
+          });
+          card.append(remove);
+        }
 
         card.append(
           el(
@@ -667,6 +685,8 @@
 
         list.append(card);
       }
+
+      $("paymentTotal").textContent = money(verifiedTotal);
 
       if (!data.length) {
         list.append(
