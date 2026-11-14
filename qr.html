@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Cache-Control" content="no-store">
+  <title>COURT 822 | Team Check-in QR</title>
+  <style>
+    :root{color-scheme:dark;font-family:Arial,Helvetica,sans-serif}
+    *{box-sizing:border-box}body{margin:0;background:#101c18;color:#f5f0e4;min-height:100vh;display:grid;place-items:center;padding:24px}
+    main{width:min(100%,460px);background:#1b3028;border:1px solid #5d5946;border-radius:20px;padding:30px;text-align:center}
+    h1{color:#d1ad69;letter-spacing:2px;font-size:26px;margin:0 0 8px}h2{font-size:20px;margin:18px 0 12px}
+    p{line-height:1.5;color:#d9e1dc}.qr-wrap{display:inline-flex;background:#fff;padding:18px;border-radius:12px;margin:12px auto}
+    #qr{width:256px;height:256px;display:flex;align-items:center;justify-content:center}#qr img,#qr canvas{width:256px!important;height:256px!important}
+    .muted{font-size:13px;color:#b9c7c0}.error{color:#ffd4ce}.hidden{display:none}
+    button,a.button{background:#d1ad69;color:#14241e;border:0;border-radius:9px;padding:12px 16px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;margin-top:10px}
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+<main>
+  <h1>COURT 822</h1>
+  <h2>Team Check-in QR</h2>
+  <div id="ready" class="hidden">
+    <p>Present this QR code to authorized tournament staff. Both team members should bring valid identification.</p>
+    <div class="qr-wrap"><div id="qr" role="img" aria-label="Team check-in QR code"></div></div>
+    <p class="muted">One QR code per team. Keep it private; anyone with the code may attempt to present it.</p>
+    <button id="save" type="button">Save QR image</button>
+  </div>
+  <p id="status" role="status">Loading your QR code...</p>
+  <p class="muted">A QR code does not guarantee admission. Staff will verify registration status and player identities at check-in.</p>
+  <a class="button" href="tournament.html">Back to tournaments</a>
+</main>
+<script>
+(() => {
+  const status = document.getElementById('status');
+  const ready = document.getElementById('ready');
+  const hash = location.hash;
+  // Remove bearer credential from the visible address immediately after reading it.
+  history.replaceState(null, '', location.pathname);
+  let token = '';
+  try { token = new URLSearchParams(hash.replace(/^#/, '')).get('token') || ''; }
+  catch { /* Invalid URL fragment */ }
+  if (!/^[0-9a-f]{64}$/.test(token)) {
+    status.className = 'error';
+    status.textContent = 'This QR link is missing or invalid. Please use the original confirmation email.';
+    return;
+  }
+  if (typeof QRCode !== 'function') {
+    status.className = 'error';
+    status.textContent = 'QR renderer unavailable. Please try again when connected to the internet.';
+    return;
+  }
+  // The check-in RPC expects the raw 64-character token, not a URL or token hash.
+  new QRCode(document.getElementById('qr'), {
+    text: token,
+    width: 256,
+    height: 256,
+    colorDark: '#14241e',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+  status.textContent = '';
+  ready.classList.remove('hidden');
+  document.getElementById('save').addEventListener('click', () => {
+    const canvas = document.querySelector('#qr canvas');
+    const image = document.querySelector('#qr img');
+    const url = canvas ? canvas.toDataURL('image/png') : image?.src;
+    if (!url) { status.textContent = 'Could not save QR image.'; return; }
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'court822-team-qr.png';
+    a.click();
+  });
+})();
+</script>
+</body>
+</html>
