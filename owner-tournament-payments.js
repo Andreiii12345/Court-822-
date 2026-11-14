@@ -391,39 +391,22 @@
         );
 
         if (checkout.status === "pending_verification") {
-          const approval = document.createElement("label");
-          approval.style.cssText =
-            "display:flex;gap:10px;align-items:flex-start;margin-top:10px";
-          const checked = document.createElement("input");
-          checked.type = "checkbox";
-          checked.disabled = !VERIFY_UI_ENABLED;
-          const wording = el(
-            "span",
-            "I independently checked the receiving GCash/Maya account " +
-            "and confirmed this exact payment and reference."
-          );
-          approval.append(checked, wording);
-          detail.append(approval);
+          const actions = document.createElement("div");
+          actions.className = "actions";
+          const paymentId = payment.payment_id || payment.id;
 
-          const verify = el("button", "Verify Payment", "btn");
-          verify.type = "button";
-          verify.disabled = true;
-          checked.addEventListener("change", () => {
-            verify.disabled = !VERIFY_UI_ENABLED || !checked.checked;
-          });
-          verify.addEventListener("click", async () => {
-            if (!VERIFY_UI_ENABLED || !checked.checked || state.busy) return;
-            const paymentId = payment.payment_id || payment.id;
-            if (!paymentId || !checkout.checkout_id) {
-              message("Payment identifier missing. Verification blocked.", true);
-              return;
-            }
-            if (!window.confirm(
-              "Confirm actual receipt of " + money(payment.amount) +
-              " in your receiving account? This will issue team QR credentials."
-            )) return;
+          const approve = el("button", "Approve Payment", "btn");
+          approve.type = "button";
+          approve.disabled = !VERIFY_UI_ENABLED;
+          approve.title = VERIFY_UI_ENABLED ? "Verify funds received" : "Approval locked until QR verification and delivery tests pass";
+          approve.addEventListener("click", async () => {
+            if (!VERIFY_UI_ENABLED || state.busy || !paymentId) return;
+            if (!window.confirm("Have you independently verified that " + money(payment.amount) +
+              " was received in the official account with reference " +
+              (payment.reference_number || "(missing)") + "? Approval issues team QR credentials.")) return;
             state.busy = true;
-            verify.disabled = true;
+            approve.disabled = true;
+            reject.disabled = true;
             try {
               await requireOwner();
               const { data: result, error: invokeError } =
@@ -442,10 +425,8 @@
                 }
                 throw new Error(serverMessage || "Verification failed");
               }
-              if (!result?.success) {
-                throw new Error(result?.error || "Verification was not confirmed");
-              }
-              message("Payment verified. Refreshing checkout status...");
+              if (!result?.success) throw new Error(result?.error || "Verification was not confirmed");
+              message("Payment verified. QR credentials queued by backend. Refreshing...");
             } catch (err) {
               message("Verification failed: " + (err.message || "Unknown error"), true);
             } finally {
@@ -453,10 +434,41 @@
               await refresh();
             }
           });
-          detail.append(verify);
-          if (!VERIFY_UI_ENABLED) {
-            detail.append(el("p", "Verification locked until the backend and QR email tests pass.", "muted"));
-          }
+
+          const reject = el("button", "Reject Payment", "btn");
+          reject.type = "button";
+          reject.style.cssText = "background:#963f35;color:white";
+          reject.addEventListener("click", async () => {
+            if (state.busy || !paymentId) return;
+            const reason = window.prompt("Reason for rejection (required). Only reject after checking the actual receiving account.");
+            if (reason === null) return;
+            if (reason.trim().length < 10) {
+              message("Please enter a rejection reason of at least 10 characters.", true);
+              return;
+            }
+            if (!window.confirm("Reject this payment and cancel its unpaid team reservation? This cannot be undone here.")) return;
+            state.busy = true;
+            approve.disabled = true;
+            reject.disabled = true;
+            try {
+              await requireOwner();
+              const { data: result, error } = await courtDb.rpc("court822_owner_reject_payment_v1", {
+                p_checkout_id: checkout.checkout_id,
+                p_payment_id: paymentId,
+                p_reason: reason.trim()
+              });
+              if (error || result?.success !== true) throw new Error(error?.message || result?.error || "Rejection failed");
+              message("Payment rejected and reservation released.");
+            } catch (err) {
+              message("Rejection failed: " + (err.message || "Unknown error"), true);
+            } finally {
+              state.busy = false;
+              await refresh();
+            }
+          });
+          actions.append(approve, reject);
+          detail.append(actions);
+          if (!VERIFY_UI_ENABLED) detail.append(el("p", "Approve is locked until secure QR issuance and email dispatch are tested. Reject is available after installing the owner SQL update.", "muted"));
         }
       }
 
