@@ -181,7 +181,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
   </button>
 
   <button id="checkout" class="button" type="button" disabled>
-   Submit Registration — Awaiting Backend Activation
+   Submit Registration — System Test Only
   </button>
  </div>
 
@@ -269,7 +269,7 @@ let submitBusy = false;
 let paymentBusy = false;
 let activePaymentCheckout = null;
 // Enable only after backend reservation and payment tests pass.
-const COURT822_SUBMISSION_UI_ENABLED = false;
+const COURT822_SUBMISSION_UI_ENABLED = true;
 
 const players = [];
 const teams = [];
@@ -342,6 +342,17 @@ function updateButtons(){
 
  $('resumeDraft').disabled =
   quoteBusy || draftBusy || !tournament;
+
+ $('checkout').disabled =
+  !COURT822_SUBMISSION_UI_ENABLED ||
+  quoteBusy || draftBusy || submitBusy || !signedInUser || !tournament ||
+  !activeDraftRequestId || formDirty ||
+  draftSavedRevision !== formRevision ||
+  !officialQuote || !lastLocalValid || !$('captainAgreement').checked;
+
+ $('checkout').textContent = submitBusy
+  ? 'Submitting Registration...'
+  : 'Submit Registration — System Test Only';
 
  $('saveDraft').textContent =
   draftBusy ? 'Processing...' : 'Save Registration Draft';
@@ -1538,9 +1549,8 @@ async function loadTournament(){
   draftSavedRevision = -1;
 
   $('pageStatus').textContent =
-   'Tournament loaded. Review Registration is available '+
-   'for eligible teams. Draft saving is available for System Test. '+
-   'Payment submission remains disabled.';
+   'Tournament loaded. Registration submission is enabled for the System Test tournament only. '+
+   'Payment submission remains disabled until separately activated.';
 
   updateButtons();
 
