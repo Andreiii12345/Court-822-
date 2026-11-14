@@ -25,6 +25,12 @@
 
   const BUCKET = "court822-tournament-receipts";
 
+  // Keep false until owner verification, QR storage and delivery
+  // have passed a controlled end-to-end test. This frontend
+  // flag is NOT a security boundary: the Edge Function must
+  // independently enforce COURT822_VERIFY_PAYMENT_ENABLED.
+  const VERIFY_UI_ENABLED = false;
+
   const state = {
     busy: false,
     loaded: false,
@@ -383,6 +389,75 @@
             "muted"
           )
         );
+
+        if (checkout.status === "pending_verification") {
+          const approval = document.createElement("label");
+          approval.style.cssText =
+            "display:flex;gap:10px;align-items:flex-start;margin-top:10px";
+          const checked = document.createElement("input");
+          checked.type = "checkbox";
+          checked.disabled = !VERIFY_UI_ENABLED;
+          const wording = el(
+            "span",
+            "I independently checked the receiving GCash/Maya account " +
+            "and confirmed this exact payment and reference."
+          );
+          approval.append(checked, wording);
+          detail.append(approval);
+
+          const verify = el("button", "Verify Payment", "btn");
+          verify.type = "button";
+          verify.disabled = true;
+          checked.addEventListener("change", () => {
+            verify.disabled = !VERIFY_UI_ENABLED || !checked.checked;
+          });
+          verify.addEventListener("click", async () => {
+            if (!VERIFY_UI_ENABLED || !checked.checked || state.busy) return;
+            const paymentId = payment.payment_id || payment.id;
+            if (!paymentId || !checkout.checkout_id) {
+              message("Payment identifier missing. Verification blocked.", true);
+              return;
+            }
+            if (!window.confirm(
+              "Confirm actual receipt of " + money(payment.amount) +
+              " in your receiving account? This will issue team QR credentials."
+            )) return;
+            state.busy = true;
+            verify.disabled = true;
+            try {
+              await requireOwner();
+              const { data: result, error: invokeError } =
+                await courtDb.functions.invoke("court822-verify-payment", {
+                  body: {
+                    checkout_id: checkout.checkout_id,
+                    payment_id: paymentId,
+                    receipt_confirmed_in_receiving_account: true
+                  }
+                });
+              if (invokeError) {
+                let serverMessage = invokeError.message;
+                if (invokeError.context instanceof Response) {
+                  const payload = await invokeError.context.clone().json().catch(() => null);
+                  serverMessage = payload?.error || serverMessage;
+                }
+                throw new Error(serverMessage || "Verification failed");
+              }
+              if (!result?.success) {
+                throw new Error(result?.error || "Verification was not confirmed");
+              }
+              message("Payment verified. Refreshing checkout status...");
+            } catch (err) {
+              message("Verification failed: " + (err.message || "Unknown error"), true);
+            } finally {
+              state.busy = false;
+              await refresh();
+            }
+          });
+          detail.append(verify);
+          if (!VERIFY_UI_ENABLED) {
+            detail.append(el("p", "Verification locked until the backend and QR email tests pass.", "muted"));
+          }
+        }
       }
 
       card.append(detail);
@@ -502,8 +577,9 @@
         card.append(
           el(
             "p",
-            "Payment verification and QR issuance " +
-            "are not yet enabled in this dashboard.",
+            VERIFY_UI_ENABLED
+              ? "Payment actions require independent receipt confirmation."
+              : "Payment verification and QR issuance remain locked pending tests.",
             "muted"
           )
         );
@@ -526,7 +602,7 @@
         data.length +
         " checkout(s) loaded. " +
         "Payment receipt review is available. " +
-        "Verification remains disabled."
+        (VERIFY_UI_ENABLED ? "Owner verification controls available." : "Verification remains disabled.")
       );
 
     } catch (error) {
