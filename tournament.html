@@ -331,6 +331,19 @@ async function requireLogin(){
 /* QUOTATION AND DRAFT STATE */
 
 function updateButtons(){
+  const canSubmit = COURT822_SUBMISSION_UI_ENABLED &&
+    tournament?.title?.trim().toLowerCase() === 'system test' &&
+    !!signedInUser && !!activeDraftRequestId &&
+    !submitBusy && !draftBusy && !quoteBusy &&
+    !formDirty && draftSavedRevision === formRevision &&
+    !!officialQuote && lastLocalValid &&
+    $('captainAgreement').checked;
+  $('checkout').disabled = !canSubmit;
+  $('checkout').textContent = submitBusy
+    ? 'Submitting registration...'
+    : COURT822_SUBMISSION_UI_ENABLED
+      ? 'Submit Registration — System Test Only'
+      : 'Submit Registration — Awaiting Backend Activation';
  $('reviewRegistration').disabled =
   quoteBusy || draftBusy || !lastLocalValid ||
   !tournament || !freebiesLoaded;
@@ -1504,7 +1517,7 @@ async function loadTournament(){
     ? 'Registration coming soon'
     : closes!==null && now>closes
      ? 'Registration closed'
-     : 'Tournament registration preview';
+     : 'Tournament registration — System Test only';
 
   const {data:list,error:ce} = await courtDb
    .from('tournament_categories')
@@ -1540,7 +1553,7 @@ async function loadTournament(){
   $('pageStatus').textContent =
    'Tournament loaded. Review Registration is available '+
    'for eligible teams. Draft saving is available for System Test. '+
-   'Payment submission remains disabled.';
+   'Payment proof is available only after a successful, eligible registration, before its deadline.';
 
   updateButtons();
 
