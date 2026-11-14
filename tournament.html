@@ -201,6 +201,21 @@ button:disabled{opacity:.5;cursor:not-allowed}
  </p>
 </section>
 
+
+<section class="panel" id="paymentProofPanel" hidden>
+ <h2>Step 4 — Submit Payment Proof</h2>
+ <p class="muted">Pay only using the official Court 822 payment instructions. Uploading proof does not confirm payment. The owner must independently verify receipt.</p>
+ <div class="summary"><div class="line"><span>Amount due</span><strong id="paymentAmount">—</strong></div><div class="line"><span>Pay before</span><strong id="paymentDeadline">—</strong></div></div>
+ <p class="notice">Use the verified GCash or Maya account shown in Court 822's official payment instructions. Do not send funds unless those instructions are available.</p>
+ <form id="paymentProofForm">
+  <label class="field">Payment method<select id="paymentMethod" required><option value="">Choose method</option><option value="gcash">GCash</option><option value="maya">Maya</option></select></label>
+  <label class="field">Transaction reference<input id="paymentReference" type="text" minlength="5" maxlength="100" required autocomplete="off" placeholder="Reference from GCash or Maya" /></label>
+  <label class="field">Payment receipt (JPG, PNG, WEBP or PDF, maximum 5 MB)<input id="paymentReceipt" type="file" accept="image/jpeg,image/png,image/webp,application/pdf" required /></label>
+  <button class="button gold" id="submitPaymentProof" type="submit">Submit Payment for Owner Verification</button>
+ </form>
+ <div class="notice" id="paymentProofStatus" role="status">Awaiting payment submission.</div>
+</section>
+
 <div id="pageStatus" class="status" role="status">
  Loading tournament...
 </div>
@@ -251,6 +266,8 @@ let draftBusy = false;
 let formDirty = false;
 let draftSavedRevision = -1;
 let submitBusy = false;
+let paymentBusy = false;
+let activePaymentCheckout = null;
 // Enable only after backend reservation and payment tests pass.
 const COURT822_SUBMISSION_UI_ENABLED = false;
 
@@ -1246,6 +1263,12 @@ async function submitRegistration(){
     }
     if(data?.success!==true || !data.checkout_id) throw new Error(data?.error||'Submission was not confirmed by the server.');
     setStatus('draftStatus',`Registration received. Checkout: ${data.checkout_id}. Status: ${data.status}. Payment is ${data.payment_enabled?'available':'not yet enabled'}.`,'success');
+    if(data.status==='pending_payment' && data.payment_enabled===true && data.payment_due_at){
+      activePaymentCheckout={id:data.checkout_id,total:Number(data.total_amount),due:data.payment_due_at};
+      $('paymentAmount').textContent=peso(activePaymentCheckout.total);
+      $('paymentDeadline').textContent=new Date(activePaymentCheckout.due).toLocaleString('en-PH');
+      $('paymentProofPanel').hidden=false;
+    }
   }catch(error){
     setStatus('draftStatus',error.message||'Registration could not be submitted.','error');
   }finally{
@@ -1553,6 +1576,51 @@ $('resumeDraft').addEventListener(
  'click',
  resumeRegistrationDraft
 );
+
+
+/* PAYMENT PROOF — only for an active server-confirmed pending-payment checkout. */
+$('paymentProofForm').addEventListener('submit',async event=>{
+  event.preventDefault();
+  if(paymentBusy || !activePaymentCheckout) return;
+  const checkout=activePaymentCheckout;
+  if(Date.now() >= Date.parse(checkout.due)){
+    setStatus('paymentProofStatus','Payment deadline has expired. Contact Court 822; do not send payment.','error');return;
+  }
+  const method=$('paymentMethod').value;
+  const reference=$('paymentReference').value.trim();
+  const file=$('paymentReceipt').files?.[0];
+  const allowed=['image/jpeg','image/png','image/webp','application/pdf'];
+  if(!['gcash','maya'].includes(method)||reference.length<5||reference.length>100||!file||
+     !allowed.includes(file.type)||file.size>5*1024*1024||file.size===0){
+    setStatus('paymentProofStatus','Check your payment method, reference and receipt (maximum 5 MB).','error');return;
+  }
+  if(!confirm('Have you already paid the official Court 822 account? Submit your proof for owner verification?')) return;
+  paymentBusy=true;
+  $('submitPaymentProof').disabled=true;
+  setStatus('paymentProofStatus','Uploading receipt securely...');
+  let uploadedPath=null;
+  try{
+    const {data:auth,error:authError}=await courtDb.auth.getUser();
+    if(authError||!auth?.user||auth.user.id!==signedInUser?.id) throw new Error('Please sign in again.');
+    const extension={'image/jpeg':'jpg','image/png':'png','image/webp':'webp','application/pdf':'pdf'}[file.type];
+    uploadedPath=`${checkout.id}/${crypto.randomUUID()}.${extension}`;
+    const upload=await courtDb.storage.from('court822-tournament-receipts').upload(uploadedPath,file,{
+      contentType:file.type,upsert:false,cacheControl:'0'
+    });
+    if(upload.error) throw upload.error;
+    setStatus('paymentProofStatus','Receipt uploaded. Recording your payment for owner review...');
+    const {data,error}=await courtDb.rpc('court822_submit_payment_proof',{
+      p_checkout_id:checkout.id,p_payment_method:method,
+      p_reference_number:reference,p_receipt_path:uploadedPath
+    });
+    if(error||data?.success!==true) throw new Error(error?.message||data?.error||'Payment proof was not recorded.');
+    setStatus('paymentProofStatus','Payment proof submitted successfully. Awaiting owner verification. No QR will be issued until payment is verified.','success');
+    $('paymentProofForm').hidden=true;
+    activePaymentCheckout=null;
+  }catch(error){
+    setStatus('paymentProofStatus',`Payment submission failed: ${error.message}. If the receipt uploaded, it may remain stored; retry only after checking your registration status.`,'error');
+  }finally{paymentBusy=false;$('submitPaymentProof').disabled=false;}
+});
 
 loadTournament();
 </script>
