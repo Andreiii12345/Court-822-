@@ -44,7 +44,28 @@
         card.append(el("h3",`Checkout ${String(x.checkout_id||"").slice(0,8)}`));
         const teamCount=Array.isArray(x.teams)?x.teams.length:0;
         card.append(el("p",`Status: ${x.status || "unknown"} | ${money(x.total_amount)} | ${teamCount} team(s)`));
-        card.append(el("p","Owner verification action unavailable until payment-to-QR backend testing passes.","muted"));
+        if(x.status === "pending_verification" || x.status === "pending_payment" || x.status === "confirmed") {
+          const {data:payments,error:payError}=await courtDb.rpc(
+            "court822_owner_checkout_payment_details",
+            {p_checkout_id:x.checkout_id}
+          );
+          if(payError) {
+            card.append(el("p","Unable to load payment details: " + payError.message,"owner-error"));
+          } else if(!payments?.length) {
+            card.append(el("p","No payment submissions recorded.","muted"));
+          } else {
+            for(const p of payments) {
+              const detail=el("div","","review-meta");
+              detail.style.cssText="border-top:1px solid #ddd;padding:10px 0;display:grid;gap:5px";
+              detail.append(el("strong",`${money(p.amount)} · ${p.payment_method || "Unknown method"} · ${p.status || "Unknown status"}`));
+              detail.append(el("p",`Reference: ${p.reference_number || "Not supplied"}`));
+              detail.append(el("p",p.has_receipt ? "Receipt file submitted (preview not yet connected)" : "No receipt file submitted","muted"));
+              if(p.verified_at) detail.append(el("p",`Verified: ${new Date(p.verified_at).toLocaleString("en-PH")}`, "muted"));
+              card.append(detail);
+            }
+          }
+        }
+        card.append(el("p","Payment verification is read-only until the secure verification-to-QR transaction passes testing.","muted"));
         list.append(card);
       }
       if(!data.length)list.append(el("p","No submitted checkouts for this tournament.","muted"));
