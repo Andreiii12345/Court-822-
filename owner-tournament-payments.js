@@ -219,6 +219,53 @@
     }
   }
 
+
+  // Read-only owner roster used for payment review. No player data is hardcoded.
+  async function loadCheckoutTeamDetails(tournamentId) {
+    const { data, error } = await courtDb.rpc(
+      "court822_owner_get_team_roster", { p_tournament_id: tournamentId }
+    );
+    if (error) throw error;
+    if (!Array.isArray(data)) throw new Error("Unexpected team roster response");
+    const byCheckout = new Map();
+    for (const team of data) {
+      if (!team.checkout_id) continue;
+      if (!byCheckout.has(team.checkout_id)) byCheckout.set(team.checkout_id, []);
+      byCheckout.get(team.checkout_id).push(team);
+    }
+    return byCheckout;
+  }
+
+  function showCheckoutTeamDetails(card, checkout, teams, loadError) {
+    const section = el("section", "", "review-card");
+    section.style.cssText = "border:1px solid #ddd3c4;border-radius:10px;padding:16px;margin:14px 0;background:#faf8f3";
+    section.append(el("h4", "Registered Teams & Players"));
+    if (loadError) {
+      section.append(el("p", "Unable to retrieve player details: " + loadError, "owner-error"));
+    } else if (!teams?.length) {
+      section.append(el("p", "No team records found for this checkout. Review before taking any action.", "owner-error"));
+    } else {
+      for (const team of teams) {
+        const box = el("div", "", "team");
+        box.append(el("strong", team.category_name || "Unknown category"));
+        box.append(el("p", "Team status: " + (team.team_status || "Unknown"), "muted"));
+        const players = Array.isArray(team.players) ? team.players : [];
+        for (const position of [1, 2]) {
+          const player = players.find(p => Number(p.position) === position);
+          const label = "Player " + position + ": ";
+          box.append(el("p", label + (player?.name || "Not recorded")));
+          box.append(el("p", "Email: " + (player?.email || "Not recorded"), "muted"));
+          // The existing roster RPC may not expose selected clothing sizes.
+          if (player?.selected_sizes && typeof player.selected_sizes === "object") {
+            box.append(el("p", "Shirt sizes: " + JSON.stringify(player.selected_sizes), "muted"));
+          }
+        }
+        section.append(box);
+      }
+    }
+    card.append(section);
+  }
+
   async function loadPaymentDetails(
     checkout,
     card
@@ -542,6 +589,15 @@
       $("paymentTotal").textContent =
         money(total);
 
+      let teamsByCheckout = new Map();
+      let teamLoadError = null;
+      try {
+        teamsByCheckout = await loadCheckoutTeamDetails(tournamentId);
+      } catch (err) {
+        teamLoadError = err.message || "Roster unavailable";
+        console.error("Court 822 payment team details:", err);
+      }
+
       const list = $("paymentCheckoutList");
 
       list.replaceChildren();
@@ -579,6 +635,13 @@
             teamCount +
             " team(s)"
           )
+        );
+
+        // Display player names and emails BEFORE the receipt and action buttons.
+        showCheckoutTeamDetails(
+          card, checkout,
+          teamsByCheckout.get(checkout.checkout_id),
+          teamLoadError
         );
 
         await loadPaymentDetails(
