@@ -60,6 +60,13 @@ button:disabled{opacity:.5;cursor:not-allowed}
  .actions .button{flex:1}
  .line{font-size:13px}
 }
+
+ .payment-qr-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:18px 0}
+ .payment-qr-card{border:1px solid #d5cbbd;border-radius:12px;padding:16px;background:#faf8f3;text-align:center}
+ .payment-qr-card h3{margin:0 0 8px;font:22px Georgia,serif}
+ .payment-qr-card img{display:block;width:100%;max-width:340px;height:auto;margin:12px auto;background:#fff;border-radius:8px}
+ .payment-qr-card .muted{margin:6px 0}
+ @media(max-width:700px){.payment-qr-grid{grid-template-columns:1fr}}
 </style>
 </head>
 
@@ -206,7 +213,19 @@ button:disabled{opacity:.5;cursor:not-allowed}
  <h2>Step 4 — Submit Payment Proof</h2>
  <p class="muted">Pay only using the official Court 822 payment instructions. Uploading proof does not confirm payment. The owner must independently verify receipt.</p>
  <div class="summary"><div class="line"><span>Amount due</span><strong id="paymentAmount">—</strong></div><div class="line"><span>Pay before</span><strong id="paymentDeadline">—</strong></div></div>
- <p class="notice">Use the verified GCash or Maya account shown in Court 822's official payment instructions. Do not send funds unless those instructions are available.</p>
+ <p class="notice">Choose GCash or Maya below. Before sending money, verify that the receiving account shown by your payment app matches Court 822's confirmed payment details. Upload your genuine transaction receipt after paying. Payment remains subject to owner verification.</p>
+ <div class="payment-qr-grid" aria-label="Court 822 payment QR codes">
+  <section class="payment-qr-card" aria-labelledby="gcashQrTitle">
+   <h3 id="gcashQrTitle">GCash</h3>
+   <img src="gcash-qr.png" alt="Court 822 supplied GCash InstaPay payment QR" loading="lazy">
+   <p class="muted">GCash / InstaPay QR supplied by Court 822</p>
+  </section>
+  <section class="payment-qr-card" aria-labelledby="mayaQrTitle">
+   <h3 id="mayaQrTitle">Maya</h3>
+   <img src="maya-qr.png" alt="Court 822 supplied Maya InstaPay payment QR" loading="lazy">
+   <p class="muted">Maya / InstaPay QR supplied by Court 822</p>
+  </section>
+ </div>
  <form id="paymentProofForm">
   <label class="field">Payment method<select id="paymentMethod" required><option value="">Choose method</option><option value="gcash">GCash</option><option value="maya">Maya</option></select></label>
   <label class="field">Transaction reference<input id="paymentReference" type="text" minlength="5" maxlength="100" required autocomplete="off" placeholder="Reference from GCash or Maya" /></label>
