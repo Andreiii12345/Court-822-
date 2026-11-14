@@ -306,6 +306,8 @@
       return;
     }
 
+    const verifiedAmount = checkout.status === "confirmed" ? data.reduce((sum,p) => sum + (p.status === "verified" ? Number(p.amount || 0) : 0), 0) : 0;
+
     for (const payment of data) {
       const detail = el("div");
 
@@ -528,15 +530,51 @@
             }
           });
           actions.append(approve, reject);
-          detail.append(actions);
           if (UNPAID_TEST_CHECKOUTS.has(checkout.checkout_id)) {
-            detail.append(el("p", "Approval disabled: this checkout was explicitly identified as an unpaid test submission.", "owner-error"));
+            const preview = el("button", "Send Team QR Preview", "btn secondary");
+            preview.type = "button";
+            preview.title = "Email two non-admission QR previews to the signed-in owner";
+            preview.addEventListener("click", async () => {
+              if (state.busy) return;
+              if (!window.confirm("Send two non-admission QR previews to your owner email? This does not approve payment or email registered players.")) return;
+              state.busy = true;
+              preview.disabled = true;
+              try {
+                await requireOwner();
+                const {data: result, error: invokeError} = await courtDb.functions.invoke(
+                  "court822-qr-preview", {body: {action: "preview_team_qrs"}}
+                );
+                if (invokeError) {
+                  let detail = invokeError.message;
+                  if (invokeError.context instanceof Response) {
+                    const body = await invokeError.context.clone().json().catch(() => null);
+                    detail = body?.error || detail;
+                  }
+                  throw new Error(detail || "QR preview failed");
+                }
+                if (result?.success !== true || result?.production_records_modified !== false ||
+                    result?.check_in_valid !== false) {
+                  throw new Error("Unexpected QR preview response; verify function configuration");
+                }
+                message("QR preview accepted " + Number(result.emails_accepted || 0) +
+                  " email(s) for the owner inbox. Payment and team statuses remain unchanged.");
+              } catch (err) {
+                message("QR preview failed: " + (err.message || "Unknown error"), true);
+              } finally {
+                state.busy = false;
+                preview.disabled = false;
+              }
+            });
+            actions.append(preview);
+            detail.append(el("p", "This unpaid submission cannot be marked as received. QR previews are sent only to the owner inbox and cannot be used for check-in.", "muted"));
           }
+          detail.append(actions);
         }
       }
 
       card.append(detail);
     }
+    return verifiedAmount;
   }
 
   async function refresh() {
@@ -590,20 +628,16 @@
         x => x.status === "confirmed"
       ).length;
 
-      const total = data.reduce(
-        (sum, x) =>
-          sum + Number(x.total_amount || 0),
-        0
-      );
+      // Financial total is based on actual verified payment records,
+      // not checkout quotations or pending receipts.
+      $("paymentAwaiting").textContent = awaiting;
+      $("paymentConfirmed").textContent = confirmed;
+      $("paymentTotal").textContent = "Loading verified payments...";
 
-      $("paymentAwaiting").textContent =
-        awaiting;
-
-      $("paymentConfirmed").textContent =
-        confirmed;
-
-      $("paymentTotal").textContent =
-        money(total);
+      const { data: hiddenIds, error: hiddenError } = await courtDb.rpc("court822_owner_hidden_expired_checkouts_v1");
+      if (hiddenError) throw hiddenError;
+      const hidden = new Set(Array.isArray(hiddenIds) ? hiddenIds : []);
+      let verifiedTotal = 0;
 
       let teamsByCheckout = new Map();
       let teamLoadError = null;
@@ -619,6 +653,7 @@
       list.replaceChildren();
 
       for (const checkout of data) {
+        if (checkout.status === "expired" && hidden.has(checkout.checkout_id)) continue;
         const card = el(
           "article",
           "",
@@ -660,10 +695,33 @@
           teamLoadError
         );
 
-        await loadPaymentDetails(
+        const verifiedForCheckout = await loadPaymentDetails(
           checkout,
           card
         );
+        if (Number.isFinite(verifiedForCheckout)) verifiedTotal += verifiedForCheckout;
+
+        if (checkout.status === "expired") {
+          const remove = el("button", "Remove Expired Registration", "btn secondary");
+          remove.type = "button";
+          remove.addEventListener("click", async () => {
+            if (state.busy || !window.confirm("Remove this expired registration from the owner dashboard? The database history will be preserved.")) return;
+            state.busy = true;
+            remove.disabled = true;
+            try {
+              await requireOwner();
+              const {data:result,error} = await courtDb.rpc("court822_owner_hide_expired_checkout_v1", {p_checkout_id:checkout.checkout_id});
+              if (error || result?.success !== true) throw new Error(error?.message || result?.error || "Unable to remove registration");
+              hidden.add(checkout.checkout_id);
+              card.remove();
+              message("Expired registration removed from dashboard. Historical records preserved.");
+            } catch (e) {
+              message("Unable to remove expired registration: " + e.message, true);
+              remove.disabled = false;
+            } finally { state.busy = false; }
+          });
+          card.append(remove);
+        }
 
         card.append(
           el(
@@ -677,6 +735,8 @@
 
         list.append(card);
       }
+
+      $("paymentTotal").textContent = money(verifiedTotal);
 
       if (!data.length) {
         list.append(
