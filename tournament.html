@@ -209,6 +209,13 @@ button:disabled{opacity:.5;cursor:not-allowed}
 </section>
 
 
+<section class="panel" id="resumePaymentPanel">
+ <h2>Existing Registration Payment</h2>
+ <p class="muted">Already submitted your registration? Reopen an eligible unpaid checkout without registering again.</p>
+ <button id="resumePayment" class="button gold" type="button" disabled>Resume Pending Payment</button>
+ <div id="resumePaymentStatus" class="notice review-status" role="status">Checking for your existing checkout...</div>
+</section>
+
 <section class="panel" id="paymentProofPanel" hidden>
  <h2>Step 4 — Submit Payment Proof</h2>
  <p class="muted">Pay only using the official Court 822 payment instructions. Uploading proof does not confirm payment. The owner must independently verify receipt.</p>
@@ -287,6 +294,7 @@ let draftSavedRevision = -1;
 let submitBusy = false;
 let paymentBusy = false;
 let activePaymentCheckout = null;
+let resumePaymentBusy = false;
 // Enable only after backend reservation and payment tests pass.
 const COURT822_SUBMISSION_UI_ENABLED = true;
 
@@ -350,6 +358,8 @@ async function requireLogin(){
 /* QUOTATION AND DRAFT STATE */
 
 function updateButtons(){
+  $('resumePayment').disabled = resumePaymentBusy || !signedInUser || !tournament;
+  $('resumePayment').textContent = resumePaymentBusy ? 'Checking checkout...' : 'Resume Pending Payment';
   const canSubmit = COURT822_SUBMISSION_UI_ENABLED &&
     tournament?.title?.trim().toLowerCase() === 'system test' &&
     !!signedInUser && !!activeDraftRequestId &&
@@ -1309,6 +1319,71 @@ async function submitRegistration(){
   }
 }
 
+/* RESUME EXISTING CHECKOUT — authenticated captain, current tournament only. */
+function showEligiblePaymentCheckout(checkout){
+  if(!checkout || checkout.created_by !== signedInUser?.id ||
+     checkout.tournament_id !== tournament?.id ||
+     checkout.status !== 'pending_payment' ||
+     !Number.isFinite(Number(checkout.total_amount)) || Number(checkout.total_amount) <= 0 ||
+     !checkout.payment_due_at || Date.parse(checkout.payment_due_at) <= Date.now()){
+    return false;
+  }
+  activePaymentCheckout = {
+    id: checkout.id,
+    total: Number(checkout.total_amount),
+    due: checkout.payment_due_at
+  };
+  $('paymentAmount').textContent = peso(activePaymentCheckout.total);
+  $('paymentDeadline').textContent = new Date(activePaymentCheckout.due).toLocaleString('en-PH');
+  $('paymentProofPanel').hidden = false;
+  $('paymentProofForm').hidden = false;
+  setStatus('paymentProofStatus', 'Payment proof has not been submitted. Pay only to the verified Court 822 receiving account before the deadline.');
+  return true;
+}
+
+async function resumePendingPayment(scrollToPayment = true){
+  if(resumePaymentBusy || !signedInUser || !tournament) return;
+  resumePaymentBusy = true;
+  updateButtons();
+  setStatus('resumePaymentStatus', 'Checking your existing registration...');
+  try{
+    const {data:auth,error:authError} = await courtDb.auth.getUser();
+    if(authError || auth?.user?.id !== signedInUser.id) throw new Error('Please sign in again.');
+    // Uses the logged-in user's RLS permissions; never uses a service-role key.
+    const {data,error} = await courtDb.from('tournament_checkouts')
+      .select('id,created_by,tournament_id,status,total_amount,payment_due_at,created_at')
+      .eq('created_by', signedInUser.id)
+      .eq('tournament_id', tournament.id)
+      .eq('status', 'pending_payment')
+      .gt('payment_due_at', new Date().toISOString())
+      .order('created_at', {ascending:false})
+      .limit(10);
+    if(error) throw error;
+    const checkout = (data || []).find(x =>
+      x.created_by === signedInUser.id && x.tournament_id === tournament.id &&
+      x.status === 'pending_payment' && Date.parse(x.payment_due_at) > Date.now()
+    );
+    if(!checkout || !showEligiblePaymentCheckout(checkout)){
+      activePaymentCheckout = null;
+      $('paymentProofPanel').hidden = true;
+      setStatus('resumePaymentStatus', 'No active unpaid checkout found for this tournament. If you recently paid, contact Court 822 for verification.');
+      return;
+    }
+    setStatus('resumePaymentStatus',
+      `Existing checkout restored: ${checkout.id}\nAmount: ${peso(checkout.total_amount)}\nDeadline: ${new Date(checkout.payment_due_at).toLocaleString('en-PH')}`,
+      'success');
+    if(scrollToPayment) $('paymentProofPanel').scrollIntoView({behavior:'smooth',block:'start'});
+  }catch(error){
+    console.error('Resume payment:',error);
+    setStatus('resumePaymentStatus',
+      'Unable to load your checkout. Your account may not have permission to read checkout records; contact Court 822 instead of registering again.',
+      'error');
+  }finally{
+    resumePaymentBusy = false;
+    updateButtons();
+  }
+}
+
 /* RESTORE DRAFT */
 
 function restoreDraftForm(draftData){
@@ -1575,6 +1650,7 @@ async function loadTournament(){
    'Payment proof is available only after a successful, eligible registration, before its deadline.';
 
   updateButtons();
+  await resumePendingPayment(false);
 
  }catch(error){
   console.error('Tournament loading:',error);
@@ -1603,6 +1679,7 @@ $('saveDraft').addEventListener(
 );
 
 $('checkout').addEventListener('click',submitRegistration);
+$('resumePayment').addEventListener('click',()=>resumePendingPayment(true));
 
 $('resumeDraft').addEventListener(
  'click',
@@ -1615,7 +1692,17 @@ $('paymentProofForm').addEventListener('submit',async event=>{
   event.preventDefault();
   if(paymentBusy || !activePaymentCheckout) return;
   const checkout=activePaymentCheckout;
-  if(Date.now() >= Date.parse(checkout.due)){
+   // Re-read the checkout before uploading. The RPC also enforces the deadline.
+   const {data:current,error:checkoutError} = await courtDb.from('tournament_checkouts')
+     .select('id,created_by,tournament_id,status,total_amount,payment_due_at')
+     .eq('id',checkout.id).eq('created_by',signedInUser.id).maybeSingle();
+   if(checkoutError || !current || current.status !== 'pending_payment' ||
+      current.tournament_id !== tournament?.id ||
+      Date.parse(current.payment_due_at) <= Date.now()){
+     setStatus('paymentProofStatus','Checkout is no longer accepting payment. Do not send money or upload proof.','error');
+     return;
+   }
+   if(Date.now() >= Date.parse(checkout.due)){
     setStatus('paymentProofStatus','Payment deadline has expired. Contact Court 822; do not send payment.','error');return;
   }
   const method=$('paymentMethod').value;
