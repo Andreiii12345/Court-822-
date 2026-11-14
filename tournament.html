@@ -250,6 +250,9 @@ let activeDraftRequestId = null;
 let draftBusy = false;
 let formDirty = false;
 let draftSavedRevision = -1;
+let submitBusy = false;
+// Enable only after backend reservation and payment tests pass.
+const COURT822_SUBMISSION_UI_ENABLED = false;
 
 const players = [];
 const teams = [];
@@ -1213,6 +1216,44 @@ async function saveRegistrationDraft(){
  }
 }
 
+/* SUBMIT REGISTRATION — backend remains feature-gated. */
+async function submitRegistration(){
+  if(!COURT822_SUBMISSION_UI_ENABLED){
+    setStatus('draftStatus','Official registration is not yet enabled. Your saved draft is safe.','error');
+    return;
+  }
+  if(submitBusy || draftBusy || quoteBusy || !signedInUser || !tournament) return;
+  if(!activeDraftRequestId || formDirty || draftSavedRevision!==formRevision ||
+     !officialQuote || !lastLocalValid || !$('captainAgreement').checked){
+    setStatus('draftStatus','Review and save your latest registration with the agreement first.','error');
+    return;
+  }
+  if(!confirm('Submit this registration? Slots and payment instructions are provided only after server confirmation.')) return;
+  submitBusy=true;
+  updateButtons();
+  setStatus('draftStatus','Submitting your saved registration securely...');
+  try{
+    const {data,error}=await courtDb.functions.invoke('court822-checkout',{
+      body:{action:'submit_registration',request_id:activeDraftRequestId,captain_consent:true}
+    });
+    if(error){
+      let message=data?.error || error.message;
+      if(error.context instanceof Response){
+        const details=await error.context.clone().json().catch(()=>null);
+        message=details?.error || message;
+      }
+      throw new Error(message);
+    }
+    if(data?.success!==true || !data.checkout_id) throw new Error(data?.error||'Submission was not confirmed by the server.');
+    setStatus('draftStatus',`Registration received. Checkout: ${data.checkout_id}. Status: ${data.status}. Payment is ${data.payment_enabled?'available':'not yet enabled'}.`,'success');
+  }catch(error){
+    setStatus('draftStatus',error.message||'Registration could not be submitted.','error');
+  }finally{
+    submitBusy=false;
+    updateButtons();
+  }
+}
+
 /* RESTORE DRAFT */
 
 function restoreDraftForm(draftData){
@@ -1505,6 +1546,8 @@ $('saveDraft').addEventListener(
  'click',
  saveRegistrationDraft
 );
+
+$('checkout').addEventListener('click',submitRegistration);
 
 $('resumeDraft').addEventListener(
  'click',
