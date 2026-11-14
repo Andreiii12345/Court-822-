@@ -1,10 +1,10 @@
  
 /*
-  COURT 822 V3
+  COURT 822 V4
   TOURNAMENT OWNER DASHBOARD
 
   Checkpoint 3:
-  Captain Registration + Owner Verification
+  Captain-authorized registration overview
 
   Payment verification: DISABLED
   QR generation: DISABLED
@@ -199,7 +199,7 @@
 
       setMessage(
         `${data.length} checkout(s) loaded. ` +
-        "Payment verification is disabled."
+        "Payment verification is managed in the Payment Verification tab (read-only until activated)."
       );
 
     } catch (error) {
@@ -227,12 +227,12 @@
 
     $("tournamentPendingCount").textContent =
       checkouts.filter(
-        c => c.owner_review_status === "pending"
+        c => ["pending_payment", "pending_verification"].includes(c.status)
       ).length;
 
     $("tournamentApprovedCount").textContent =
       checkouts.filter(
-        c => c.owner_review_status === "approved"
+        c => c.status === "confirmed"
       ).length;
 
     if (!checkouts.length) {
@@ -272,8 +272,8 @@
     const status = make(
       "span",
       "review-status " +
-      (checkout.owner_review_status || "pending"),
-      checkout.owner_review_status || "pending"
+      (checkout.status || "draft"),
+      checkout.status || "draft"
     );
 
     header.append(heading, status);
@@ -292,8 +292,8 @@
     details.append(
       info("Checkout Status", checkout.status),
       info(
-        "Owner Review",
-        checkout.owner_review_status
+        "Payment Stage",
+        checkout.status
       ),
       info(
         "Combined Total",
@@ -349,56 +349,7 @@
       "tournament-actions"
     );
 
-    const canReview =
-      checkout.status === "draft" &&
-      checkout.owner_review_status === "pending" &&
-      checkout.captain_consent_confirmed === true &&
-      teams.length > 0;
-
-    if (canReview) {
-      const approve = make(
-        "button",
-        "btn",
-        "Approve Registration Details"
-      );
-
-      approve.type = "button";
-
-      approve.onclick = () => reviewCheckout(
-        checkout.checkout_id,
-        "approved"
-      );
-
-      const reject = make(
-        "button",
-        "btn danger",
-        "Reject Registration Details"
-      );
-
-      reject.type = "button";
-
-      reject.onclick = () => reviewCheckout(
-        checkout.checkout_id,
-        "rejected"
-      );
-
-      actions.append(approve, reject);
-
-    } else {
-      let label = "Not eligible for review";
-
-      if (checkout.owner_review_status === "approved") {
-        label = "Registration Details Reviewed";
-      }
-
-      if (checkout.owner_review_status === "rejected") {
-        label = "Registration Details Rejected";
-      }
-
-      actions.append(
-        make("span", "review-status", label)
-      );
-    }
+    actions.append(make("span", "review-status", "No owner pre-payment approval required"));
 
     card.append(actions);
 
@@ -406,96 +357,11 @@
       make(
         "p",
         "muted",
-        "Owner review does not verify payment, " +
-        "confirm the checkout, reserve slots, " +
-        "or generate team QR codes."
+        "Owner verifies actual payment receipt in the Payment Verification workflow. QR codes are issued only after verified payment."
       )
     );
 
     return card;
-  }
-
-  async function reviewCheckout(checkoutId, decision) {
-    if (state.busy || state.loading) return;
-
-    const checkout = state.checkouts.find(
-      c => c.checkout_id === checkoutId
-    );
-
-    if (!checkout) return;
-
-    if (
-      checkout.status !== "draft" ||
-      checkout.owner_review_status !== "pending"
-    ) {
-      setMessage(
-        "This checkout is not awaiting review.",
-        true
-      );
-      return;
-    }
-
-    const action =
-      decision === "approved" ? "approve" : "reject";
-
-    const confirmed = window.confirm(
-      `Do you want to ${action} this registration?\n\n` +
-      "This action reviews registration details only.\n" +
-      "It does not verify payment or confirm a team."
-    );
-
-    if (!confirmed) return;
-
-    const notes = window.prompt(
-      "Enter review notes:",
-      "System Test registration reviewed."
-    );
-
-    if (notes === null) return;
-
-    if (notes.length > 2000) {
-      setMessage(
-        "Review notes must be 2000 characters or fewer.",
-        true
-      );
-      return;
-    }
-
-    state.busy = true;
-    setMessage("Saving owner review...");
-
-    try {
-      await requireOwner();
-
-      const { data, error } = await courtDb.rpc(
-        "court822_owner_review_checkout",
-        {
-          p_checkout_id: checkoutId,
-          p_decision: decision,
-          p_notes: notes
-        }
-      );
-
-      if (error) throw error;
-
-      if (!data?.success) {
-        throw new Error("Owner review failed.");
-      }
-
-      setMessage(
-        `Registration details ${decision}. ` +
-        "Payment remains unverified."
-      );
-
-    } catch (error) {
-      console.error("Owner review error:", error);
-      setMessage(error.message, true);
-
-    } finally {
-      state.busy = false;
-    }
-
-    await loadRegistrations();
   }
 
   function setup() {
