@@ -495,6 +495,7 @@ function addPlayer(data={}){
   gender:data.gender||'',
   email:data.email||'',
   phone:data.phone||'',
+  club_name:data.club_name||'',
   sizes:{...(data.sizes||{})}
  };
 
@@ -570,6 +571,22 @@ function renderPlayers(){
    wrapper.append(input);
    grid.append(wrapper);
   }
+
+  // Club affiliation is specific to this tournament registration.
+  const clubWrap = document.createElement('label');
+  clubWrap.className = 'field';
+  clubWrap.textContent = 'Club Name (optional)';
+  const clubInput = document.createElement('input');
+  clubInput.type = 'text';
+  clubInput.maxLength = 100;
+  clubInput.placeholder = 'Independent / No club';
+  clubInput.value = p.club_name || '';
+  clubInput.addEventListener('input', () => {
+    p.club_name = clubInput.value;
+    calculate();
+  });
+  clubWrap.append(clubInput);
+  grid.append(clubWrap);
 
   const genderWrap = document.createElement('label');
   genderWrap.className = 'field';
@@ -1122,6 +1139,7 @@ function buildDraftSnapshot(){
    name:p.name.trim(),
    email:p.email.trim().toLowerCase(),
    phone:p.phone.trim(),
+   club_name:(p.club_name||'').trim(),
    gender:p.gender,
    sizes:{...p.sizes}
   }));
@@ -1413,6 +1431,7 @@ function restoreDraftForm(draftData){
   name:p.name,
   email:p.email,
   phone:p.phone||'',
+  club_name:p.club_name||'',
   gender:p.gender,
   sizes:{...(p.sizes||{})}
  }));
