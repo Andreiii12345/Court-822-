@@ -1,0 +1,49 @@
+/* COURT822 CLUBHOUSE | Visual layer only. No business logic or assets changed. */
+:root{--green:#17392f;--green2:#285646;--cream:#f6f3ec;--white:#fffefa;--gold:#b99560;--soft:#e9eee8;--line:#e1e2d8;--text:#19362d;--muted:#65776d;--shadow:0 18px 48px rgba(18,49,38,.075)}
+html{scroll-behavior:smooth}body{background:#f6f3ec;color:#19362d;-webkit-font-smoothing:antialiased}body::selection{background:#d9c39c;color:#17392f}
+:where(h1,h2,h3){letter-spacing:-.025em}:where(p){line-height:1.65}
+:where(.navbar,.nav){box-shadow:0 1px 0 rgba(24,59,47,.05);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+:where(.brand,.brand822){transition:transform .2s ease}:where(.brand,.brand822):hover{transform:translateY(-1px)}
+:where(.btn,.button,.btn822,button){transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease,border-color .2s ease}
+:where(.btn,.button,.btn822):not(:disabled):hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(18,49,38,.15)}
+:where(.btn,.button,.btn822):not(:disabled):active{transform:translateY(0)}
+:where(button,a,input,select,textarea):focus-visible{outline:3px solid #c49d62;outline-offset:3px}
+:where(input,select,textarea){accent-color:#285646}
+:where(input:not([type=checkbox]):not([type=radio]),select,textarea){transition:border-color .18s ease,box-shadow .18s ease;background-color:#fffefa}
+:where(input:not([type=checkbox]):not([type=radio]),select,textarea):focus{border-color:#9e8458!important;box-shadow:0 0 0 3px rgba(185,149,96,.16)}
+:where(.panel,.card,.item,.review-card){box-shadow:0 4px 20px rgba(20,53,41,.035);transition:box-shadow .25s ease,border-color .25s ease}
+:where(.panel,.card,.review-card){border-color:#e2e4db!important}
+:where(.panel,.card):hover{box-shadow:0 12px 30px rgba(20,53,41,.07)}
+:where(.muted,small){line-height:1.6}
+:where(.announcement,.top){letter-spacing:.19em;text-transform:uppercase}
+:where(.summary){background:linear-gradient(135deg,#16392e,#245044)!important;border:1px solid rgba(197,161,93,.26);box-shadow:0 18px 36px rgba(21,54,42,.14)}
+:where(.status,.notice,.dash-note){border:1px solid rgba(35,78,57,.07)}
+:where(.hero){position:relative;isolation:isolate;overflow:hidden}
+:where(.hero)::after{content:"";position:absolute;pointer-events:none;right:-65px;bottom:-130px;width:340px;height:520px;opacity:.12;border:2px solid #d6b985;border-radius:50%;transform:rotate(24deg);z-index:-1}
+:where(.hero) h1{letter-spacing:-.055em;line-height:1.05}
+:where(.owner-sidebar button){border-radius:10px}
+:where(table){border-collapse:separate;border-spacing:0}
+:where(th){letter-spacing:.045em}
+:where(td,th){vertical-align:middle}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+@media(max-width:700px){:where(.nav,.navbar){padding-left:16px;padding-right:16px}:where(.panel,.card){border-radius:15px}:where(.actions){gap:9px}}
+/* Page-specific visual polish, added after each page's existing inline CSS. */
+body:has(#tournamentName) .wrap{max-width:1040px}
+body:has(#tournamentName) .hero{padding:42px clamp(24px,5vw,58px);border-radius:22px;background:linear-gradient(135deg,#16382e 0%,#234c3f 100%);box-shadow:0 20px 48px rgba(19,54,42,.16)}
+body:has(#tournamentName) .hero h1{font-size:clamp(35px,5vw,62px)}
+body:has(#tournamentName) .panel{padding:clamp(20px,3vw,32px);border-radius:19px;margin:22px 0}
+body:has(#tournamentName) .panel h2{font-size:clamp(24px,3vw,32px);margin-bottom:18px}
+body:has(#tournamentName) .item{border-radius:15px;background:#faf9f5;border-color:#e4e1d7}
+body:has(#tournamentName) .field input,body:has(#tournamentName) .field select{border-radius:11px;min-height:46px}
+body:has(#tournamentName) .button{border-radius:11px;padding:13px 19px}
+body:has(#tournamentName) .notice{border-radius:12px}
+body:has(#tournamentName) .summary{border-radius:17px}
+body:has(#tournamentName) .payment-qr-card{border-radius:15px}
+body.owner-body .owner-sidebar{border-radius:16px}
+body.owner-body .card,body.owner-body .panel{border-radius:16px}
+body.owner-body .dash-grid .card{border-top:3px solid #b99560}
+body.owner-body .review-card .team{border-radius:12px!important;background:#faf9f5}
+body.owner-body .owner-table-wrap{border-radius:12px}
+body:has(.brand822) .hero{background:linear-gradient(135deg,#17392f,#285344);border-radius:0 0 25px 25px}
+body:has(.brand822) .hero h1{letter-spacing:-.055em}
+body:has(.brand822) .btn822{border-radius:11px}
