@@ -425,23 +425,14 @@
           actions.className = "actions";
           const paymentId = payment.payment_id || payment.id;
 
-          const approve = el("button", "Approve Payment", "btn");
+          // Clicking this button is the owner's explicit declaration that funds arrived.
+          // The server still independently enforces owner access and checkout eligibility.
+          const approve = el("button", "Approve Payment — Funds Received", "btn");
           approve.type = "button";
           approve.disabled = !VERIFY_UI_ENABLED;
-          approve.title = "Approve only after independently confirming the received funds and matching transaction reference";
+          approve.title = "Use only after checking the receiving account and confirming the payment was received";
           approve.addEventListener("click", async () => {
             if (!VERIFY_UI_ENABLED || state.busy || !paymentId) return;
-            const confirmedReference = window.prompt(
-              "Check your actual GCash/Maya receiving account. If the full " +
-              money(payment.amount) + " arrived, type the exact transaction reference shown in the RECEIVING account to approve. Cancel otherwise."
-            );
-            if (confirmedReference === null) return;
-            if (!payment.reference_number ||
-                confirmedReference.trim() !== String(payment.reference_number).trim()) {
-              message("Reference does not match the submitted payment. Approval cancelled.", true);
-              return;
-            }
-            if (!window.confirm("FINAL CONFIRMATION: You independently verified actual funds received. Approve payment and issue live admission QR codes to both players on each team?")) return;
             state.busy = true;
             approve.disabled = true;
             reject.disabled = true;
@@ -677,7 +668,7 @@
           el(
             "p",
             VERIFY_UI_ENABLED
-              ? "Payment actions require independent receipt confirmation."
+              ? "Approve only after checking that the payment arrived in the receiving account. Clicking Approve confirms receipt; no reference re-entry is required."
               : "Payment verification and QR issuance remain locked pending tests.",
             "muted"
           )
