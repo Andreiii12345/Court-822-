@@ -361,7 +361,6 @@ function updateButtons(){
   $('resumePayment').disabled = resumePaymentBusy || !signedInUser || !tournament;
   $('resumePayment').textContent = resumePaymentBusy ? 'Checking checkout...' : 'Resume Pending Payment';
   const canSubmit = COURT822_SUBMISSION_UI_ENABLED &&
-    tournament?.title?.trim().toLowerCase() === 'system test' &&
     !!signedInUser && !!activeDraftRequestId &&
     !submitBusy && !draftBusy && !quoteBusy &&
     !formDirty && draftSavedRevision === formRevision &&
@@ -371,7 +370,7 @@ function updateButtons(){
   $('checkout').textContent = submitBusy
     ? 'Submitting registration...'
     : COURT822_SUBMISSION_UI_ENABLED
-      ? 'Submit Registration — System Test Only'
+      ? 'Submit Registration'
       : 'Submit Registration — Awaiting Backend Activation';
  $('reviewRegistration').disabled =
   quoteBusy || draftBusy || !lastLocalValid ||
@@ -1275,7 +1274,7 @@ async function saveRegistrationDraft(){
  }
 }
 
-/* SUBMIT REGISTRATION — backend remains feature-gated. */
+/* SUBMIT REGISTRATION — backend validates eligibility and capacity. */
 async function submitRegistration(){
   if(!COURT822_SUBMISSION_UI_ENABLED){
     setStatus('draftStatus','Official registration is not yet enabled. Your saved draft is safe.','error');
@@ -1611,7 +1610,7 @@ async function loadTournament(){
     ? 'Registration coming soon'
     : closes!==null && now>closes
      ? 'Registration closed'
-     : 'Tournament registration — System Test only';
+     : 'Tournament registration is open';
 
   const {data:list,error:ce} = await courtDb
    .from('tournament_categories')
@@ -1646,7 +1645,7 @@ async function loadTournament(){
 
   $('pageStatus').textContent =
    'Tournament loaded. Review Registration is available '+
-   'for eligible teams. Draft saving is available for System Test. '+
+   'for eligible teams. Draft saving is available for eligible tournaments. '+
    'Payment proof is available only after a successful, eligible registration, before its deadline.';
 
   updateButtons();
