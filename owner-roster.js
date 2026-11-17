@@ -2,6 +2,9 @@
 'use strict';
 const $=id=>document.getElementById(id);
 let all=[],approvedVisible=[],busy=false;
+let clubMap=new Map();
+const clubKey=(team,email)=>String(team||'')+'|'+String(email||'').trim().toLowerCase();
+const clubFor=(team,email)=>clubMap.get(clubKey(team,email))||'Independent';
 const money=n=>new Intl.NumberFormat('en-PH',{style:'currency',currency:'PHP'}).format(Number(n||0));
 const note=s=>{if($('rosterMessage'))$('rosterMessage').textContent=s};
 const normalized=s=>String(s??'').toLowerCase();
@@ -21,7 +24,7 @@ function getPlayers(t){
 }
 function makeRow(t,i){
   const [a,b]=getPlayers(t),ps=Array.isArray(t.players)?t.players:[];
-  return [i+1,t.category_name||'',t.team_id||'',a?.name||'Not recorded',b?.name||'Not recorded',a?.email||'',b?.email||'',Number(a?.fee||0),Number(b?.fee||0),ps.reduce((n,p)=>n+Number(p.fee||0),0),[a?.entry_type||'N/A',b?.entry_type||'N/A'].join(' / '),t.checkout_status||'',t.owner_review_status||'',t.team_status||''];
+  return [i+1,t.category_name||'',t.team_id||'',a?.name||'Not recorded',b?.name||'Not recorded',clubFor(t.team_id,a?.email),clubFor(t.team_id,b?.email),a?.email||'',b?.email||'',Number(a?.fee||0),Number(b?.fee||0),ps.reduce((n,p)=>n+Number(p.fee||0),0),[a?.entry_type||'N/A',b?.entry_type||'N/A'].join(' / '),t.checkout_status||'',t.owner_review_status||'',t.team_status||''];
 }
 function addCells(body,values,moneyCols=[]){
   const tr=document.createElement('tr');
@@ -35,11 +38,11 @@ function render(){
     [t.team_id,t.category_name,...(t.players||[]).flatMap(p=>[p.name,p.email])].join(' ').toLowerCase().includes(query));
   approvedVisible=approvedTeams.map(makeRow);
   const body=$('rosterRows');body.replaceChildren();
-  for(const row of approvedVisible)addCells(body,row,[7,8,9]);
-  if(!approvedVisible.length)emptyRow(body,14,'No approved and paid teams match these filters.');
+  for(const row of approvedVisible)addCells(body,row,[9,10,11]);
+  if(!approvedVisible.length)emptyRow(body,16,'No approved and paid teams match these filters.');
   $('rosterTeamCount').textContent=approvedVisible.length;
   $('rosterPlayerCount').textContent=approvedVisible.reduce((n,r)=>n+Number(r[3]!=='Not recorded')+Number(r[4]!=='Not recorded'),0);
-  $('rosterFeeTotal').textContent=money(approvedVisible.reduce((n,r)=>n+r[9],0));
+  $('rosterFeeTotal').textContent=money(approvedVisible.reduce((n,r)=>n+r[11],0));
   const pendingTeams=all.filter(pending).filter(t=>(!cat||t.category_id===cat)&&
     [t.team_id,t.category_name,...(t.players||[]).flatMap(p=>[p.name,p.email])].join(' ').toLowerCase().includes(query));
   const pendingBody=$('pendingRosterRows');pendingBody.replaceChildren();
@@ -54,6 +57,9 @@ async function load(){
   try{
     const {data,error}=await courtDb.rpc('court822_owner_get_team_roster',{p_tournament_id:$('rosterTournament').value});
     if(error)throw error;if(!Array.isArray(data))throw Error('Unexpected roster response');
+    const {data:clubs,error:clubsError}=await courtDb.rpc('court822_owner_roster_clubs', {p_tournament_id:$('rosterTournament').value});
+    if(clubsError)throw clubsError;
+    clubMap=new Map((clubs||[]).map(c=>[clubKey(c.team_id,c.player_email),c.club_name||'Independent']));
     all=data;
     const sel=$('rosterCategory'),prev=sel.value;sel.replaceChildren(new Option('All categories',''));
     const cats=new Map(all.map(t=>[t.category_id,t.category_name]));
@@ -65,7 +71,7 @@ async function load(){
 function csvCell(value){let s=String(value??'');if(/^[\s]*[=+\-@]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'}
 function exportCsv(){
   if(!approvedVisible.length){note('No approved players to export.');return}
-  const header=['#','Category','Team ID','Player 1','Player 2','Player 1 Email','Player 2 Email','Player 1 Fee','Player 2 Fee','Team Total','Entry Types','Checkout Status','Owner Review','Team Status'];
+  const header=['#','Category','Team ID','Player 1','Player 2','Player 1 Club','Player 2 Club','Player 1 Email','Player 2 Email','Player 1 Fee','Player 2 Fee','Team Total','Entry Types','Checkout Status','Owner Review','Team Status'];
   const content='\uFEFF'+[header,...approvedVisible].map(row=>row.map(csvCell).join(',')).join('\r\n');
   const url=URL.createObjectURL(new Blob([content],{type:'text/csv;charset=utf-8'}));
   const a=document.createElement('a');a.href=url;a.download='Court822_Approved_Roster_'+new Date().toISOString().slice(0,10)+'.csv';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);note('Approved roster CSV exported.');

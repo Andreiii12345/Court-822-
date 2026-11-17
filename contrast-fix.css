@@ -1,0 +1,31 @@
+/* COURT822 readable typography and controls, visual-only accessibility patch. */
+:root{--text:#17352b;--muted:#4d6258;--gold:#b99560}
+body{color:#17352b}
+/* Pale cards, forms, tables: dark foreground, not inherited white text. */
+:where(.panel,.card,.item,.review-card,.modal-card,.setting-row,.payment-qr-card,.owner-tab,.owner-shell) {color:#17352b}
+:where(.panel,.card,.item,.review-card,.modal-card,.setting-row) :where(p,li,span,small,label,dt,th){color:inherit}
+:where(.muted,.helper,.field>label,.form-grid>label,.owner-heading p,.page-heading p,.section-title p){color:#4d6258}
+:where(input:not([type=checkbox]):not([type=radio]),select,textarea){color:#17352b!important;background-color:#fffefa!important;border-color:#b9c5ba}
+:where(input,textarea)::placeholder{color:#62776b!important;opacity:1}
+:where(input,select,textarea):disabled{color:#4b6056!important;background:#e8ede8!important;opacity:1}
+/* Primary, gold, and neutral buttons keep readable text. */
+:where(.btn,.button,.btn822,button).gold,:where(.btn,.button,.btn822,button).gold *{color:#142f25!important}
+:where(.btn,.button,.btn822,button):not(.gold):not(.light):not(.secondary):not(.danger):not(.owner-mobile-toggle):not(.owner-scan-link){color:#fffefa}
+:where(.btn,.button,.btn822,button).secondary,:where(.btn,.button,.btn822,button).light{color:#17352b!important}
+:where(button,.btn,.button):disabled{opacity:.72;cursor:not-allowed}
+/* Explicit dark surfaces. */
+:where(.summary,.owner-sidebar,.court-art){color:#fffefa}
+:where(.summary,.owner-sidebar) :where(p,small,span,dt,label){color:#e2eee6}
+:where(.summary,.owner-sidebar) :where(h1,h2,h3,h4,strong,b,dd){color:#fffefa}
+:where(.summary) .total,:where(.summary) .summary-total b{color:#f2cb8c}
+.owner-sidebar button{color:#e0ece5!important}
+.owner-sidebar button.active,.owner-sidebar button:hover{color:#fffefa!important}
+body:has(#tournamentName) .hero,body:has(.brand822) .hero{color:#fffefa}
+body:has(#tournamentName) .hero :where(h1,h2,h3,p),body:has(.brand822) .hero :where(h1,h2,h3,p){color:#fffefa}
+body:has(#tournamentName) .hero :where(small,.eyebrow){color:#e7c88f}
+/* Preserve semantic alerts and payment/claim statuses. */
+:where(.error,.error-text,.status.unpaid,.status.rejected,.status.cancelled){color:#902d26!important}
+:where(.success,.success-box,.status.confirmed,.status.paid){color:#18583b}
+:where(.status,.badge){font-weight:700}
+:where(a):focus-visible,:where(button):focus-visible{outline:3px solid #a77d3d;outline-offset:3px}
+@media(max-width:700px){:where(.owner-tab,.panel,.card) :where(p,label,span,button){overflow-wrap:anywhere}}
