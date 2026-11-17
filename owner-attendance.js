@@ -1,0 +1,13 @@
+(()=>{'use strict';
+const $=id=>document.getElementById(id);let rows=[],loaded=false;
+function msg(s){$('attendanceMessage').textContent=s;}
+function td(tr,v){const c=document.createElement('td');c.textContent=String(v??'—');tr.append(c);}
+function draw(){const q=$('attendanceSearch').value.trim().toLowerCase();const filtered=rows.filter(r=>[r.category,r.team_id,r.player_name,r.freebie_name].join(' ').toLowerCase().includes(q));const body=$('attendanceRows');body.replaceChildren();const teamIds=new Set();const players=new Set();const claimKeys=new Set();let claimed=0;
+for(const r of filtered){teamIds.add(r.team_id);players.add(r.team_id+':'+r.position);const k=[r.tournament_id,r.player_id,r.freebie_id].join(':');if(r.freebie_id&&!claimKeys.has(k)){claimKeys.add(k);claimed+=Number(r.claimed_quantity)||0;}const tr=document.createElement('tr');[r.category,(r.team_id||'').slice(0,8),r.checked_in_at?new Date(r.checked_in_at).toLocaleString('en-PH',{timeZone:'Asia/Manila'}):'Not checked in',r.player_name,r.identity_status,r.freebie_name||'No active freebie',r.selected_size||'—',r.claimed_quantity??0,r.freebie_id?(Number(r.claimed_quantity)>0?'Claimed':'Unclaimed'):'—'].forEach(v=>td(tr,v));body.append(tr);}
+$('attendanceTeamCount').textContent=teamIds.size;$('attendancePlayerCount').textContent=players.size;$('attendanceClaimCount').textContent=claimed;
+if(!filtered.length){const tr=document.createElement('tr');const c=document.createElement('td');c.colSpan=9;c.textContent='No checked-in records match this selection.';tr.append(c);body.append(tr);}}
+async function refresh(){const id=$('attendanceTournament').value;if(!id){rows=[];draw();msg('Select a tournament.');return;}msg('Loading attendance...');$('attendanceRefresh').disabled=true;try{const {data,error}=await courtDb.rpc('court822_owner_attendance_freebies_v1',{p_tournament_id:id});if(error)throw error;rows=Array.isArray(data)?data:[];draw();msg('Attendance loaded. '+rows.length+' player/freebie rows.');}catch(e){rows=[];draw();msg('Unable to load attendance: '+e.message);}finally{$('attendanceRefresh').disabled=false;}}
+window.addEventListener('court822:tournaments',e=>{const sel=$('attendanceTournament');sel.replaceChildren(new Option('Select tournament',''));for(const t of e.detail||[])sel.add(new Option(t.title,t.id));const primary=(e.detail||[]).find(t=>/battle for novice/i.test(t.title));if(primary)sel.value=primary.id;else if((e.detail||[]).length)sel.value=e.detail[0].id;});
+$('attendanceRefresh').addEventListener('click',refresh);$('attendanceTournament').addEventListener('change',refresh);$('attendanceSearch').addEventListener('input',draw);
+window.addEventListener('court822:attendance',()=>{loaded=true;refresh();});
+})();
