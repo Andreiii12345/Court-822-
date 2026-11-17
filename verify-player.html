@@ -1,16 +1,61 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#19352b"><title>COURT822 | Player Account</title><link rel="icon" href="logo.svg"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="clubhouse-design.css"><style>body{background:#f5f0e8;color:#19352b}.verify-shell{max-width:640px;margin:6vh auto;padding:24px}.verify-card{background:#fffdf9;border:1px solid #ddd3c4;border-radius:20px;padding:clamp(22px,5vw,42px);box-shadow:0 18px 55px #19352b12}.verify-tag{color:#98763d;letter-spacing:.16em;font-size:.75rem;font-weight:700}.verify-card h1{font-size:clamp(2rem,5vw,3rem);line-height:1.08;margin:16px 0}.verify-card p{line-height:1.65}.verify-actions{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0}.verify-actions a,.verify-actions button{padding:13px 18px;border-radius:9px;background:#19352b;color:white;text-decoration:none;border:0;font-weight:700;cursor:pointer}.verify-actions .secondary{background:#efe8dc;color:#19352b}.verify-actions button:disabled{opacity:.5;cursor:not-allowed}.verify-note{font-size:.9rem;color:#53655c}.verify-status{padding:14px;background:#f5f0e8;border-radius:9px;overflow-wrap:anywhere}</style><link rel="stylesheet" href="contrast-fix.css?v=20261117a">
-</head><body><main class="verify-shell"><div class="verify-card"><img src="logo.svg" width="58" height="58" alt="COURT822"><div class="verify-tag">COURT822 / PLAYER ACCOUNT</div><h1>One account.<br>Every tournament.</h1><p>Sign in with the email your captain used to register you. Your team QR remains valid regardless of account-linking status.</p><div id="accountStatus" class="verify-status" role="status">Checking your sign-in status...</div><div class="verify-actions"><a id="loginLink" href="player-login.html">Sign in with 8-digit OTP</a><button id="linkButton" type="button" disabled>Link my registration</button><a class="secondary" href="player-profile.html">My player profile</a></div><p class="verify-note" id="linkNote">Link your verified email to eligible confirmed team registrations. Your in-person identity status is not changed.</p><p class="verify-note">Email verification confirms access to an inbox, not in-person identity. An owner may still check identity at the tournament.</p></div></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script src="config.js"></script><script src="supabase-client.js"></script><script>(async()=>{const status=document.getElementById('accountStatus');const login=document.getElementById('loginLink');login.href='player-login.html?next='+encodeURIComponent('verify-player.html');if(!window.courtDb){status.textContent='Sign-in is currently unavailable.';return}const {data,error}=await courtDb.auth.getUser();if(error||!data?.user){status.textContent='Not signed in. Use your registered email and 8-digit OTP.';return}status.textContent='Signed in as '+(data.user.email||'your account')+'.';login.style.display='none';
-const button=document.getElementById('linkButton');const note=document.getElementById('linkNote');
-button.disabled=false;
-button.addEventListener('click',async()=>{
-  button.disabled=true;button.textContent='Linking...';
-  try {
-    const {data:result,error:linkError}=await courtDb.rpc('court822_link_my_partner_email_v1');
-    if(linkError)throw linkError;
-    if(!result?.success)throw new Error('Account association was not completed');
-    status.textContent='Email account associated. New registrations linked: '+result.new_registrations_linked+'.';
-    note.textContent='Your verified email is associated with eligible registrations. Owner identity verification is still required for check-in and shirt claiming.';
-  } catch(e){status.textContent='Could not link account: '+(e?.message||'Please try again.');}
-  finally{button.disabled=false;button.textContent='Link my registration';}
-});})();</script></body></html>
+</head><body><main class="verify-shell"><div class="verify-card"><img src="logo.svg" width="58" height="58" alt="COURT822"><div class="verify-tag">COURT822 / PLAYER ACCOUNT</div><h1>One account.<br>Every tournament.</h1><p>Sign in with the email your captain used to register you. Your team QR remains valid regardless of account-linking status.</p><div id="accountStatus" class="verify-status" role="status">Checking your sign-in status...</div><div class="verify-actions"><a id="loginLink" href="player-login.html">Sign in with 8-digit OTP</a><button id="linkButton" type="button" disabled>Link my registration</button><a class="secondary" href="player-profile.html">My player profile</a><button class="secondary" id="switchAccount" type="button" hidden>Switch account</button></div><p class="verify-note" id="linkNote">Link your verified email to eligible confirmed team registrations. Your in-person identity status is not changed.</p><p class="verify-note">Email verification confirms access to an inbox, not in-person identity. An owner may still check identity at the tournament.</p></div></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script><script src="config.js"></script><script src="supabase-client.js"></script><script>
+(async () => {
+  'use strict';
+  const status = document.getElementById('accountStatus');
+  const login = document.getElementById('loginLink');
+  const link = document.getElementById('linkButton');
+  const switchButton = document.getElementById('switchAccount');
+  const note = document.getElementById('linkNote');
+  login.href = 'player-login.html?next=' + encodeURIComponent('verify-player.html');
+  if (!window.courtDb) {
+    status.textContent = 'Sign-in is currently unavailable.';
+    return;
+  }
+  const {data: auth, error: authError} = await courtDb.auth.getUser();
+  if (authError || !auth?.user) {
+    status.textContent = 'Not signed in. Use your registered email and 8-digit OTP.';
+    return;
+  }
+  status.textContent = 'Signed in as ' + (auth.user.email || 'your account') + '.';
+  login.hidden = true;
+  login.style.display = 'none';
+  switchButton.hidden = false;
+  switchButton.addEventListener('click', async () => {
+    switchButton.disabled = true;
+    link.disabled = true;
+    status.textContent = 'Signing out...';
+    const {error} = await courtDb.auth.signOut();
+    if (error) {
+      status.textContent = 'Could not sign out: ' + error.message;
+      switchButton.disabled = false;
+      link.disabled = false;
+      return;
+    }
+    location.replace(login.href);
+  });
+  link.disabled = false;
+  link.addEventListener('click', async () => {
+    link.disabled = true;
+    link.textContent = 'Linking...';
+    try {
+      // Step 1: establish the verified-email registration association.
+      const {data: emailResult, error: emailError} = await courtDb.rpc('court822_link_my_partner_email_v1');
+      if (emailError) throw emailError;
+      if (!emailResult?.success) throw new Error('Email association could not be completed.');
+      // Step 2: reuse the existing player ID, without changing in-person identity status.
+      const {data: profileResult, error: profileError} = await courtDb.rpc('court822_link_my_permanent_player_profile');
+      if (profileError) throw profileError;
+      if (!profileResult?.success) throw new Error('Permanent profile association could not be completed.');
+      status.textContent = 'Your player account is linked to your existing profile.';
+      note.textContent = 'Your player profile can be reused for future tournaments. In-person identity verification remains separate and may still be required.';
+    } catch (e) {
+      status.textContent = 'Linking not completed: ' + (e?.message || 'Please try again.');
+    } finally {
+      link.disabled = false;
+      link.textContent = 'Link my registration';
+    }
+  });
+})();
+</script></body></html>
