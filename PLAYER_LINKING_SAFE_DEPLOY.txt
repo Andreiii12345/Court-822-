@@ -1,0 +1,8 @@
+COURT822 V4 - safe player email association stage
+1. Run COURT822_PLAYER_EMAIL_LINKING.sql in Supabase SQL Editor.
+2. Deploy this website package to GitHub Pages.
+3. Test verify-player.html with a signed-in player whose verified email matches an authorized, confirmed and fully paid partner registration.
+4. The button associates the verified email with matching registrations. It DOES NOT update tournament_players.user_id, identity_status, or the owner check-in workflow.
+5. The older court822_link_my_partner_account RPC remains revoked.
+6. The QR dispatch Edge Function is not in this ZIP and was NOT modified. To add a verification link to future QR emails, add a normal https://court822.club/verify-player.html link to its HTML template; do not include QR token or other secrets in that link.
+7. The account-to-player-profile merge and future self-registration UX are separate pending features; do not treat email association as in-person identity verification.
