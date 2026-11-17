@@ -401,17 +401,10 @@ async function loadProfile(){
 
   $('email').value=currentUser.email||'';
 
-  const {data,error}=await courtDb
-   .from('tournament_players')
-   .select(
-    'id,user_id,full_name,email,phone,gender,shirt_size'
-   )
-   .eq('user_id',currentUser.id)
-   .maybeSingle();
-
+  const {data,error}=await courtDb.rpc('court822_my_player_profile_v1');
   if(error)throw error;
 
-  existingProfile=data||null;
+  existingProfile=data?.found ? data : null;
 
   if(existingProfile){
    $('fullName').value=existingProfile.full_name||'';
@@ -473,46 +466,15 @@ $('profileForm').addEventListener('submit',async e=>{
 
   currentUser=authData.user;
 
-  const profile={
-   user_id:currentUser.id,
-   full_name:fullName,
-   email:currentUser.email,
-   phone:phone,
-   gender:gender,
-   shirt_size:shirtSize
-  };
-
-  let result;
-
-  if(existingProfile){
-   // Do not allow the browser to change
-   // identity fields during an update.
-   result=await courtDb
-    .from('tournament_players')
-    .update({
-     full_name:profile.full_name,
-     phone:profile.phone,
-     gender:profile.gender,
-     shirt_size:profile.shirt_size
-    })
-    .eq('user_id',currentUser.id)
-    .select('id')
-    .single();
-  }else{
-   result=await courtDb
-    .from('tournament_players')
-    .insert(profile)
-    .select('id')
-    .single();
-  }
-
-  if(result.error)throw result.error;
-
-  existingProfile={
-   ...(existingProfile||{}),
-   ...profile,
-   id:result.data.id
-  };
+  const {data,error}=await courtDb.rpc('court822_save_my_player_profile_v1',{
+   p_full_name:fullName,
+   p_phone:phone,
+   p_gender:gender,
+   p_shirt_size:shirtSize
+  });
+  if(error)throw error;
+  if(!data?.success)throw new Error('Profile save was not confirmed');
+  existingProfile={id:data.player_id,full_name:fullName,phone,gender,shirt_size:shirtSize,email:currentUser.email};
 
   showStatus(
    'Your player profile has been saved successfully!'
@@ -522,7 +484,7 @@ $('profileForm').addEventListener('submit',async e=>{
   console.error('Profile saving:',error);
 
   showStatus(
-   'Unable to save your profile. Please try again.',
+   error?.message || 'Unable to save your profile. Please try again.',
    true
   );
 
