@@ -92,6 +92,62 @@ body{
 </style>
 <link rel="stylesheet" href="clubhouse-design.css?v=20261116">
 <link rel="stylesheet" href="contrast-fix.css?v=20261117a">
+<style id="court822-login-visual-fix">
+/* Keep the existing 8-digit OTP forms and handlers unchanged. */
+.login-wrap { max-width:520px; margin:30px auto 65px; }
+.login-card { border:1px solid #ded4c5; border-radius:20px; box-shadow:0 14px 34px rgba(18,40,31,.08); }
+.login-head { background:#19352b!important; color:#fffdf9!important; padding:32px 28px 30px; }
+.login-head img { width:76px; height:76px; background:#fffdf9; }
+.login-head small { display:block; color:#d4ac70!important; font-size:12px; letter-spacing:2px; }
+.login-head h1 { color:#fffdf9!important; font-family:Georgia,serif!important; font-size:clamp(31px,7vw,42px)!important; line-height:1.12; margin:13px 0!important; text-shadow:none!important; opacity:1!important; }
+.login-head p { color:#e2ebe5!important; font-size:15px; line-height:1.55; margin:0 auto; max-width:350px; }
+.login-body { padding:30px 28px; }
+.login-body h2 { color:#19352b!important; font-size:clamp(26px,6vw,32px); }
+.login-body .muted { color:#52665a!important; font-size:14px; }
+.login-body .field { color:#19352b; }
+.login-body .field input { min-width:0; max-width:100%; font-size:16px; }
+.login-body .btn { min-height:52px; font-size:15px; }
+@media(max-width:600px) { .login-wrap { margin:18px auto 40px; padding:0 14px; } .login-head { padding:28px 22px; } .login-body { padding:26px 20px; } }
+</style>
+<style id="court822-luxury-login">
+/* Presentation only: existing OTP, form IDs, handlers and redirects are untouched. */
+:root{--pine:#19352b;--pine-dark:#10271f;--champagne:#c6a16b;--ivory:#fffdf8;--line:#e5dac9}
+body{background:radial-gradient(ellipse 75% 40% at 50% 5%,#eae0d0 0%,transparent 90%),#f5f0e8!important;color:var(--pine)}
+.topbar{background:var(--pine-dark);color:#e4c99c;letter-spacing:.28em;font-size:10px;padding:12px}
+.nav{background:rgba(255,253,248,.94);border-bottom:1px solid #e7ddcf;padding:13px max(5%,calc((100vw - 1080px)/2));box-shadow:0 4px 22px rgba(16,39,31,.035)}
+.brand img{width:48px;height:48px}.brand b{font-family:Georgia,serif;font-size:17px;letter-spacing:.14em}.brand small{letter-spacing:.22em}
+.home-link{background:transparent;border:1px solid #d9c7ad;border-radius:999px;padding:11px 21px;font-weight:600;transition:background .2s}
+.home-link:hover{background:#f3ecdf}
+.login-wrap{max-width:550px;margin:48px auto 70px;padding:0 18px}
+.login-card{background:var(--ivory);border:1px solid #dccbb4;border-radius:24px;box-shadow:0 24px 65px rgba(21,46,35,.12),0 3px 8px rgba(21,46,35,.03);overflow:hidden}
+.login-head{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(145deg,#244b3b 0%,#19352b 52%,#10271f 100%)!important;padding:42px 30px 44px!important}
+.login-head:before{content:"";position:absolute;inset:14px;border:1px solid rgba(224,191,135,.32);border-radius:14px;pointer-events:none;z-index:-1}
+.login-head:after{content:"";position:absolute;width:280px;height:280px;border:1px solid rgba(221,187,126,.11);border-radius:50%;right:-160px;top:-170px;pointer-events:none;z-index:-1}
+.login-head img{display:block;margin:0 auto 18px;width:90px;height:90px;border:3px solid #f7f0e5;box-shadow:0 0 0 1px #c6a16b,0 8px 25px rgba(0,0,0,.16);padding:6px;background:#fffdf9}
+.login-head small{font-size:10px!important;letter-spacing:.32em!important;font-weight:700;color:#e3bd83!important}
+.login-head h1{font-family:Georgia,serif!important;font-size:clamp(36px,8vw,48px)!important;line-height:1.08!important;font-weight:400;margin:17px 0 13px!important;color:#fffdf8!important;letter-spacing:-.025em;text-shadow:none!important}
+.head-rule{display:flex;justify-content:center;align-items:center;gap:12px;margin:0 auto 14px;color:#d8b57d}.head-rule span{height:1px;width:42px;background:#b58c57}.head-rule i{font-size:13px;font-style:normal}
+.login-head p{max-width:330px;color:#e4ebe4!important;font-size:14px;line-height:1.7}
+.login-body{padding:36px 37px 39px!important}
+.section-eyebrow{margin:0 0 10px;font-size:10px;letter-spacing:.25em;color:#a77d49;font-weight:700}
+.login-body h2{font-family:Georgia,serif!important;font-weight:400;font-size:clamp(28px,6vw,36px)!important;line-height:1.15;margin:0 0 12px!important;color:#19352b!important}
+.login-body .muted{font-size:14px!important;line-height:1.7;color:#5a6c60!important}
+.field{margin:24px 0 19px!important;font-size:13px;letter-spacing:.015em;color:#213e31!important}
+.field input{height:56px;padding:14px 17px!important;border:1px solid #d7c7b1!important;border-radius:12px!important;background:#fff!important;box-shadow:0 2px 8px rgba(21,46,35,.025);font-family:Arial,sans-serif;font-size:16px!important;letter-spacing:normal}
+.field input::placeholder{color:#849087;opacity:1}
+.field input:focus{outline:2px solid #c6a16b!important;outline-offset:2px;border-color:#b18a55!important}
+.btn{min-height:56px!important;border-radius:12px!important;font-size:15px!important;font-weight:700!important;letter-spacing:.01em;background:var(--pine)!important;box-shadow:0 6px 13px rgba(16,39,31,.1);transition:transform .15s,background .15s}
+.btn:not(:disabled):hover{background:#244c3b!important;transform:translateY(-1px)}
+.btn.light{background:#edf0e9!important;color:#19352b!important;box-shadow:none}
+.btn.light:hover{background:#e3e9e0!important}
+.btn:focus-visible,.home-link:focus-visible{outline:3px solid #c6a16b;outline-offset:3px}
+.message{border:1px solid #d6e2d6;background:#edf4ed!important;color:#244b3b!important}
+.message.error{background:#f8e4e1!important;color:#913c32!important;border-color:#f0c9c3}
+.footer{padding:23px 15px 0}.footer a{text-decoration:none;border-bottom:1px solid #b58c57;padding-bottom:5px;font-size:13px;font-weight:600}
+@media(max-width:600px){.login-wrap{margin:24px auto 46px;padding:0 16px}.login-head{padding:36px 20px 38px!important}.login-head img{width:80px;height:80px}.login-body{padding:30px 24px 32px!important}.login-card{border-radius:20px}.nav{padding:12px 5%}.home-link{padding:10px 15px}}
+@media(max-width:360px){.login-body{padding:25px 18px!important}.login-head h1{font-size:34px!important}.brand b{font-size:14px}.brand img{width:39px;height:39px}}
+@media(prefers-reduced-motion:reduce){.btn,.home-link{transition:none!important}}
+</style>
 </head>
 
 <body>
@@ -111,15 +167,15 @@ body{
 
  <div class="login-head">
   <img src="logo.svg" alt="Court 822">
-  <small>COURT 822 V3</small>
-  <h1>Player Login</h1>
+  <small>COURT 822 <span aria-hidden="true">&nbsp; / &nbsp;</span> PLAYER ACCESS</small>
+  <h1>Player Login</h1><div class="head-rule" aria-hidden="true"><span></span><i>✦</i><span></span></div>
   <p>Register once and access your tournament account anytime.</p>
  </div>
 
  <div class="login-body">
 
   <form id="emailForm">
-   <h2>Welcome, Player!</h2>
+   <p class="section-eyebrow">YOUR COURT AWAITS</p><h2>Welcome, Player!</h2>
    <p class="muted">
     Enter your email address.
     We'll send you an 8-digit verification code.
@@ -137,7 +193,7 @@ body{
   </form>
 
   <form id="otpForm" class="hidden">
-   <h2>Verify Your Email</h2>
+   <p class="section-eyebrow">SECURE ACCESS</p><h2>Verify Your Email</h2>
    <p class="muted">
     Check your email on your phone or another device,
     then enter the code below.
@@ -169,7 +225,7 @@ body{
   </form>
 
   <div id="successPanel" class="hidden">
-   <h2>Welcome to Court 822!</h2>
+   <p class="section-eyebrow">ACCESS CONFIRMED</p><h2>Welcome to Court 822!</h2>
    <div class="message">
     Your account is verified.
     Redirecting to tournaments...
