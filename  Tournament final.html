@@ -1,0 +1,1891 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#19352b">
+<title>Court 822 | Tournament Registration</title>
+<link rel="icon" href="logo.svg">
+<link rel="stylesheet" href="style.css">
+
+<style>
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:#f5f0e8;color:#19352b;font-family:Arial,sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
+.wrap{max-width:1100px;margin:25px auto 90px;padding:0 16px}
+.hero{background:#19352b;color:white;padding:30px;border-radius:20px;margin:20px 0}
+.hero h1{font:clamp(30px,5vw,50px) Georgia,serif;margin:12px 0}
+.hero p{color:#e3e9e4;line-height:1.6}
+.hero small{color:#d4ac70;letter-spacing:2px;font-weight:bold}
+.panel{background:#fffdf9;border:1px solid #e2d9ca;border-radius:16px;padding:24px;margin:18px 0}
+.panel h2{font:26px Georgia,serif;margin:0 0 15px}
+.panel h3{font:21px Georgia,serif;margin:0 0 12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.field{display:block;font-weight:600;font-size:13px;margin:12px 0}
+.field input,.field select{
+ display:block;width:100%;margin-top:7px;padding:12px;
+ border:1px solid #d5cbbd;border-radius:9px;
+ background:white;color:#19352b;font-size:16px
+}
+.field input:disabled,.field select:disabled{background:#e9e9e4;color:#52665a}
+.button{background:#19352b;color:white;border:0;border-radius:9px;padding:13px 18px;font-weight:bold}
+.gold{background:#c4a06b;color:#19352b}
+.light{background:#e6ece7;color:#19352b}
+.danger{background:#f5e3e0;color:#963f35}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.item{border:1px solid #ddd3c4;border-radius:12px;padding:18px;margin:14px 0;background:#faf8f3}
+.item-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.muted{font-size:13px;color:#68766e;line-height:1.6}
+.notice{background:#e6ece7;border-radius:10px;padding:15px;line-height:1.7;white-space:pre-line}
+.error{color:#9b4035;background:#fae8e5}
+.success{background:#e2f0e7;color:#18593a}
+.summary{background:#19352b;color:white;padding:22px;border-radius:15px}
+.summary h2{color:white}
+.line{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #e0d8ca}
+.summary .line{border-bottom:1px solid #426154}
+.total{font-size:22px;font-weight:bold;color:#e4bc7e}
+.status{padding:12px;border-radius:9px;background:#e6ece7;margin:16px 0;font-size:13px}
+.freebie-tag{display:inline-block;background:#e6ece7;color:#19352b;border-radius:7px;padding:6px 10px;font-size:12px}
+.freebie-size{border-top:1px solid #e2d9ca;margin-top:12px;padding-top:12px}
+.review-status{margin-top:16px}
+@media(max-width:700px){
+ .grid{grid-template-columns:1fr}
+ .panel{padding:18px}
+ .hero{padding:24px 20px}
+ .button{min-height:45px}
+ .actions .button{flex:1}
+ .line{font-size:13px}
+}
+
+ .payment-qr-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:18px 0}
+ .payment-qr-card{border:1px solid #d5cbbd;border-radius:12px;padding:16px;background:#faf8f3;text-align:center}
+ .payment-qr-card h3{margin:0 0 8px;font:22px Georgia,serif}
+ .payment-qr-card img{display:block;width:100%;max-width:340px;height:auto;margin:12px auto;background:#fff;border-radius:8px}
+ .payment-qr-card .muted{margin:6px 0}
+ @media(max-width:700px){.payment-qr-grid{grid-template-columns:1fr}}
+</style>
+<link rel="stylesheet" href="clubhouse-design.css?v=20261116">
+<link rel="stylesheet" href="contrast-fix.css?v=20261117a">
+<style id="court822-mobile-layout-fix">
+/* Scoped mobile layout overrides: no registration or OTP logic changes. */
+#captainAgreementPanel, #captainAgreementPanel * { min-width:0; }
+#captainAgreementPanel { width:100%; max-width:100%; overflow-wrap:break-word; }
+#captainAgreementPanel label { display:flex!important; flex-direction:row!important; align-items:flex-start!important; width:100%; gap:12px!important; }
+#captainAgreementPanel label input[type="checkbox"] { width:20px!important; min-width:20px!important; height:20px; flex:0 0 20px; padding:0!important; margin:3px 0 0!important; }
+#captainAgreementPanel label span { display:block; flex:1 1 auto; min-width:0; width:auto!important; white-space:normal; overflow-wrap:break-word; line-height:1.55; }
+#captainAgreementPanel p { width:100%; max-width:100%; white-space:normal; overflow-wrap:break-word; }
+.actions { display:grid!important; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; width:100%; }
+.actions > .button { display:flex; align-items:center; justify-content:center; width:100%; min-width:0; max-width:100%; min-height:58px; padding:12px 14px; text-align:center; white-space:normal; overflow-wrap:normal; word-break:normal; line-height:1.35; font-size:clamp(12px,2.8vw,15px); }
+@media(max-width:380px) { .actions { grid-template-columns:1fr; } .actions > .button { min-height:50px; font-size:14px; } }
+/* COURT822: readable registration actions, scoped to this section only. */
+.registration-actions {
+ display:grid !important;
+ grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+ gap:12px !important;
+ width:100%;
+ align-items:stretch;
+}
+.registration-actions > .button {
+ display:flex !important;
+ align-items:center !important;
+ justify-content:center !important;
+ min-width:0 !important;
+ max-width:100% !important;
+ width:100% !important;
+ height:auto !important;
+ min-height:52px !important;
+ padding:14px 12px !important;
+ font-size:15px !important;
+ line-height:1.35 !important;
+ white-space:normal !important;
+ overflow-wrap:normal !important;
+ word-break:normal !important;
+ text-align:center !important;
+}
+/* Numbered action sequence; pseudo-elements survive dynamic JS text updates. */
+.registration-actions #reviewRegistration {grid-column:1/-1;order:1;}
+.registration-actions #saveDraft {grid-column:1/-1;order:2;}
+.registration-actions #checkout {grid-column:1/-1;order:3;}
+.registration-actions #resumeDraft {grid-column:1/-1;order:4;}
+.registration-actions > .button {position:relative; padding-left:70px !important; justify-content:flex-start !important; text-align:left !important; font-size:16px !important; overflow-wrap:normal !important; word-break:normal !important;}
+.registration-actions > .button::before {position:absolute;left:14px;top:50%;transform:translateY(-50%);width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:rgba(255,255,255,.32);color:inherit;font-size:12px;font-weight:800;white-space:nowrap;}
+.registration-actions #reviewRegistration::before {content:'01';}
+.registration-actions #saveDraft::before {content:'02';}
+.registration-actions #checkout::before {content:'03';}
+.registration-actions #resumeDraft::before {content:'↺';font-size:19px;}
+.registration-actions #resumeDraft {background:#edf0eb !important;border:1px solid #cdd7ce !important;}
+.registration-steps-help {margin:18px 0 8px;padding:15px 17px;background:#f5f0e8;border:1px solid #e2d9ca;border-radius:12px;line-height:1.55;color:#19352b;}
+.registration-steps-help strong {display:block;margin-bottom:5px;font-size:15px;}
+.registration-steps-help p {margin:0;font-size:13px;color:#52665a;}
+.registration-steps-help .optional {margin-top:7px;}
+@media(max-width:420px){.registration-actions > .button {font-size:15px !important;min-height:56px !important;padding:13px 12px 13px 66px !important;}}
+</style>
+
+<style id="court822-premium-registration-2026">
+/* Presentation-only layer. Registration IDs, handlers, states and security remain intact. */
+:root{--court-forest:#19352b;--court-deep:#10291f;--court-gold:#b99562;--court-cream:#f7f2e9;--court-border:#e2d6c3}
+html{overflow-x:hidden}
+body{background:radial-gradient(ellipse at 85% 0%,#e9dfcc 0,transparent 38%),linear-gradient(180deg,#f7f3ec,#eee9df);color:var(--court-forest)}
+.wrap{max-width:1050px;margin:32px auto 100px;padding:0 clamp(14px,3vw,28px);min-width:0}
+.wrap>*{min-width:0}
+.wrap>.hero{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(125deg,#102a20 0%,#193b2f 65%,#264638 100%);border:1px solid #426250;border-radius:24px;padding:clamp(26px,5vw,56px);box-shadow:0 18px 42px rgba(15,42,30,.17);margin-bottom:26px}
+.wrap>.hero::after{content:"";position:absolute;right:-80px;top:-160px;width:330px;height:330px;border:1px solid rgba(211,178,125,.28);border-radius:50%;box-shadow:0 0 0 35px rgba(211,178,125,.055),0 0 0 72px rgba(211,178,125,.04);z-index:-1;pointer-events:none}
+.wrap>.hero h1{font-family:Georgia,serif;letter-spacing:-.025em;font-weight:500;line-height:1.12;color:#fffdf8}
+.wrap>.hero small{color:#e1bd85;letter-spacing:.21em}
+.wrap>.hero p{max-width:720px;color:#e6eee8}
+.wrap>.panel{background:#fffdf9;border:1px solid var(--court-border);border-radius:20px;padding:clamp(20px,3.5vw,34px);margin:20px 0;box-shadow:0 9px 30px rgba(39,50,37,.055);min-width:0}
+.wrap>.panel>h2{font-family:Georgia,serif;font-size:clamp(24px,3vw,32px);font-weight:500;letter-spacing:-.025em;color:#17372b;line-height:1.22;margin-bottom:15px}
+.wrap>.panel>h2::after{content:"";display:block;width:48px;height:2px;background:#b99562;margin-top:13px}
+.wrap .item{background:linear-gradient(160deg,#fffdfa,#f9f6f0);border:1px solid #e6dccd;border-radius:16px;padding:clamp(16px,2.6vw,24px);min-width:0}
+.wrap .item-head{flex-wrap:wrap}
+.wrap .item-head h3{font-size:clamp(19px,2.5vw,24px);color:#19352b}
+.wrap .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 18px}
+.wrap .field{font-size:13px;letter-spacing:.015em;color:#2e493d}
+.wrap .field input,.wrap .field select{min-width:0;max-width:100%;border:1px solid #d8cdbb;border-radius:11px;background:#fffefa;padding:13px 14px;min-height:48px;color:#19352b;box-shadow:0 1px 1px rgba(20,40,28,.02)}
+.wrap .field input:focus-visible,.wrap .field select:focus-visible,.wrap button:focus-visible{outline:3px solid #c5a26c;outline-offset:3px}
+.wrap .button{border-radius:11px;min-height:46px;transition:filter .15s ease,transform .15s ease,box-shadow .15s ease;box-shadow:0 3px 8px rgba(21,42,30,.08);letter-spacing:.01em}
+.wrap .button:not(:disabled):hover{filter:brightness(1.06);transform:translateY(-1px)}
+.wrap .button:disabled{opacity:.53;box-shadow:none}
+.wrap .button.gold{background:#c4a06b;color:#18352a}
+.wrap .button.light{background:#e8ede8;color:#19352b}
+.wrap .summary{background:linear-gradient(135deg,#143326,#214839);border:1px solid #466858;border-radius:18px;box-shadow:0 12px 28px rgba(16,47,33,.14);padding:clamp(20px,3vw,30px);min-width:0}
+.wrap .summary h2{font-family:Georgia,serif;font-size:clamp(23px,3vw,30px);color:#fffdf7}
+.wrap .summary .line{align-items:flex-start;flex-wrap:wrap;overflow-wrap:anywhere;border-color:#496859}
+.wrap .summary .line strong{overflow-wrap:anywhere}
+.wrap .total{color:#efcb8e;font-size:clamp(21px,3vw,29px)}
+.wrap .notice{background:#edf2ec;border:1px solid #d6e2d8;border-radius:13px;padding:clamp(13px,2vw,18px);line-height:1.65;color:#244839;overflow-wrap:anywhere;max-width:100%;min-width:0}
+.wrap .notice.error{background:#fff0eb;border-color:#eecac0;color:#8d3d32}
+.wrap .notice.success{background:#e7f3e9;border-color:#c7e3ce;color:#1c5d3a}
+#captainAgreementPanel{background:#faf7f0;border:1px solid #e1d7c5}
+#captainAgreementPanel h3{color:#19352b}
+#captainAgreementPanel label{background:#fffefa;border:1px solid #e3d8c7;border-radius:12px;padding:15px!important;line-height:1.55}
+#captainAgreementPanel input[type=checkbox]{accent-color:#19352b}
+#captainAgreementPanel .muted{font-size:14px;line-height:1.75}
+.registration-steps-help{border:1px solid #dfd1b8!important;background:linear-gradient(115deg,#fffaf0,#f7f0e3)!important;border-radius:15px!important;padding:18px!important;line-height:1.65}
+.registration-actions{grid-template-columns:1fr!important;gap:12px!important}
+.registration-actions>.button{grid-column:1/-1!important;min-height:62px!important;border-radius:13px!important;padding:14px 18px 14px 72px!important;font-size:clamp(15px,2.8vw,17px)!important;line-height:1.3!important;overflow-wrap:normal!important;word-break:normal!important;white-space:normal!important;letter-spacing:.01em;box-shadow:0 5px 13px rgba(25,53,43,.1)}
+.registration-actions #reviewRegistration{background:#c4a06b;color:#19352b}
+.registration-actions #checkout{background:#19352b;color:white}
+.registration-actions #saveDraft,.registration-actions #resumeDraft{background:#e8eee9;color:#19352b}
+.registration-actions>.button::before{left:17px!important;width:38px!important;height:38px!important;background:rgba(255,255,255,.32)!important}
+#resumePaymentPanel,#paymentProofPanel{scroll-margin-top:24px}
+.payment-qr-card{background:#fffdf9;border:1px solid #e3d7c6;border-radius:16px}
+@media(max-width:700px){
+ .wrap{margin:18px auto 70px;padding:0 12px}
+ .wrap>.panel{padding:19px 16px;border-radius:17px}
+ .wrap>.hero{padding:29px 21px;border-radius:19px}
+ .wrap .grid{grid-template-columns:minmax(0,1fr)}
+ .wrap .item{padding:16px}
+ .wrap .line{flex-wrap:wrap;overflow-wrap:anywhere}
+ .registration-actions{grid-template-columns:minmax(0,1fr)!important}
+ .registration-actions>.button{min-width:0!important;width:100%!important;min-height:58px!important;padding-left:66px!important;font-size:16px!important}
+ #captainAgreementPanel label{gap:12px!important}
+ .payment-qr-grid{grid-template-columns:minmax(0,1fr)}
+}
+@media(prefers-reduced-motion:reduce){.wrap .button{transition:none}}
+</style>
+</head>
+
+<body>
+
+<div class="announcement">COURT 822 • TOURNAMENT CENTRAL</div>
+
+<header class="navbar">
+<a class="brand" href="index.html">
+ <img src="logo.svg" alt="Court 822">
+ <span><b>COURT 822</b><small>PICKLEBALL</small></span>
+</a>
+<div class="nav-actions">
+ <a class="btn secondary" href="index.html">Home</a>
+ <a class="btn" href="index.html#tournaments">Events</a>
+</div>
+</header>
+
+<main class="wrap">
+
+<a href="index.html#tournaments">← Back to tournaments</a>
+
+<section class="hero">
+ <small>COURT 822 PRESENTS</small>
+ <h1 id="tournamentName">Loading tournament...</h1>
+ <p id="tournamentDescription"></p>
+ <p id="tournamentDates"></p>
+ <p id="registrationStatus"></p>
+</section>
+
+<section class="panel">
+ <h2>Smart Team Registration</h2>
+ <p class="muted">
+  Register multiple doubles teams in one combined checkout.
+  Add each player once and reuse their details across categories.
+ </p>
+ <div class="notice">
+  Regular and double-entry fees are calculated per player.
+  Double-entry discounts apply only to different categories
+  within the same tournament and combined checkout.
+  Each eligible player receives one allocation of each freebie
+  per tournament after registration approval.
+ </div>
+</section>
+
+<section class="panel" id="freebiesPanel">
+ <h2>Included Tournament Freebies</h2>
+ <p class="muted">
+  Freebies are configured by Court 822.
+  Clothing sizes are collected only when required.
+ </p>
+ <div id="freebiesList">Loading freebies...</div>
+ <p id="freebiesMessage" class="muted" role="status"></p>
+</section>
+
+<section class="panel">
+ <h2>Step 1 — Add Players</h2>
+ <p class="muted">
+  Add every player participating in this checkout.
+  A player joining two categories should be added only once.
+ </p>
+ <div id="players"></div>
+ <button id="addPlayer" class="button light" type="button">
+  + Add Player
+ </button>
+</section>
+
+<section class="panel">
+ <h2>Step 2 — Build Your Teams</h2>
+ <p class="muted">
+  Select a category and two players for each team.
+  Add all categories before completing registration.
+ </p>
+ <div id="teams"></div>
+ <button id="addTeam" class="button light" type="button">
+  + Add Another Team
+ </button>
+</section>
+
+<section class="panel">
+ <h2>Step 3 — Review Registration</h2>
+
+ <div id="validation" class="notice" role="status">
+  Complete your player and team details.
+ </div>
+
+ <div class="summary" style="margin-top:16px">
+  <h2>Payment Summary</h2>
+  <div id="summaryLines"></div>
+  <div class="line">
+   <strong id="totalLabel">Estimated Total</strong>
+   <strong id="grandTotal" class="total">₱0.00</strong>
+  </div>
+  <p id="freebieCount" class="muted" style="color:#d9e4dc"></p>
+ </div>
+
+ <section class="item" id="captainAgreementPanel" aria-labelledby="captainAgreementTitle">
+  <h3 id="captainAgreementTitle">Captain Registration Agreement</h3>
+  <p class="muted">As team captain, I confirm that both players agreed to participate, that I am authorized to submit their information, and that all submitted details are accurate. I understand that staff may verify player identities at event check-in and that incorrect information may prevent participation.</p>
+  <p class="muted"><strong>Refund policy:</strong> Verified registration payments are generally non-refundable for voluntary withdrawal or no-shows, subject to applicable law and the published event cancellation and refund policy. This does not waive statutory rights.</p>
+  <label style="display:flex;gap:10px;align-items:flex-start;line-height:1.5;cursor:pointer">
+   <input id="captainAgreement" type="checkbox" style="margin-top:4px" />
+   <span>I confirm my partner's permission and agree to the registration terms and refund policy.</span>
+  </label>
+  <p class="muted">Your agreement is recorded when you save the draft. Once official submission is enabled, registration will not require partner invitations or owner pre-approval. The owner will verify actual payment before team QR codes are issued.</p>
+ </section>
+
+ <div class="registration-steps-help" aria-label="Registration button order">
+  <strong>Follow these steps to register</strong>
+  <p><b>1. Review</b> your details and total. <b>2. Save Draft</b> to record your registration details and agreement. <b>3. Submit Registration</b> to proceed to payment.</p>
+  <p class="optional"><b>Returning later?</b> Use Resume Saved Draft, then review and save again before submitting.</p>
+ </div>
+ <div class="actions registration-actions">
+  <button id="reviewRegistration" class="button gold" type="button" disabled>
+   Review Registration
+  </button>
+
+  <button id="saveDraft" class="button light" type="button" disabled>
+   Save Registration Draft
+  </button>
+
+  <button id="resumeDraft" class="button light" type="button" disabled>
+   Resume Saved Draft
+  </button>
+
+  <button id="checkout" class="button" type="button" disabled>
+   Submit Registration
+  </button>
+ </div>
+
+ <div id="officialQuoteStatus" class="notice review-status" role="status">
+  Complete your teams, then click Review Registration
+  to verify your fees with Court 822.
+ </div>
+
+ <div id="draftStatus" class="notice review-status" role="status">
+  Your registration has not been saved yet.
+ </div>
+
+ <p class="muted">
+  This is a registration preview. Saving a draft does not
+  submit an official registration, reserve a tournament slot,
+  send a partner invitation, or process a payment.
+ </p>
+</section>
+
+
+<section class="panel" id="resumePaymentPanel">
+ <h2>Existing Registration Payment</h2>
+ <p class="muted">Already submitted your registration? Reopen an eligible unpaid checkout without registering again.</p>
+ <button id="resumePayment" class="button gold" type="button" disabled>Resume Pending Payment</button>
+ <div id="resumePaymentStatus" class="notice review-status" role="status">Checking for your existing checkout...</div>
+</section>
+
+<section class="panel" id="paymentProofPanel" hidden>
+ <h2>Step 4 — Submit Payment Proof</h2>
+ <p class="muted">Pay only using the official Court 822 payment instructions. Uploading proof does not confirm payment. The owner must independently verify receipt.</p>
+ <div class="summary"><div class="line"><span>Amount due</span><strong id="paymentAmount">—</strong></div><div class="line"><span>Pay before</span><strong id="paymentDeadline">—</strong></div></div>
+ <p class="notice">Choose GCash or Maya below. Before sending money, verify that the receiving account shown by your payment app matches Court 822's confirmed payment details. Upload your genuine transaction receipt after paying. Payment remains subject to owner verification.</p>
+ <div class="payment-qr-grid" aria-label="Court 822 payment QR codes">
+  <section class="payment-qr-card" aria-labelledby="gcashQrTitle">
+   <h3 id="gcashQrTitle">GCash</h3>
+   <img src="gcash-qr.png" alt="Court 822 supplied GCash InstaPay payment QR" loading="lazy">
+   <p class="muted">GCash / InstaPay QR supplied by Court 822</p>
+  </section>
+  <section class="payment-qr-card" aria-labelledby="mayaQrTitle">
+   <h3 id="mayaQrTitle">Maya</h3>
+   <img src="maya-qr.png" alt="Court 822 supplied Maya InstaPay payment QR" loading="lazy">
+   <p class="muted">Maya / InstaPay QR supplied by Court 822</p>
+  </section>
+ </div>
+ <form id="paymentProofForm">
+  <label class="field">Payment method<select id="paymentMethod" required><option value="">Choose method</option><option value="gcash">GCash</option><option value="maya">Maya</option></select></label>
+  <label class="field">Transaction reference<input id="paymentReference" type="text" minlength="5" maxlength="100" required autocomplete="off" placeholder="Reference from GCash or Maya" /></label>
+  <label class="field">Payment receipt (JPG, PNG, WEBP or PDF, maximum 5 MB)<input id="paymentReceipt" type="file" accept="image/jpeg,image/png,image/webp,application/pdf" required /></label>
+  <button class="button gold" id="submitPaymentProof" type="submit">Submit Payment for Owner Verification</button>
+ </form>
+ <div class="notice" id="paymentProofStatus" role="status">Awaiting payment submission.</div>
+</section>
+
+<div id="pageStatus" class="status" role="status">
+ Loading tournament...
+</div>
+
+</main>
+
+<footer>© 2026 Court 822 Pickleball</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="supabase-client.js"></script>
+
+<script>
+'use strict';
+
+const $ = id => document.getElementById(id);
+
+const peso = n => new Intl.NumberFormat('en-PH',{
+ style:'currency',
+ currency:'PHP',
+ minimumFractionDigits:2,
+ maximumFractionDigits:2
+}).format(Number(n || 0));
+
+const fmt = s => s
+ ? new Date(s+'T00:00:00').toLocaleDateString('en-PH',{
+     month:'long',day:'numeric',year:'numeric'
+   })
+ : 'To be announced';
+
+const SIZES = ['XS','S','M','L','XL','2XL','3XL'];
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+let tournament = null;
+let categories = [];
+let tournamentFreebies = [];
+let freebiesLoaded = false;
+let signedInUser = null;
+let savedProfile = null;
+
+let officialQuote = null;
+let quoteBusy = false;
+let formRevision = 0;
+let lastLocalValid = false;
+
+let activeDraftRequestId = null;
+let draftBusy = false;
+let formDirty = false;
+let draftSavedRevision = -1;
+let submitBusy = false;
+let paymentBusy = false;
+let activePaymentCheckout = null;
+let resumePaymentBusy = false;
+// Enable only after backend reservation and payment tests pass.
+const COURT822_SUBMISSION_UI_ENABLED = true;
+
+const players = [];
+const teams = [];
+
+function newId(prefix){
+ return prefix+'-'+crypto.randomUUID();
+}
+
+function escapeHtml(text){
+ return String(text).replace(/[&<>"']/g,c=>({
+  '&':'&amp;',
+  '<':'&lt;',
+  '>':'&gt;',
+  '"':'&quot;',
+  "'":'&#39;'
+ }[c]));
+}
+
+function setStatus(id,message,type=''){
+ const el = $(id);
+ if(!el) return;
+ el.textContent = message;
+ el.classList.remove('error','success');
+ if(type) el.classList.add(type);
+}
+
+function loginRedirect(){
+ const url = new URL('player-login.html',location.href);
+ url.searchParams.set('next','tournament.html'+location.search);
+ location.replace(url.href);
+}
+
+async function requireLogin(){
+ if(!window.courtDb){
+  throw new Error('Supabase connection unavailable.');
+ }
+
+ const {data,error} = await courtDb.auth.getUser();
+
+ if(error || !data?.user){
+  loginRedirect();
+  return false;
+ }
+
+ signedInUser = data.user;
+
+ const result = await courtDb
+  .from('tournament_players')
+  .select('id,full_name,email,phone,gender')
+  .eq('user_id',signedInUser.id)
+  .maybeSingle();
+
+ if(result.error) throw result.error;
+
+ savedProfile = result.data;
+ return true;
+}
+
+/* QUOTATION AND DRAFT STATE */
+
+function updateButtons(){
+  $('resumePayment').disabled = resumePaymentBusy || !signedInUser || !tournament;
+  $('resumePayment').textContent = resumePaymentBusy ? 'Checking checkout...' : 'Resume Pending Payment';
+  const canSubmit = COURT822_SUBMISSION_UI_ENABLED &&
+    !!signedInUser && !!activeDraftRequestId &&
+    !submitBusy && !draftBusy && !quoteBusy &&
+    !formDirty && draftSavedRevision === formRevision &&
+    !!officialQuote && lastLocalValid &&
+    $('captainAgreement').checked;
+  $('checkout').disabled = !canSubmit;
+  $('checkout').textContent = submitBusy
+    ? 'Submitting registration...'
+    : COURT822_SUBMISSION_UI_ENABLED
+      ? 'Submit Registration'
+      : 'Submit Registration';
+ $('reviewRegistration').disabled =
+  quoteBusy || draftBusy || !lastLocalValid ||
+  !tournament || !freebiesLoaded;
+
+ $('saveDraft').disabled =
+  quoteBusy || draftBusy || !lastLocalValid ||
+  !officialQuote || !tournament ||
+  !$('captainAgreement').checked;
+
+ $('resumeDraft').disabled =
+  quoteBusy || draftBusy || !tournament;
+
+ $('saveDraft').textContent =
+  draftBusy ? 'Processing...' : 'Save Registration Draft';
+}
+
+function invalidateOfficialQuote(){
+ formRevision++;
+ officialQuote = null;
+ formDirty = true;
+
+ $('totalLabel').textContent = 'Estimated Total';
+
+ setStatus(
+  'officialQuoteStatus',
+  'Registration details changed. Click Review Registration '+
+  'to verify the latest total with Court 822.'
+ );
+
+ if(draftSavedRevision >= 0){
+  setStatus(
+   'draftStatus',
+   'You have unsaved changes. Review and save again.'
+  );
+ }
+
+ updateButtons();
+}
+
+function updateReviewButton(valid){
+ lastLocalValid = valid;
+ updateButtons();
+}
+
+/* FREEBIES */
+
+async function loadTournamentFreebies(id){
+ const root = $('freebiesList');
+ const msg = $('freebiesMessage');
+
+ root.replaceChildren();
+ msg.textContent = 'Loading freebies...';
+ freebiesLoaded = false;
+
+ const {data,error} = await courtDb
+  .from('tournament_freebies')
+  .select('id,name,requires_size,quantity_per_player')
+  .eq('tournament_id',id)
+  .eq('is_active',true)
+  .order('created_at',{ascending:true});
+
+ if(error){
+  console.error('Freebies loading:',error);
+  tournamentFreebies = [];
+  root.textContent = 'Freebies temporarily unavailable.';
+  msg.textContent = 'Unable to load tournament freebies.';
+  updateReviewButton(false);
+  return;
+ }
+
+ tournamentFreebies = data || [];
+ freebiesLoaded = true;
+ msg.textContent = '';
+
+ if(!tournamentFreebies.length){
+  root.textContent = 'No complimentary items listed.';
+  return;
+ }
+
+ for(const f of tournamentFreebies){
+  const box = document.createElement('div');
+  box.className = 'item';
+
+  const title = document.createElement('h3');
+  title.textContent = f.name;
+
+  const details = document.createElement('p');
+  details.className = 'muted';
+  details.textContent =
+   'Quantity per player: '+f.quantity_per_player;
+
+  box.append(title,details);
+
+  if(f.requires_size){
+   const tag = document.createElement('span');
+   tag.className = 'freebie-tag';
+   tag.textContent = 'Clothing size required';
+   box.append(tag);
+  }
+
+  root.append(box);
+ }
+}
+
+function sizedFreebies(){
+ return tournamentFreebies.filter(f=>f.requires_size);
+}
+
+/* PLAYERS */
+
+function addPlayer(data={}){
+ if(players.length>=20){
+  alert('Maximum 20 players per draft.');
+  return;
+ }
+
+ const p = {
+  id:data.id||newId('player'),
+  name:data.name||'',
+  gender:data.gender||'',
+  email:data.email||'',
+  phone:data.phone||'',
+  club_name:String(data.club_name||'').slice(0,100),
+  sizes:{...(data.sizes||{})}
+ };
+
+ players.push(p);
+ renderPlayers();
+ renderTeams();
+ calculate();
+}
+
+function removePlayer(id){
+ if(teams.some(t=>t.p1===id || t.p2===id)){
+  alert('Remove this player from their teams first.');
+  return;
+ }
+
+ const i = players.findIndex(p=>p.id===id);
+ if(i>=0) players.splice(i,1);
+
+ renderPlayers();
+ renderTeams();
+ calculate();
+}
+
+function renderPlayers(){
+ const root = $('players');
+ root.replaceChildren();
+
+ players.forEach((p,i)=>{
+  const box = document.createElement('div');
+  box.className = 'item';
+
+  const heading = document.createElement('div');
+  heading.className = 'item-head';
+
+  const title = document.createElement('h3');
+  title.textContent = 'Player '+(i+1)+
+   (i===0?' — Your Account':'');
+
+  const remove = document.createElement('button');
+  remove.className = 'button danger';
+  remove.type = 'button';
+  remove.textContent = 'Remove';
+  remove.disabled = i===0;
+  remove.onclick = ()=>removePlayer(p.id);
+
+  heading.append(title,remove);
+  box.append(heading);
+
+  const grid = document.createElement('div');
+  grid.className = 'grid';
+
+  for(const [key,label,type] of [
+   ['name','Full Name','text'],
+   ['email','Email Address','email'],
+   ['phone','Contact Number','tel']
+  ]){
+   const wrapper = document.createElement('label');
+   wrapper.className = 'field';
+   wrapper.textContent = label;
+
+   const input = document.createElement('input');
+   input.type = type;
+   input.value = p[key];
+   input.maxLength = key==='name'?100:key==='phone'?40:254;
+   input.disabled = i===0;
+
+   input.addEventListener('input',()=>{
+    p[key] = input.value;
+    if(key==='name') updateTeamPlayerLabels();
+    calculate();
+   });
+
+   wrapper.append(input);
+   grid.append(wrapper);
+  }
+
+  // Club affiliation belongs to this tournament registration, not the account.
+  const clubWrap = document.createElement('label');
+  clubWrap.className = 'field';
+  clubWrap.textContent = 'Club Name (optional)';
+  const clubInput = document.createElement('input');
+  clubInput.type = 'text';
+  clubInput.maxLength = 100;
+  clubInput.placeholder = 'Independent / Club name';
+  clubInput.value = p.club_name || '';
+  clubInput.addEventListener('input', () => {
+    p.club_name = clubInput.value;
+    calculate();
+  });
+  clubWrap.append(clubInput);
+  grid.append(clubWrap);
+
+  const genderWrap = document.createElement('label');
+  genderWrap.className = 'field';
+  genderWrap.textContent = 'Category Eligibility';
+
+  const gender = document.createElement('select');
+  gender.disabled = i===0;
+
+  gender.innerHTML = `
+   <option value="">Select</option>
+   <option value="male">Male</option>
+   <option value="female">Female</option>
+  `;
+
+  gender.value = p.gender;
+
+  gender.onchange = ()=>{
+   p.gender = gender.value;
+   calculate();
+  };
+
+  genderWrap.append(gender);
+  grid.append(genderWrap);
+  box.append(grid);
+
+  for(const freebie of sizedFreebies()){
+   const wrapper = document.createElement('div');
+   wrapper.className = 'freebie-size';
+
+   const label = document.createElement('label');
+   label.className = 'field';
+   label.textContent = freebie.name+' — Size';
+
+   const select = document.createElement('select');
+   select.required = true;
+   select.append(new Option('Select size',''));
+
+   for(const size of SIZES){
+    select.append(new Option(size,size));
+   }
+
+   select.value = p.sizes[freebie.id] || '';
+
+   select.onchange = ()=>{
+    p.sizes[freebie.id] = select.value;
+    calculate();
+   };
+
+   label.append(select);
+   wrapper.append(label);
+   box.append(wrapper);
+  }
+
+  root.append(box);
+ });
+}
+
+/* TEAM BUILDER */
+
+function playerOptions(selected){
+ return [
+  '<option value="">Select player</option>',
+  ...players.map(p=>
+   `<option value="${escapeHtml(p.id)}" ${
+    p.id===selected?'selected':''
+   }>${escapeHtml(p.name||'Unnamed player')}</option>`
+  )
+ ].join('');
+}
+
+function addTeam(){
+ if(teams.length>=10){
+  alert('Maximum 10 teams per registration.');
+  return;
+ }
+
+ teams.push({
+  id:newId('team'),
+  category:'',
+  p1:'',
+  p2:''
+ });
+
+ renderTeams();
+ calculate();
+}
+
+function removeTeam(id){
+ const i = teams.findIndex(t=>t.id===id);
+ if(i>=0) teams.splice(i,1);
+
+ renderTeams();
+ calculate();
+}
+
+function renderTeams(){
+ const root = $('teams');
+ root.replaceChildren();
+
+ teams.forEach((t,i)=>{
+  const box = document.createElement('div');
+  box.className = 'item';
+  box.dataset.teamId = t.id;
+
+  box.innerHTML = `
+   <div class="item-head">
+    <h3>Team ${i+1}</h3>
+    <button class="button danger remove" type="button">
+     Remove
+    </button>
+   </div>
+
+   <label class="field">
+    Tournament Category
+    <select data-key="category">
+     <option value="">Select category</option>
+     ${categories.map(c=>
+      `<option value="${c.id}">${escapeHtml(c.name)}</option>`
+     ).join('')}
+    </select>
+   </label>
+
+   <div class="grid">
+    <label class="field">Player 1
+     <select data-key="p1"></select>
+    </label>
+    <label class="field">Player 2
+     <select data-key="p2"></select>
+    </label>
+   </div>
+
+   <div class="notice teamFee">
+    Select a category and both players.
+   </div>
+  `;
+
+  for(const key of ['category','p1','p2']){
+   const select = box.querySelector(`[data-key="${key}"]`);
+
+   if(key!=='category'){
+    select.innerHTML = playerOptions(t[key]);
+   }
+
+   select.value = t[key];
+
+   select.onchange = ()=>{
+    t[key] = select.value;
+    calculate();
+   };
+  }
+
+  box.querySelector('.remove').onclick =
+   ()=>removeTeam(t.id);
+
+  root.append(box);
+ });
+}
+
+function updateTeamPlayerLabels(){
+ document.querySelectorAll('[data-team-id]').forEach(box=>{
+  const t = teams.find(x=>x.id===box.dataset.teamId);
+  if(!t) return;
+
+  for(const key of ['p1','p2']){
+   const select = box.querySelector(`[data-key="${key}"]`);
+   select.innerHTML = playerOptions(t[key]);
+   select.value = t[key];
+  }
+ });
+}
+
+/* CATEGORY ELIGIBILITY */
+
+function categoryType(c){
+ const name = c.name.toLowerCase();
+
+ if(name.includes('mixed') || name.includes('mix'))
+  return 'mixed';
+
+ if(name.includes('women') || name.includes('ladies'))
+  return 'womens';
+
+ if(name.includes('men'))
+  return 'mens';
+
+ return 'other';
+}
+
+function validateTeam(t){
+ const c = categories.find(x=>x.id===t.category);
+ const a = players.find(x=>x.id===t.p1);
+ const b = players.find(x=>x.id===t.p2);
+
+ if(!c || !a || !b)
+  return 'Incomplete team information.';
+
+ if(a.id===b.id)
+  return 'A player cannot partner with themselves.';
+
+ const type = categoryType(c);
+
+ if(type==='mens' &&
+    (a.gender!=='male' || b.gender!=='male'))
+  return "Men's Doubles requires two male players.";
+
+ if(type==='womens' &&
+    (a.gender!=='female' || b.gender!=='female'))
+  return "Women's Doubles requires two female players.";
+
+ if(type==='mixed' &&
+    !(
+     (a.gender==='male' && b.gender==='female') ||
+     (a.gender==='female' && b.gender==='male')
+    ))
+  return 'Mixed Doubles requires one male and one female player.';
+
+ return null;
+}
+
+/* LOCAL VALIDATION AND ESTIMATE */
+
+function calculate(){
+ invalidateOfficialQuote();
+
+ const errors = [];
+ const entries = new Map();
+ const appearances = new Map();
+ const teamResults = [];
+ const participating = new Set();
+
+ let total = 0;
+
+ if(!tournament){
+  updateReviewButton(false);
+  return false;
+ }
+
+ const now = Date.now();
+
+ if(tournament.status!=='published'){
+  errors.push('Tournament is not currently open for registration.');
+ }
+
+ if(tournament.registration_opens_at &&
+    now<Date.parse(tournament.registration_opens_at)){
+  errors.push('Tournament registration has not opened.');
+ }
+
+ if(tournament.registration_deadline &&
+    now>Date.parse(tournament.registration_deadline)){
+  errors.push('Tournament registration has closed.');
+ }
+
+ if(!freebiesLoaded){
+  errors.push('Tournament freebies are still loading.');
+ }
+
+ if(teams.length===0){
+  errors.push('Add at least one team.');
+ }
+
+ if(teams.length>10){
+  errors.push('Maximum 10 teams per registration.');
+ }
+
+ for(const [i,t] of teams.entries()){
+  const c = categories.find(x=>x.id===t.category);
+  const a = players.find(x=>x.id===t.p1);
+  const b = players.find(x=>x.id===t.p2);
+
+  const error = validateTeam(t);
+
+  if(error){
+   errors.push(`Team ${i+1}: ${error}`);
+   continue;
+  }
+
+  if(!c.registration_open){
+   errors.push(`${c.name}: Registration is currently closed.`);
+  }
+
+  for(const p of [a,b]){
+   participating.add(p.id);
+
+   const used = entries.get(p.id)||[];
+
+   if(used.includes(c.id)){
+    errors.push(
+     `${p.name||'Player'} is already entered in ${c.name}.`
+    );
+   }
+
+   used.push(c.id);
+   entries.set(p.id,used);
+  }
+
+  let teamTotal = 0;
+
+  for(const p of [a,b]){
+   const count = appearances.get(p.id)||0;
+
+   const fee = count===0
+    ? Number(c.entry_fee||0)
+    : Number(c.double_entry_fee??c.entry_fee??0);
+
+   teamTotal += fee;
+   appearances.set(p.id,count+1);
+  }
+
+  total += teamTotal;
+
+  teamResults.push({
+   id:t.id,
+   category:c.name,
+   players:`${a.name||'Player 1'} / ${b.name||'Player 2'}`,
+   amount:teamTotal
+  });
+ }
+
+ const emails = new Set();
+
+ for(const p of players){
+  if(!participating.has(p.id)) continue;
+
+  if(!p.name.trim()){
+   errors.push('All participating players need full names.');
+  }
+
+  if(!p.gender){
+   errors.push(`${p.name||'A player'} needs an eligibility selection.`);
+  }
+
+  const email = p.email.trim().toLowerCase();
+
+  if(!EMAIL_RE.test(email)){
+   errors.push(`${p.name||'A player'} needs a valid email address.`);
+  }else if(emails.has(email)){
+   errors.push('Each player must have a different email address.');
+  }else{
+   emails.add(email);
+  }
+
+  for(const f of sizedFreebies()){
+   if(!p.sizes[f.id]){
+    errors.push(`${p.name||'A player'} needs a size for ${f.name}.`);
+   }
+  }
+ }
+
+ if(!participating.has(players[0]?.id)){
+  errors.push('Your signed-in account must be included in a team.');
+ }
+
+ document.querySelectorAll('[data-team-id]').forEach(box=>{
+  const result = teamResults.find(x=>x.id===box.dataset.teamId);
+
+  box.querySelector('.teamFee').textContent = result
+   ? `Estimated team fee: ${peso(result.amount)}`
+   : 'Complete the team details to see pricing.';
+ });
+
+ const summary = $('summaryLines');
+ summary.replaceChildren();
+
+ for(const r of teamResults){
+  const row = document.createElement('div');
+  row.className = 'line';
+
+  const label = document.createElement('span');
+  label.textContent = `${r.category}: ${r.players}`;
+
+  const amount = document.createElement('strong');
+  amount.textContent = peso(r.amount);
+
+  row.append(label,amount);
+  summary.append(row);
+ }
+
+ $('grandTotal').textContent = peso(total);
+
+ $('freebieCount').textContent =
+  `${participating.size} unique participating player(s). `+
+  'Freebie allocations are issued only after approved registration.';
+
+ const valid = errors.length===0;
+
+ $('validation').textContent = valid
+  ? 'Details look valid. Click Review Registration to verify pricing.'
+  : [...new Set(errors)].slice(0,10).join('\n');
+
+ $('validation').classList.toggle('error',!valid);
+
+ updateReviewButton(valid);
+ return valid;
+}
+
+/* SERVER-VERIFIED REGISTRATION REVIEW */
+
+async function reviewRegistration(){
+ if(quoteBusy || draftBusy || !tournament || !signedInUser) return;
+
+ if(!calculate()){
+  setStatus(
+   'officialQuoteStatus',
+   'Please correct the registration details above before reviewing.',
+   'error'
+  );
+  return;
+ }
+
+ const requestTeams = [];
+
+ for(const team of teams){
+  const player1 = players.find(p=>p.id===team.p1);
+  const player2 = players.find(p=>p.id===team.p2);
+
+  if(!player1 || !player2 || !team.category){
+   setStatus(
+    'officialQuoteStatus',
+    'Complete all team information first.',
+    'error'
+   );
+   return;
+  }
+
+  requestTeams.push({
+   category_id:team.category,
+   player1_email:player1.email.trim().toLowerCase(),
+   player2_email:player2.email.trim().toLowerCase()
+  });
+ }
+
+ const revisionAtStart = formRevision;
+
+ quoteBusy = true;
+ updateButtons();
+
+ $('reviewRegistration').textContent = 'Verifying registration...';
+
+ setStatus(
+  'officialQuoteStatus',
+  'Contacting Court 822 secure pricing server...'
+ );
+
+ try{
+  const {data,error} = await courtDb.functions.invoke(
+   'court822-checkout',
+   {
+    body:{
+     action:'quote',
+     tournament_id:tournament.id,
+     teams:requestTeams
+    }
+   }
+  );
+
+  if(revisionAtStart!==formRevision){
+   setStatus(
+    'officialQuoteStatus',
+    'Your details changed during verification. Please review again.'
+   );
+   return;
+  }
+
+  if(error || !data?.success || !data?.quotation){
+   throw new Error(
+    data?.error || error?.message || 'Server verification failed.'
+   );
+  }
+
+  const quote = data.quotation;
+  const amount = Number(quote.estimated_total);
+
+  if(
+   quote.quotation_only!==true ||
+   !Number.isFinite(amount) ||
+   amount<0 ||
+   !Array.isArray(quote.teams) ||
+   quote.team_count!==requestTeams.length
+  ){
+   throw new Error('Invalid quotation response.');
+  }
+
+  officialQuote = quote;
+
+  const summary = $('summaryLines');
+  summary.replaceChildren();
+
+  for(const item of quote.teams){
+   const row = document.createElement('div');
+   row.className = 'line';
+
+   const label = document.createElement('span');
+   label.textContent =
+    item.category_name+' — Team '+item.team_number;
+
+   const value = document.createElement('strong');
+   value.textContent = peso(item.team_total);
+
+   row.append(label,value);
+   summary.append(row);
+  }
+
+  $('totalLabel').textContent = 'Server-Verified Total';
+  $('grandTotal').textContent = peso(amount);
+
+  setStatus(
+   'officialQuoteStatus',
+   'Court 822 server quotation verified.\n'+
+   'Combined total: '+peso(amount)+'\n'+
+   'Teams: '+quote.team_count+'\n'+
+   'Unique players: '+quote.unique_players+'\n'+
+   'No registration or payment has been submitted.',
+   'success'
+  );
+
+ }catch(error){
+  console.error('Registration review:',error);
+  officialQuote = null;
+
+  setStatus(
+   'officialQuoteStatus',
+   'Unable to verify this registration. '+
+   'Check the tournament schedule, category availability, '+
+   'and team details, then try again.',
+   'error'
+  );
+
+ }finally{
+  quoteBusy = false;
+  $('reviewRegistration').textContent = 'Review Registration';
+  updateButtons();
+ }
+}
+
+/* CHECKPOINT 2 — BUILD COMPLETE DRAFT */
+
+function buildDraftSnapshot(){
+ const usedIds = new Set();
+
+ for(const team of teams){
+  usedIds.add(team.p1);
+  usedIds.add(team.p2);
+ }
+
+ const savedPlayers = players
+  .filter(p=>usedIds.has(p.id))
+  .map(p=>({
+   id:p.id,
+   name:p.name.trim(),
+   email:p.email.trim().toLowerCase(),
+   phone:p.phone.trim(),
+   club_name:String(p.club_name||'').trim().slice(0,100),
+   gender:p.gender,
+   sizes:{...p.sizes}
+  }));
+
+ const savedTeams = teams.map(t=>({
+  id:t.id,
+  category:t.category,
+  p1:t.p1,
+  p2:t.p2
+ }));
+
+ const requestTeams = teams.map(t=>{
+  const a = players.find(p=>p.id===t.p1);
+  const b = players.find(p=>p.id===t.p2);
+
+  if(!a || !b){
+   throw new Error('Team player information is missing.');
+  }
+
+  return {
+   category_id:t.category,
+   player1_email:a.email.trim().toLowerCase(),
+   player2_email:b.email.trim().toLowerCase()
+  };
+ });
+
+ return {
+  requestTeams,
+  draftData:{
+   version:1,
+   players:savedPlayers,
+   teams:savedTeams
+  }
+ };
+}
+
+/* SAVE DRAFT */
+
+async function saveRegistrationDraft(){
+ if(!$('captainAgreement').checked){
+  setStatus('draftStatus','Accept the captain registration agreement before saving.','error');
+  return;
+ }
+ if(draftBusy || quoteBusy || !tournament || !signedInUser) return;
+
+ if(!officialQuote || !lastLocalValid){
+  setStatus(
+   'draftStatus',
+   'Click Review Registration before saving.',
+   'error'
+  );
+  return;
+ }
+
+ let snapshot;
+
+ try{
+  snapshot = buildDraftSnapshot();
+ }catch(error){
+  setStatus('draftStatus',error.message,'error');
+  return;
+ }
+
+ const requestId =
+  activeDraftRequestId || crypto.randomUUID();
+
+ const revisionAtStart = formRevision;
+
+ draftBusy = true;
+ updateButtons();
+
+ setStatus(
+  'draftStatus',
+  'Saving your registration securely...'
+ );
+
+ try{
+  const {data,error} = await courtDb.functions.invoke(
+   'court822-checkout',
+   {
+    body:{
+     action:'save_draft',
+     tournament_id:tournament.id,
+     request_id:requestId,
+     teams:snapshot.requestTeams,
+     draft_data:snapshot.draftData
+    }
+   }
+  );
+
+  if(error || !data?.success || !data?.draft?.success){
+   throw new Error(
+    data?.error || error?.message || 'Unable to save registration.'
+   );
+  }
+
+  activeDraftRequestId = requestId;
+
+  // Record the captain declaration on the server after the draft exists.
+  // This is distinct from any partner personally accepting an invitation.
+  const {data:consentData,error:consentError} = await courtDb.rpc(
+   'court822_accept_captain_terms',
+   {
+    p_tournament_id:tournament.id,
+    p_request_id:requestId,
+    p_accepted:true
+   }
+  );
+
+  if(consentError || !consentData?.success || consentData?.consent_recorded !== true){
+   throw new Error(
+    'Draft saved, but captain consent was not recorded. '+
+    (consentError?.message || 'Please retry Save Registration Draft.')
+   );
+  }
+
+  if(revisionAtStart!==formRevision){
+   setStatus(
+    'draftStatus',
+    'An earlier version was saved, but the form changed. '+
+    'Review and save again.'
+   );
+   return;
+  }
+
+  formDirty = false;
+  draftSavedRevision = formRevision;
+
+  setStatus(
+   'draftStatus',
+   'Registration draft and captain agreement saved successfully!\n'+
+   'Teams saved: '+data.draft.team_count+'\n'+
+   'Estimated total: '+peso(data.quotation.estimated_total)+'\n'+
+   'You can return later and resume this draft.\n'+
+   'No payment or official registration was submitted.',
+   'success'
+  );
+
+ }catch(error){
+  console.error('Save draft error:',error);
+
+  setStatus(
+   'draftStatus',
+   error.message || 'Unable to save your draft. Please try again.',
+   'error'
+  );
+
+ }finally{
+  draftBusy = false;
+  updateButtons();
+ }
+}
+
+/* SUBMIT REGISTRATION — backend validates eligibility and capacity. */
+async function submitRegistration(){
+  if(!COURT822_SUBMISSION_UI_ENABLED){
+    setStatus('draftStatus','Official registration is not yet enabled. Your saved draft is safe.','error');
+    return;
+  }
+  if(submitBusy || draftBusy || quoteBusy || !signedInUser || !tournament) return;
+  if(!activeDraftRequestId || formDirty || draftSavedRevision!==formRevision ||
+     !officialQuote || !lastLocalValid || !$('captainAgreement').checked){
+    setStatus('draftStatus','Review and save your latest registration with the agreement first.','error');
+    return;
+  }
+  if(!confirm('Submit this registration? Slots and payment instructions are provided only after server confirmation.')) return;
+  submitBusy=true;
+  updateButtons();
+  setStatus('draftStatus','Submitting your saved registration securely...');
+  try{
+    const {data,error}=await courtDb.functions.invoke('court822-checkout',{
+      body:{action:'submit_registration',request_id:activeDraftRequestId,captain_consent:true}
+    });
+    if(error){
+      let message=data?.error || error.message;
+      if(error.context instanceof Response){
+        const details=await error.context.clone().json().catch(()=>null);
+        message=details?.error || message;
+      }
+      throw new Error(message);
+    }
+    if(data?.success!==true || !data.checkout_id) throw new Error(data?.error||'Submission was not confirmed by the server.');
+    setStatus('draftStatus',`Registration received. Checkout: ${data.checkout_id}. Status: ${data.status}. Payment is ${data.payment_enabled?'available':'not yet enabled'}.`,'success');
+    if(data.status==='pending_payment' && data.payment_enabled===true && data.payment_due_at){
+      activePaymentCheckout={id:data.checkout_id,total:Number(data.total_amount),due:data.payment_due_at};
+      $('paymentAmount').textContent=peso(activePaymentCheckout.total);
+      $('paymentDeadline').textContent=new Date(activePaymentCheckout.due).toLocaleString('en-PH');
+      $('paymentProofPanel').hidden=false;
+    }
+  }catch(error){
+    setStatus('draftStatus',error.message||'Registration could not be submitted.','error');
+  }finally{
+    submitBusy=false;
+    updateButtons();
+  }
+}
+
+/* RESUME EXISTING CHECKOUT — authenticated captain, current tournament only. */
+function showEligiblePaymentCheckout(checkout){
+  if(!checkout || checkout.created_by !== signedInUser?.id ||
+     checkout.tournament_id !== tournament?.id ||
+     checkout.status !== 'pending_payment' ||
+     !Number.isFinite(Number(checkout.total_amount)) || Number(checkout.total_amount) <= 0 ||
+     !checkout.payment_due_at || Date.parse(checkout.payment_due_at) <= Date.now()){
+    return false;
+  }
+  activePaymentCheckout = {
+    id: checkout.id,
+    total: Number(checkout.total_amount),
+    due: checkout.payment_due_at
+  };
+  $('paymentAmount').textContent = peso(activePaymentCheckout.total);
+  $('paymentDeadline').textContent = new Date(activePaymentCheckout.due).toLocaleString('en-PH');
+  $('paymentProofPanel').hidden = false;
+  $('paymentProofForm').hidden = false;
+  setStatus('paymentProofStatus', 'Payment proof has not been submitted. Pay only to the verified Court 822 receiving account before the deadline.');
+  return true;
+}
+
+async function resumePendingPayment(scrollToPayment = true){
+  if(resumePaymentBusy || !signedInUser || !tournament) return;
+  resumePaymentBusy = true;
+  updateButtons();
+  setStatus('resumePaymentStatus', 'Checking your existing registration...');
+  try{
+    const {data:auth,error:authError} = await courtDb.auth.getUser();
+    if(authError || auth?.user?.id !== signedInUser.id) throw new Error('Please sign in again.');
+    // Uses the logged-in user's RLS permissions; never uses a service-role key.
+    const {data,error} = await courtDb.from('tournament_checkouts')
+      .select('id,created_by,tournament_id,status,total_amount,payment_due_at,created_at')
+      .eq('created_by', signedInUser.id)
+      .eq('tournament_id', tournament.id)
+      .eq('status', 'pending_payment')
+      .gt('payment_due_at', new Date().toISOString())
+      .order('created_at', {ascending:false})
+      .limit(10);
+    if(error) throw error;
+    const checkout = (data || []).find(x =>
+      x.created_by === signedInUser.id && x.tournament_id === tournament.id &&
+      x.status === 'pending_payment' && Date.parse(x.payment_due_at) > Date.now()
+    );
+    if(!checkout || !showEligiblePaymentCheckout(checkout)){
+      activePaymentCheckout = null;
+      $('paymentProofPanel').hidden = true;
+      setStatus('resumePaymentStatus', 'No active unpaid checkout found for this tournament. If you recently paid, contact Court 822 for verification.');
+      return;
+    }
+    setStatus('resumePaymentStatus',
+      `Existing checkout restored: ${checkout.id}\nAmount: ${peso(checkout.total_amount)}\nDeadline: ${new Date(checkout.payment_due_at).toLocaleString('en-PH')}`,
+      'success');
+    if(scrollToPayment) $('paymentProofPanel').scrollIntoView({behavior:'smooth',block:'start'});
+  }catch(error){
+    console.error('Resume payment:',error);
+    setStatus('resumePaymentStatus',
+      'Unable to load your checkout. Your account may not have permission to read checkout records; contact Court 822 instead of registering again.',
+      'error');
+  }finally{
+    resumePaymentBusy = false;
+    updateButtons();
+  }
+}
+
+/* RESTORE DRAFT */
+
+function restoreDraftForm(draftData){
+ if(
+  !draftData ||
+  !Array.isArray(draftData.players) ||
+  !Array.isArray(draftData.teams)
+ ){
+  throw new Error('Saved form data is unavailable.');
+ }
+
+ const accountEmail =
+  signedInUser.email.trim().toLowerCase();
+
+ const captain = draftData.players.find(
+  p=>String(p.email).trim().toLowerCase()===accountEmail
+ );
+
+ if(!captain){
+  throw new Error(
+   'The saved draft does not contain your account.'
+  );
+ }
+
+ const restoredPlayers = draftData.players.map(p=>({
+  id:p.id,
+  name:p.name,
+  email:p.email,
+  phone:p.phone||'',
+  club_name:p.club_name||'',
+  gender:p.gender,
+  sizes:{...(p.sizes||{})}
+ }));
+
+ const restoredTeams = draftData.teams.map(t=>({
+  id:t.id,
+  category:t.category,
+  p1:t.p1,
+  p2:t.p2
+ }));
+
+ const playerIds = new Set(restoredPlayers.map(p=>p.id));
+ const categoryIds = new Set(categories.map(c=>c.id));
+
+ if(
+  restoredPlayers.length<2 ||
+  restoredPlayers.length>20 ||
+  restoredTeams.length<1 ||
+  restoredTeams.length>10 ||
+  playerIds.size!==restoredPlayers.length ||
+  restoredTeams.some(t=>
+   !playerIds.has(t.p1) ||
+   !playerIds.has(t.p2) ||
+   t.p1===t.p2 ||
+   !categoryIds.has(t.category)
+  )
+ ){
+  throw new Error('Saved registration data is invalid.');
+ }
+
+ const captainIndex = restoredPlayers.findIndex(
+  p=>p.id===captain.id
+ );
+
+ restoredPlayers.splice(captainIndex,1);
+
+ restoredPlayers.unshift({
+  ...captain,
+  name:savedProfile?.full_name||captain.name,
+  email:signedInUser.email,
+  phone:savedProfile?.phone||captain.phone||'',
+  gender:savedProfile?.gender||captain.gender,
+  sizes:{...(captain.sizes||{})}
+ });
+
+ players.splice(0,players.length,...restoredPlayers);
+ teams.splice(0,teams.length,...restoredTeams);
+
+ renderPlayers();
+ renderTeams();
+
+ officialQuote = null;
+ calculate();
+}
+
+/* RESUME SAVED DRAFT */
+
+async function resumeRegistrationDraft(){
+ if(draftBusy || quoteBusy || !tournament || !signedInUser) return;
+
+ if(!confirm(
+  'Resume your saved draft? This will replace '+
+  'the unsaved details currently on the page.'
+ )){
+  return;
+ }
+
+ draftBusy = true;
+ updateButtons();
+
+ setStatus(
+  'draftStatus',
+  'Loading your saved registration...'
+ );
+
+ try{
+  const {data,error} = await courtDb.functions.invoke(
+   'court822-checkout',
+   {
+    body:{
+     action:'load_draft',
+     tournament_id:tournament.id
+    }
+   }
+  );
+
+  if(error || !data?.success){
+   throw new Error(
+    data?.error || error?.message || 'Unable to load draft.'
+   );
+  }
+
+  if(!data.found || !data.draft){
+   setStatus(
+    'draftStatus',
+    'No saved registration draft was found.'
+   );
+   return;
+  }
+
+  const draft = data.draft;
+
+  if(!draft.draft_data){
+   activeDraftRequestId = draft.request_id;
+
+   setStatus(
+    'draftStatus',
+    'An older test draft was found without complete player details.\n'+
+    'Build your registration, review it, and save again to update this draft.'
+   );
+   return;
+  }
+
+  restoreDraftForm(draft.draft_data);
+  activeDraftRequestId = draft.request_id;
+
+  formDirty = false;
+  draftSavedRevision = formRevision;
+
+  setStatus(
+   'draftStatus',
+   'Saved registration restored successfully!\n'+
+   'Players: '+draft.draft_data.players.length+'\n'+
+   'Teams: '+draft.draft_data.teams.length+'\n'+
+   'Last saved: '+
+   new Date(draft.updated_at).toLocaleString('en-PH')+'\n'+
+   'Click Review Registration to verify current fees.',
+   'success'
+  );
+
+ }catch(error){
+  console.error('Resume draft error:',error);
+
+  setStatus(
+   'draftStatus',
+   'Unable to restore your saved registration.',
+   'error'
+  );
+
+ }finally{
+  draftBusy = false;
+  updateButtons();
+ }
+}
+
+/* LOAD TOURNAMENT */
+
+async function loadTournament(){
+ const id = new URLSearchParams(location.search).get('id');
+
+ if(!id){
+  $('tournamentName').textContent = 'Tournament not found';
+  $('pageStatus').textContent =
+   'Select a tournament from the homepage.';
+  return;
+ }
+
+ try{
+  if(!await requireLogin()) return;
+
+  const {data:t,error} = await courtDb
+   .from('tournaments')
+   .select(
+    'id,title,description,start_date,end_date,status,'+
+    'registration_opens_at,registration_deadline'
+   )
+   .eq('id',id)
+   .in('status',['published','ongoing'])
+   .single();
+
+  if(error || !t){
+   throw error || new Error('Tournament unavailable');
+  }
+
+  tournament = t;
+
+  $('tournamentName').textContent = t.title;
+  $('tournamentDescription').textContent = t.description||'';
+
+  $('tournamentDates').textContent =
+   fmt(t.start_date)+
+   (t.end_date!==t.start_date?' – '+fmt(t.end_date):'');
+
+  const now = Date.now();
+
+  const opens = t.registration_opens_at
+   ? Date.parse(t.registration_opens_at)
+   : null;
+
+  const closes = t.registration_deadline
+   ? Date.parse(t.registration_deadline)
+   : null;
+
+  $('registrationStatus').textContent =
+   opens!==null && now<opens
+    ? 'Registration coming soon'
+    : closes!==null && now>closes
+     ? 'Registration closed'
+     : 'Tournament registration is open';
+
+  const {data:list,error:ce} = await courtDb
+   .from('tournament_categories')
+   .select(
+    'id,name,category_date,entry_fee,'+
+    'double_entry_fee,max_teams,registration_open'
+   )
+   .eq('tournament_id',id)
+   .order('category_date',{ascending:true});
+
+  if(ce) throw ce;
+
+  categories = list||[];
+
+  await loadTournamentFreebies(id);
+
+  players.length = 0;
+  teams.length = 0;
+
+  addPlayer({
+   name:savedProfile?.full_name||'',
+   gender:savedProfile?.gender||'',
+   email:signedInUser.email||'',
+   phone:savedProfile?.phone||''
+  });
+
+  addPlayer();
+  addTeam();
+
+  formDirty = false;
+  draftSavedRevision = -1;
+
+  $('pageStatus').textContent =
+   'Tournament loaded. Review Registration is available '+
+   'for eligible teams. Draft saving is available for eligible tournaments. '+
+   'Payment proof is available only after a successful, eligible registration, before its deadline.';
+
+  updateButtons();
+  await resumePendingPayment(false);
+
+ }catch(error){
+  console.error('Tournament loading:',error);
+
+  $('tournamentName').textContent = 'Tournament unavailable';
+
+  $('pageStatus').textContent =
+   'Unable to load tournament information: '+error.message;
+ }
+}
+
+/* EVENT LISTENERS */
+
+$('captainAgreement').addEventListener('change',updateButtons);
+$('addPlayer').addEventListener('click',()=>addPlayer());
+$('addTeam').addEventListener('click',addTeam);
+
+$('reviewRegistration').addEventListener(
+ 'click',
+ reviewRegistration
+);
+
+$('saveDraft').addEventListener(
+ 'click',
+ saveRegistrationDraft
+);
+
+$('checkout').addEventListener('click',submitRegistration);
+$('resumePayment').addEventListener('click',()=>resumePendingPayment(true));
+
+$('resumeDraft').addEventListener(
+ 'click',
+ resumeRegistrationDraft
+);
+
+
+/* PAYMENT PROOF — only for an active server-confirmed pending-payment checkout. */
+$('paymentProofForm').addEventListener('submit',async event=>{
+  event.preventDefault();
+  if(paymentBusy || !activePaymentCheckout) return;
+  const checkout=activePaymentCheckout;
+   // Re-read the checkout before uploading. The RPC also enforces the deadline.
+   const {data:current,error:checkoutError} = await courtDb.from('tournament_checkouts')
+     .select('id,created_by,tournament_id,status,total_amount,payment_due_at')
+     .eq('id',checkout.id).eq('created_by',signedInUser.id).maybeSingle();
+   if(checkoutError || !current || current.status !== 'pending_payment' ||
+      current.tournament_id !== tournament?.id ||
+      Date.parse(current.payment_due_at) <= Date.now()){
+     setStatus('paymentProofStatus','Checkout is no longer accepting payment. Do not send money or upload proof.','error');
+     return;
+   }
+   if(Date.now() >= Date.parse(checkout.due)){
+    setStatus('paymentProofStatus','Payment deadline has expired. Contact Court 822; do not send payment.','error');return;
+  }
+  const method=$('paymentMethod').value;
+  const reference=$('paymentReference').value.trim();
+  const file=$('paymentReceipt').files?.[0];
+  const allowed=['image/jpeg','image/png','image/webp','application/pdf'];
+  if(!['gcash','maya'].includes(method)||reference.length<5||reference.length>100||!file||
+     !allowed.includes(file.type)||file.size>5*1024*1024||file.size===0){
+    setStatus('paymentProofStatus','Check your payment method, reference and receipt (maximum 5 MB).','error');return;
+  }
+  if(!confirm('Have you already paid the official Court 822 account? Submit your proof for owner verification?')) return;
+  paymentBusy=true;
+  $('submitPaymentProof').disabled=true;
+  setStatus('paymentProofStatus','Uploading receipt securely...');
+  let uploadedPath=null;
+  try{
+    const {data:auth,error:authError}=await courtDb.auth.getUser();
+    if(authError||!auth?.user||auth.user.id!==signedInUser?.id) throw new Error('Please sign in again.');
+    const extension={'image/jpeg':'jpg','image/png':'png','image/webp':'webp','application/pdf':'pdf'}[file.type];
+    uploadedPath=`${checkout.id}/${crypto.randomUUID()}.${extension}`;
+    const upload=await courtDb.storage.from('court822-tournament-receipts').upload(uploadedPath,file,{
+      contentType:file.type,upsert:false,cacheControl:'0'
+    });
+    if(upload.error) throw upload.error;
+    setStatus('paymentProofStatus','Receipt uploaded. Recording your payment for owner review...');
+    const {data,error}=await courtDb.rpc('court822_submit_payment_proof',{
+      p_checkout_id:checkout.id,p_payment_method:method,
+      p_reference_number:reference,p_receipt_path:uploadedPath
+    });
+    if(error||data?.success!==true) throw new Error(error?.message||data?.error||'Payment proof was not recorded.');
+    setStatus('paymentProofStatus','Payment proof submitted successfully. Awaiting owner verification. No QR will be issued until payment is verified.','success');
+    $('paymentProofForm').hidden=true;
+    activePaymentCheckout=null;
+  }catch(error){
+    setStatus('paymentProofStatus',`Payment submission failed: ${error.message}. If the receipt uploaded, it may remain stored; retry only after checking your registration status.`,'error');
+  }finally{paymentBusy=false;$('submitPaymentProof').disabled=false;}
+});
+
+loadTournament();
+</script>
+
+</body>
+</html>
