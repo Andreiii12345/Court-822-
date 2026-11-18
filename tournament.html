@@ -70,6 +70,124 @@ button:disabled{opacity:.5;cursor:not-allowed}
 </style>
 <link rel="stylesheet" href="clubhouse-design.css?v=20261116">
 <link rel="stylesheet" href="contrast-fix.css?v=20261117a">
+<style id="court822-mobile-layout-fix">
+/* Scoped mobile layout overrides: no registration or OTP logic changes. */
+#captainAgreementPanel, #captainAgreementPanel * { min-width:0; }
+#captainAgreementPanel { width:100%; max-width:100%; overflow-wrap:break-word; }
+#captainAgreementPanel label { display:flex!important; flex-direction:row!important; align-items:flex-start!important; width:100%; gap:12px!important; }
+#captainAgreementPanel label input[type="checkbox"] { width:20px!important; min-width:20px!important; height:20px; flex:0 0 20px; padding:0!important; margin:3px 0 0!important; }
+#captainAgreementPanel label span { display:block; flex:1 1 auto; min-width:0; width:auto!important; white-space:normal; overflow-wrap:break-word; line-height:1.55; }
+#captainAgreementPanel p { width:100%; max-width:100%; white-space:normal; overflow-wrap:break-word; }
+.actions { display:grid!important; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; width:100%; }
+.actions > .button { display:flex; align-items:center; justify-content:center; width:100%; min-width:0; max-width:100%; min-height:58px; padding:12px 14px; text-align:center; white-space:normal; overflow-wrap:normal; word-break:normal; line-height:1.35; font-size:clamp(12px,2.8vw,15px); }
+@media(max-width:380px) { .actions { grid-template-columns:1fr; } .actions > .button { min-height:50px; font-size:14px; } }
+/* COURT822: readable registration actions, scoped to this section only. */
+.registration-actions {
+ display:grid !important;
+ grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+ gap:12px !important;
+ width:100%;
+ align-items:stretch;
+}
+.registration-actions > .button {
+ display:flex !important;
+ align-items:center !important;
+ justify-content:center !important;
+ min-width:0 !important;
+ max-width:100% !important;
+ width:100% !important;
+ height:auto !important;
+ min-height:52px !important;
+ padding:14px 12px !important;
+ font-size:15px !important;
+ line-height:1.35 !important;
+ white-space:normal !important;
+ overflow-wrap:normal !important;
+ word-break:normal !important;
+ text-align:center !important;
+}
+/* Numbered action sequence; pseudo-elements survive dynamic JS text updates. */
+.registration-actions #reviewRegistration {grid-column:1/-1;order:1;}
+.registration-actions #saveDraft {grid-column:1/-1;order:2;}
+.registration-actions #checkout {grid-column:1/-1;order:3;}
+.registration-actions #resumeDraft {grid-column:1/-1;order:4;}
+.registration-actions > .button {position:relative; padding-left:70px !important; justify-content:flex-start !important; text-align:left !important; font-size:16px !important; overflow-wrap:normal !important; word-break:normal !important;}
+.registration-actions > .button::before {position:absolute;left:14px;top:50%;transform:translateY(-50%);width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:rgba(255,255,255,.32);color:inherit;font-size:12px;font-weight:800;white-space:nowrap;}
+.registration-actions #reviewRegistration::before {content:'01';}
+.registration-actions #saveDraft::before {content:'02';}
+.registration-actions #checkout::before {content:'03';}
+.registration-actions #resumeDraft::before {content:'↺';font-size:19px;}
+.registration-actions #resumeDraft {background:#edf0eb !important;border:1px solid #cdd7ce !important;}
+.registration-steps-help {margin:18px 0 8px;padding:15px 17px;background:#f5f0e8;border:1px solid #e2d9ca;border-radius:12px;line-height:1.55;color:#19352b;}
+.registration-steps-help strong {display:block;margin-bottom:5px;font-size:15px;}
+.registration-steps-help p {margin:0;font-size:13px;color:#52665a;}
+.registration-steps-help .optional {margin-top:7px;}
+@media(max-width:420px){.registration-actions > .button {font-size:15px !important;min-height:56px !important;padding:13px 12px 13px 66px !important;}}
+</style>
+
+<style id="court822-premium-registration-2026">
+/* Presentation-only layer. Registration IDs, handlers, states and security remain intact. */
+:root{--court-forest:#19352b;--court-deep:#10291f;--court-gold:#b99562;--court-cream:#f7f2e9;--court-border:#e2d6c3}
+html{overflow-x:hidden}
+body{background:radial-gradient(ellipse at 85% 0%,#e9dfcc 0,transparent 38%),linear-gradient(180deg,#f7f3ec,#eee9df);color:var(--court-forest)}
+.wrap{max-width:1050px;margin:32px auto 100px;padding:0 clamp(14px,3vw,28px);min-width:0}
+.wrap>*{min-width:0}
+.wrap>.hero{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(125deg,#102a20 0%,#193b2f 65%,#264638 100%);border:1px solid #426250;border-radius:24px;padding:clamp(26px,5vw,56px);box-shadow:0 18px 42px rgba(15,42,30,.17);margin-bottom:26px}
+.wrap>.hero::after{content:"";position:absolute;right:-80px;top:-160px;width:330px;height:330px;border:1px solid rgba(211,178,125,.28);border-radius:50%;box-shadow:0 0 0 35px rgba(211,178,125,.055),0 0 0 72px rgba(211,178,125,.04);z-index:-1;pointer-events:none}
+.wrap>.hero h1{font-family:Georgia,serif;letter-spacing:-.025em;font-weight:500;line-height:1.12;color:#fffdf8}
+.wrap>.hero small{color:#e1bd85;letter-spacing:.21em}
+.wrap>.hero p{max-width:720px;color:#e6eee8}
+.wrap>.panel{background:#fffdf9;border:1px solid var(--court-border);border-radius:20px;padding:clamp(20px,3.5vw,34px);margin:20px 0;box-shadow:0 9px 30px rgba(39,50,37,.055);min-width:0}
+.wrap>.panel>h2{font-family:Georgia,serif;font-size:clamp(24px,3vw,32px);font-weight:500;letter-spacing:-.025em;color:#17372b;line-height:1.22;margin-bottom:15px}
+.wrap>.panel>h2::after{content:"";display:block;width:48px;height:2px;background:#b99562;margin-top:13px}
+.wrap .item{background:linear-gradient(160deg,#fffdfa,#f9f6f0);border:1px solid #e6dccd;border-radius:16px;padding:clamp(16px,2.6vw,24px);min-width:0}
+.wrap .item-head{flex-wrap:wrap}
+.wrap .item-head h3{font-size:clamp(19px,2.5vw,24px);color:#19352b}
+.wrap .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 18px}
+.wrap .field{font-size:13px;letter-spacing:.015em;color:#2e493d}
+.wrap .field input,.wrap .field select{min-width:0;max-width:100%;border:1px solid #d8cdbb;border-radius:11px;background:#fffefa;padding:13px 14px;min-height:48px;color:#19352b;box-shadow:0 1px 1px rgba(20,40,28,.02)}
+.wrap .field input:focus-visible,.wrap .field select:focus-visible,.wrap button:focus-visible{outline:3px solid #c5a26c;outline-offset:3px}
+.wrap .button{border-radius:11px;min-height:46px;transition:filter .15s ease,transform .15s ease,box-shadow .15s ease;box-shadow:0 3px 8px rgba(21,42,30,.08);letter-spacing:.01em}
+.wrap .button:not(:disabled):hover{filter:brightness(1.06);transform:translateY(-1px)}
+.wrap .button:disabled{opacity:.53;box-shadow:none}
+.wrap .button.gold{background:#c4a06b;color:#18352a}
+.wrap .button.light{background:#e8ede8;color:#19352b}
+.wrap .summary{background:linear-gradient(135deg,#143326,#214839);border:1px solid #466858;border-radius:18px;box-shadow:0 12px 28px rgba(16,47,33,.14);padding:clamp(20px,3vw,30px);min-width:0}
+.wrap .summary h2{font-family:Georgia,serif;font-size:clamp(23px,3vw,30px);color:#fffdf7}
+.wrap .summary .line{align-items:flex-start;flex-wrap:wrap;overflow-wrap:anywhere;border-color:#496859}
+.wrap .summary .line strong{overflow-wrap:anywhere}
+.wrap .total{color:#efcb8e;font-size:clamp(21px,3vw,29px)}
+.wrap .notice{background:#edf2ec;border:1px solid #d6e2d8;border-radius:13px;padding:clamp(13px,2vw,18px);line-height:1.65;color:#244839;overflow-wrap:anywhere;max-width:100%;min-width:0}
+.wrap .notice.error{background:#fff0eb;border-color:#eecac0;color:#8d3d32}
+.wrap .notice.success{background:#e7f3e9;border-color:#c7e3ce;color:#1c5d3a}
+#captainAgreementPanel{background:#faf7f0;border:1px solid #e1d7c5}
+#captainAgreementPanel h3{color:#19352b}
+#captainAgreementPanel label{background:#fffefa;border:1px solid #e3d8c7;border-radius:12px;padding:15px!important;line-height:1.55}
+#captainAgreementPanel input[type=checkbox]{accent-color:#19352b}
+#captainAgreementPanel .muted{font-size:14px;line-height:1.75}
+.registration-steps-help{border:1px solid #dfd1b8!important;background:linear-gradient(115deg,#fffaf0,#f7f0e3)!important;border-radius:15px!important;padding:18px!important;line-height:1.65}
+.registration-actions{grid-template-columns:1fr!important;gap:12px!important}
+.registration-actions>.button{grid-column:1/-1!important;min-height:62px!important;border-radius:13px!important;padding:14px 18px 14px 72px!important;font-size:clamp(15px,2.8vw,17px)!important;line-height:1.3!important;overflow-wrap:normal!important;word-break:normal!important;white-space:normal!important;letter-spacing:.01em;box-shadow:0 5px 13px rgba(25,53,43,.1)}
+.registration-actions #reviewRegistration{background:#c4a06b;color:#19352b}
+.registration-actions #checkout{background:#19352b;color:white}
+.registration-actions #saveDraft,.registration-actions #resumeDraft{background:#e8eee9;color:#19352b}
+.registration-actions>.button::before{left:17px!important;width:38px!important;height:38px!important;background:rgba(255,255,255,.32)!important}
+#resumePaymentPanel,#paymentProofPanel{scroll-margin-top:24px}
+.payment-qr-card{background:#fffdf9;border:1px solid #e3d7c6;border-radius:16px}
+@media(max-width:700px){
+ .wrap{margin:18px auto 70px;padding:0 12px}
+ .wrap>.panel{padding:19px 16px;border-radius:17px}
+ .wrap>.hero{padding:29px 21px;border-radius:19px}
+ .wrap .grid{grid-template-columns:minmax(0,1fr)}
+ .wrap .item{padding:16px}
+ .wrap .line{flex-wrap:wrap;overflow-wrap:anywhere}
+ .registration-actions{grid-template-columns:minmax(0,1fr)!important}
+ .registration-actions>.button{min-width:0!important;width:100%!important;min-height:58px!important;padding-left:66px!important;font-size:16px!important}
+ #captainAgreementPanel label{gap:12px!important}
+ .payment-qr-grid{grid-template-columns:minmax(0,1fr)}
+}
+@media(prefers-reduced-motion:reduce){.wrap .button{transition:none}}
+</style>
 </head>
 
 <body>
@@ -176,7 +294,12 @@ button:disabled{opacity:.5;cursor:not-allowed}
   <p class="muted">Your agreement is recorded when you save the draft. Once official submission is enabled, registration will not require partner invitations or owner pre-approval. The owner will verify actual payment before team QR codes are issued.</p>
  </section>
 
- <div class="actions">
+ <div class="registration-steps-help" aria-label="Registration button order">
+  <strong>Follow these steps to register</strong>
+  <p><b>1. Review</b> your details and total. <b>2. Save Draft</b> to record your registration details and agreement. <b>3. Submit Registration</b> to proceed to payment.</p>
+  <p class="optional"><b>Returning later?</b> Use Resume Saved Draft, then review and save again before submitting.</p>
+ </div>
+ <div class="actions registration-actions">
   <button id="reviewRegistration" class="button gold" type="button" disabled>
    Review Registration
   </button>
@@ -190,7 +313,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
   </button>
 
   <button id="checkout" class="button" type="button" disabled>
-   Submit Registration — Awaiting Backend Activation
+   Submit Registration
   </button>
  </div>
 
@@ -373,7 +496,7 @@ function updateButtons(){
     ? 'Submitting registration...'
     : COURT822_SUBMISSION_UI_ENABLED
       ? 'Submit Registration'
-      : 'Submit Registration — Awaiting Backend Activation';
+      : 'Submit Registration';
  $('reviewRegistration').disabled =
   quoteBusy || draftBusy || !lastLocalValid ||
   !tournament || !freebiesLoaded;
